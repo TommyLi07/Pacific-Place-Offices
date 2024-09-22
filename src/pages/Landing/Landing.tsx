@@ -3,23 +3,32 @@ import logo from '@/assets/images/Logo.png';
 import packAndGo from '@/assets/images/PackAndGo.png';
 import packAndGoVertical from '@/assets/images/PackAndGoVertical.png';
 import { BagSelectionItem } from '@/components';
+import clsx from 'clsx';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import { BagInfo, Booths, Languages } from './config';
-import { useCallback } from 'react';
-import clsx from 'clsx';
 
 export const Landing = () => {
 	const {
 		t,
 		i18n: { language, changeLanguage },
 	} = useTranslation();
+	const navigate = useNavigate();
 
-	const handleChangeLanguage = useCallback((lang: string) => {
-		if (lang === language) return;
+	const handleChangeLanguage = useCallback(
+		(lang: string) => {
+			if (lang === language) return;
 
-		changeLanguage(lang);
-	}, [changeLanguage, language]);
+			changeLanguage(lang);
+		},
+		[changeLanguage, language]
+	);
+
+	const handleClick = useCallback(() => {
+		navigate('/customization');
+	}, [navigate]);
 
 	return (
 		<div className='min-h-screen flex flex-col font-Tondo'>
@@ -53,7 +62,10 @@ export const Landing = () => {
 								{t('order_desc_one')}
 							</p>
 							<p className='mt-4 leading-5'>{t('order_desc_two')}</p>
-							<button className='mt-8 px-7 py-3.5 bg-yellow_metal text-zinc-100 rounded-lg active:opacity-75 active:scale-95 transition-all duration-150'>
+							<button
+								className='mt-8 px-7 py-3.5 bg-yellow_metal text-zinc-100 rounded-lg active:opacity-75 active:scale-95 transition-all duration-150'
+								onClick={handleClick}
+							>
 								{t('button_text')}
 							</button>
 						</div>
