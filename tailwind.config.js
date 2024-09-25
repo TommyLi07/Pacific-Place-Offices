@@ -10,7 +10,7 @@ export default {
 			},
 			colors: {
 				DEFAULT: '#000000',
-				alabaster: '#f4efe7',
+				alabaster: '#f5f1ea',
 				yellow_metal: '#715e39',
 			},
 			maxHeight: {
