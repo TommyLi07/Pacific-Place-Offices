@@ -6,9 +6,13 @@ export const GiftCustomizationList = memo<GiftCustomizationListProps>(
 		return (
 			<div>
 				<h2 className='font-Tondo_W01_Signage text-base'>{title}</h2>
-				<div className='mt-2 flex flex-row flex-wrap'>
+				<div className='mt-2 grid grid-cols-3 gap-4'>
 					{images.map((Image, index) => {
-						return <Image key={index} className='basis-1/3' />;
+						return (
+							<div className='w-24 h-24 flex justify-center items-center'>
+								<Image key={index} />
+							</div>
+						);
 					})}
 				</div>
 			</div>

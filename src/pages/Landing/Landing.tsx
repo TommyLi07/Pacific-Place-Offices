@@ -1,13 +1,13 @@
+import Close from '@/assets/icons/Close.svg?react';
 import GiftCollection from '@/assets/icons/GiftCollection.svg?react';
 import logo from '@/assets/images/Logo.png';
 import packAndGo from '@/assets/images/PackAndGo.png';
 import packAndGoVertical from '@/assets/images/PackAndGoVertical.png';
 import { BagSelectionItem } from '@/components';
 import clsx from 'clsx';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import Slider from 'react-slick';
 import { BagInfo, Booths, Languages } from './config';
 
 export const Landing = () => {
@@ -16,6 +16,7 @@ export const Landing = () => {
 		i18n: { language, changeLanguage },
 	} = useTranslation('landing');
 	const navigate = useNavigate();
+	const [isShowSoldOut, setIsShowSoldOut] = useState(false);
 
 	const handleChangeLanguage = useCallback(
 		(lang: string) => {
@@ -31,7 +32,19 @@ export const Landing = () => {
 	}, [navigate]);
 
 	return (
-		<div className='min-h-screen flex flex-col font-Tondo'>
+		<div className='min-h-screen flex flex-col'>
+			{isShowSoldOut && (
+				<div className='px-6 py-4 md:py-3 bg-yellow_metal flex flex-row items-center'>
+					<p className='text-xs md:text-sm text-slate-100 flex-1 md:text-center'>
+						{t('sold_out')}
+					</p>
+					<Close
+						className='items-end w-5 h-5'
+						onClick={() => setIsShowSoldOut(false)}
+					/>
+				</div>
+			)}
+
 			<header className='px-6 md:px-12 py-4 flex items-center'>
 				<img className='h-7' src={logo} alt='logo' />
 
@@ -53,7 +66,7 @@ export const Landing = () => {
 
 			<main>
 				<div className='w-full bg-alabaster flex flex-col lg:flex-row'>
-					<div className='lg:w-1/3 px-6 lg:px-16 flex flex-col justify-center'>
+					<div className='px-6 lg:w-1/3 lg:px-12 xl:px-18 flex flex-col justify-center'>
 						<div>
 							<h2 className='mt-6 font-PP_Tondo_Signage lg:mt-0 text-4xl lg:text-5xl'>
 								{t('the_order_up')}
@@ -71,6 +84,7 @@ export const Landing = () => {
 						</div>
 					</div>
 
+					{/* animation */}
 					<div className='w-full lg:w-2/3 mt-4 lg:mt-0'>
 						<GiftCollection className='max-w-full h-auto' />
 					</div>
@@ -86,17 +100,11 @@ export const Landing = () => {
 
 					{/* slider on mobile */}
 					<div className='slider-container mt-6 lg:hidden'>
-						<Slider
-							dots={true}
-							infinite={true}
-							speed={500}
-							slidesToShow={1}
-							slidesToScroll={1}
-						>
-							{BagInfo.map((bag) => {
-								return <BagSelectionItem key={bag.title} {...bag} />;
-							})}
-						</Slider>
+						{BagInfo.map((bag, index) => {
+							return (
+								<BagSelectionItem key={bag.title} {...bag} index={index} />
+							);
+						})}
 					</div>
 
 					{/* bag gallery on desktop */}
@@ -183,10 +191,10 @@ export const Landing = () => {
 				</section>
 			</main>
 
-			<footer className='px-12 py-4 flex flex-col lg:flex-row items-center border-t-2 border-gray-200'>
+			<footer className='lg:px-12 py-4 flex flex-col lg:flex-row items-center border-t-2 border-gray-200'>
 				<img className='h-7' src={logo} alt='logo' />
-				<div className='flex-1 flex justify-end items-center mt-3 lg:mt-0'>
-					<p>
+				<div className='flex-1 flex justify-end items-center px-6 mt-4 lg:mt-0'>
+					<p className='text-xs text-center'>
 						Disclaimer | Privacy Policy | Copyright | &copy; 2024 Swire
 						Properties Limited All rights served
 					</p>

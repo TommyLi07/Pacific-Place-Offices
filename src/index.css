@@ -17,4 +17,8 @@
     font-family: 'Tondo_W01_Signage';
     src: url('./assets/fonts/Tondo_W01_Signage.ttf');
   }
+
+  html {
+    @apply font-Tondo;
+  }
 }
