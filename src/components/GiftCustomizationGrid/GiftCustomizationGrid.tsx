@@ -1,7 +1,7 @@
 import { memo } from 'react';
-import { GiftCustomizationListProps } from './GiftCustomizationList.types';
+import { GiftCustomizationGridProps } from './GiftCustomizationGrid.types';
 
-export const GiftCustomizationList = memo<GiftCustomizationListProps>(
+export const GiftCustomizationGrid = memo<GiftCustomizationGridProps>(
 	({ title, images }) => {
 		return (
 			<div>
@@ -20,4 +20,4 @@ export const GiftCustomizationList = memo<GiftCustomizationListProps>(
 	}
 );
 
-export default GiftCustomizationList;
+export default GiftCustomizationGrid;
