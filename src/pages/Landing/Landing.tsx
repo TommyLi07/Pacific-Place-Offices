@@ -1,4 +1,4 @@
-import iconCollection from '@/assets/images/IconCollection.png';
+import GiftCollection from '@/assets/icons/GiftCollection.svg?react';
 import logo from '@/assets/images/Logo.png';
 import packAndGo from '@/assets/images/PackAndGo.png';
 import packAndGoVertical from '@/assets/images/PackAndGoVertical.png';
@@ -14,7 +14,7 @@ export const Landing = () => {
 	const {
 		t,
 		i18n: { language, changeLanguage },
-	} = useTranslation();
+	} = useTranslation('landing');
 	const navigate = useNavigate();
 
 	const handleChangeLanguage = useCallback(
@@ -72,11 +72,7 @@ export const Landing = () => {
 					</div>
 
 					<div className='w-full lg:w-2/3 mt-4 lg:mt-0'>
-						<img
-							className='w-full max-h-660 object-contain'
-							src={iconCollection}
-							alt='icon collection'
-						/>
+						<GiftCollection className='max-w-full h-auto' />
 					</div>
 				</div>
 
