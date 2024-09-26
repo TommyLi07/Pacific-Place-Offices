@@ -41,7 +41,7 @@ export const GiftCustomization = () => {
 			<Modal
 				isOpen={isModalOpen}
 				onRequestClose={() => setIsModalOpen(true)}
-				className='w-5/6 p-6 bg-alabaster text-slate-900 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
+				className='w-5/6 p-6 bg-alabaster text-slate-900 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10'
 				contentLabel='Example Modal'
 			>
 				<h2 className='font-PP_Tondo_Signage text-3xl text-center'>Discord</h2>

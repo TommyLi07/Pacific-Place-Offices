@@ -13,7 +13,7 @@ export const GiftCustomizationHeader = memo<GiftCustomizationProps>(
 					<ArrowLeftIcon />
 				</button>
 
-				<p className='ml-4 font-PP_Tondo_Signage text-2xl'>{title}</p>
+        {title && <p className='ml-4 font-PP_Tondo_Signage text-2xl'>{title}</p>}
 			</div>
 		);
 	}
