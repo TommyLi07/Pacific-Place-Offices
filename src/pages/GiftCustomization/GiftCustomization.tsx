@@ -24,7 +24,7 @@ export const GiftCustomization = () => {
 		navigate(-1);
 	}, [navigate]);
 
-	console.log('name', location.state);
+	// console.log('name', location.state);
 	return (
 		<div className='relative'>
 			<GiftCustomizationHeader
