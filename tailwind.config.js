@@ -12,6 +12,7 @@ export default {
 				DEFAULT: '#000000',
 				alabaster: '#f5f1ea',
 				yellow_metal: '#715e39',
+				alice_blue: '#f6f7f9',
 			},
 			maxHeight: {
 				420: '420px',
@@ -21,4 +22,3 @@ export default {
 	},
 	plugins: [],
 };
-

@@ -25,11 +25,11 @@ import WorkfolioBag from '@/assets/icons/WorkfolioBag.svg?react';
 export const IconCollection = [
 	{
 		key: 'bags',
-		images: [ElectronicBag, WellnessBag, WorkfolioBag],
+		icons: [ElectronicBag, WellnessBag, WorkfolioBag],
 	},
 	{
 		key: 'emojis',
-		images: [
+		icons: [
 			Dog,
 			Rabbit,
 			Cat,
@@ -44,7 +44,7 @@ export const IconCollection = [
 	},
 	{
 		key: 'quotes',
-		images: [
+		icons: [
 			AsPerMyLastEmail,
 			MoreCoffeePlz,
 			MaybeTomorrow,

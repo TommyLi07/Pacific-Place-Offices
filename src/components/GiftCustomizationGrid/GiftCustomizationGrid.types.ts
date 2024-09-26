@@ -1,6 +1,7 @@
 export interface GiftCustomizationGridProps {
 	title: string;
-	images: React.FunctionComponent<
+	icons: React.FunctionComponent<
 		React.ComponentProps<'svg'> & { title?: string }
 	>[];
+	index: number;
 }
