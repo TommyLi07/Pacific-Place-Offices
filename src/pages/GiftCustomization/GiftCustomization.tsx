@@ -2,11 +2,11 @@ import { GiftCustomizationGrid, GiftCustomizationHeader } from '@/components';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Modal from 'react-modal';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { IconCollection } from './config';
 
 export const GiftCustomization = () => {
-	const location = useLocation();
+	// const location = useLocation();
 	const navigate = useNavigate();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
