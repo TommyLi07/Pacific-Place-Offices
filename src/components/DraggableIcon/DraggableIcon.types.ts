@@ -1,3 +1,6 @@
 export interface DraggableIconProps {
-	icon: React.ReactNode;
+	itemIcon: React.ReactNode;
+  itemType: string;
+	itemId: string;
+	itemIndex: number;
 }

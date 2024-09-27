@@ -2,20 +2,24 @@ import { memo } from 'react';
 import { useDrag } from 'react-dnd';
 import { DraggableIconProps } from './DraggableIcon.types';
 
-export const DraggableIcon = memo<DraggableIconProps>(({ icon }) => {
-	const [{ isDragging }, drag] = useDrag(() => ({
-		type: 'Icon',
-		item: { icon },
-		collect: (monitor) => ({
-			isDragging: monitor.isDragging(),
-		}),
-	}));
+export const DraggableIcon = memo<DraggableIconProps>(
+	({ itemIcon, itemType, itemId, itemIndex }) => {
+		const [{ isDragging }, drag] = useDrag(() => ({
+			type: itemType,
+			item: { id: itemId, index: itemIndex },
+			collect: (monitor) => ({
+				isDragging: monitor.isDragging(),
+			}),
+		}));
 
-	return (
-		<div ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
-			{icon}
-		</div>
-	);
-});
+    console.log('isDragging', isDragging);
+
+		return (
+			<div ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
+				{itemIcon}
+			</div>
+		);
+	}
+);
 
 export default DraggableIcon;

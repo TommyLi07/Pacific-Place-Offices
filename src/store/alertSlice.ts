@@ -19,13 +19,13 @@ export const alertSlice = createSlice({
 		toggleIsShowAlert: (state, action: PayloadAction<boolean>) => {
 			state.isShowAlert = action.payload;
 		},
-		updateAlertContent: (state, action: PayloadAction<string>) => {
-			state.alertContent = action.payload;
+		updateState: (state, action) => {
+			Object.assign(state, action.payload);
 		},
 	},
 });
 
 // Action creators are generated for each case reducer function
-export const { toggleIsShowAlert, updateAlertContent } = alertSlice.actions;
+export const { toggleIsShowAlert, updateState } = alertSlice.actions;
 
 export default alertSlice.reducer;

@@ -15,9 +15,6 @@ export const SettingTextarea = memo<SettingTextareaProps>(
 
 		return (
 			<>
-				<label className='mb-2.5 block text-lg font-medium text-dark'>
-					Notification Content
-				</label>
 				<textarea
 					rows={6}
 					placeholder='Default Notification Content'

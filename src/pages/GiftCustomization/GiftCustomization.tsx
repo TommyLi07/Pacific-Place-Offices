@@ -1,3 +1,5 @@
+import ElectronicBagBack from '@/assets/images/ElectronicBagBack.png';
+import ElectronicBagFront from '@/assets/images/ElectronicBagFront.png';
 import {
 	DragAndDropZone,
 	GiftCustomizationGrid,
@@ -11,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
 import { IconCollection } from './config';
-import { HandleDropProps } from './GiftCustomization.types';
+import { IconInfo } from './GiftCustomization.types';
 
 // bind modal to my app element
 Modal.setAppElement('#root');
@@ -20,13 +22,7 @@ export const GiftCustomization = () => {
 	// const location = useLocation();
 	const navigate = useNavigate();
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [icons, setIcons] = useState<
-		{
-			content: React.ReactNode;
-			x: number;
-			y: number;
-		}[]
-	>([]);
+	const [iconInfos, setIconInfos] = useState<IconInfo[]>([]);
 
 	const { t } = useTranslation('customization');
 
@@ -44,8 +40,8 @@ export const GiftCustomization = () => {
 	}, [navigate]);
 
 	// Drag and Drop
-	const handleDrop = useCallback(({ icon, x, y }: HandleDropProps) => {
-		setIcons((prevState) => [...prevState, { content: icon, x, y }]);
+	const handleDrop = useCallback(({ icon, x, y }: IconInfo) => {
+		setIconInfos((prevState) => [...prevState, { icon, x, y }]);
 	}, []);
 
 	// disable scroll bar if modal opens
@@ -62,12 +58,12 @@ export const GiftCustomization = () => {
 							onBack={handleBackButtonClick}
 						/>
 
-						<div className='p-6 h-[90%] overflow-y-auto'>
-							{IconCollection.map(({ key, icons }, index) => (
+						<div className='p-6 h-[94%] overflow-y-auto'>
+							{IconCollection.map(({ key, iconInfos }, index) => (
 								<GiftCustomizationGrid
 									key={key}
 									title={t(key)}
-									icons={icons}
+									iconInfos={iconInfos}
 									index={index}
 								/>
 							))}
@@ -78,7 +74,16 @@ export const GiftCustomization = () => {
 						id='export-area'
 						className='w-2/3 ml-[33.33%] h-dvh bg-alice_blue'
 					>
-						<DragAndDropZone onDrop={handleDrop} />
+						<DragAndDropZone iconInfos={iconInfos} onDrop={handleDrop}>
+							<div className='flex flex-row justify-center'>
+								<img
+									src={ElectronicBagFront}
+									alt='Bag front'
+									className='w-1/2'
+								/>
+								<img src={ElectronicBagBack} alt='Bag back' className='w-1/2' />
+							</div>
+						</DragAndDropZone>
 					</div>
 				</div>
 

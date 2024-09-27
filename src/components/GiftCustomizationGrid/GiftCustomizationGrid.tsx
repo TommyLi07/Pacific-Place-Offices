@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import { memo } from 'react';
-import { GiftCustomizationGridProps } from './GiftCustomizationGrid.types';
 import { DraggableIcon } from '../DraggableIcon';
+import { GiftCustomizationGridProps } from './GiftCustomizationGrid.types';
 
 export const GiftCustomizationGrid = memo<GiftCustomizationGridProps>(
-	({ title, icons, index }) => {
+	({ title, iconInfos, index }) => {
 		return (
 			<div
 				className={clsx({
@@ -12,14 +12,19 @@ export const GiftCustomizationGrid = memo<GiftCustomizationGridProps>(
 				})}
 			>
 				<h2 className='font-Tondo_W01_Signage text-base'>{title}</h2>
-				<div className='mt-2 grid grid-cols-3 gap-4'>
-					{icons.map((Icon, index) => {
-            return (
+				<div className='mt-2 grid grid-cols-3 gap-4 justify-items-center'>
+					{iconInfos.map((iconInfo, index) => {
+						return (
 							<div
 								key={index}
-								className='w-24 h-24 flex justify-center items-center'
+								className='w-24 h-24 flex flex-row justify-center items-center'
 							>
-								<DraggableIcon icon={<Icon />} />
+								<DraggableIcon
+									itemIcon={<iconInfo.svg />}
+									itemType={iconInfo.itemType}
+									itemId={iconInfo.id}
+									itemIndex={iconInfo.index}
+								/>
 							</div>
 						);
 					})}
