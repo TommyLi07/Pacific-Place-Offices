@@ -4,9 +4,12 @@ import logo from '@/assets/images/Logo.png';
 import packAndGo from '@/assets/images/PackAndGo.png';
 import packAndGoVertical from '@/assets/images/PackAndGoVertical.png';
 import { BagSelectionItem } from '@/components';
+import { RootState } from '@/store';
+import { toggleIsShowAlert } from '@/store/alertSlice';
 import clsx from 'clsx';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { BagInfo, Booths, Languages } from './config';
 
@@ -16,7 +19,10 @@ export const Landing = () => {
 		i18n: { language, changeLanguage },
 	} = useTranslation('landing');
 	const navigate = useNavigate();
-	const [isShowSoldOut, setIsShowSoldOut] = useState(false);
+	const { isShowAlert, alertContent } = useSelector(
+		(state: RootState) => state.alert
+	);
+	const dispatch = useDispatch();
 
 	const handleChangeLanguage = useCallback(
 		(lang: string) => {
@@ -27,21 +33,22 @@ export const Landing = () => {
 		[changeLanguage, language]
 	);
 
-	const handleClick = useCallback(() => {
+	const handleNavigate = useCallback(() => {
 		navigate('/customization');
 	}, [navigate]);
 
+	const handleCloseAlert = useCallback(() => {
+		dispatch(toggleIsShowAlert(false));
+	}, [dispatch]);
+
 	return (
 		<div className='min-h-screen flex flex-col'>
-			{isShowSoldOut && (
+			{isShowAlert && (
 				<div className='px-6 py-4 md:py-3 bg-yellow_metal flex flex-row items-center'>
 					<p className='text-xs md:text-sm text-slate-100 flex-1 md:text-center'>
-						{t('sold_out')}
+						{alertContent}
 					</p>
-					<Close
-						className='items-end w-5 h-5'
-						onClick={() => setIsShowSoldOut(false)}
-					/>
+					<Close className='items-end w-5 h-5' onClick={handleCloseAlert} />
 				</div>
 			)}
 
@@ -77,7 +84,7 @@ export const Landing = () => {
 							<p className='mt-4 leading-5'>{t('order_desc_two')}</p>
 							<button
 								className='mt-8 px-7 py-3.5 bg-yellow_metal text-zinc-100 rounded-lg active:opacity-75 active:scale-95 transition-all duration-150'
-								onClick={handleClick}
+								onClick={handleNavigate}
 							>
 								{t('button_text')}
 							</button>
@@ -99,7 +106,7 @@ export const Landing = () => {
 					</div>
 
 					{/* slider on mobile */}
-					<div className='slider-container mt-6 lg:hidden'>
+					<div className='mt-6 lg:hidden'>
 						{BagInfo.map((bag, index) => {
 							return (
 								<BagSelectionItem key={bag.title} {...bag} index={index} />

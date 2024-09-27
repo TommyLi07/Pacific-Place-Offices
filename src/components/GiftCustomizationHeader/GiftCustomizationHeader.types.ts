@@ -1,4 +1,4 @@
 export interface GiftCustomizationProps {
-  title: string;
+  title?: string;
   onBack: () => void;
 }

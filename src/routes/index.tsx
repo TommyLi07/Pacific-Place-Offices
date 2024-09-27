@@ -1,4 +1,4 @@
-import { Landing, GiftCustomization } from '@/pages';
+import { GiftCustomization, Landing, Setting } from '@/pages';
 import { createBrowserRouter } from 'react-router-dom';
 
 export const router = createBrowserRouter([
@@ -9,6 +9,10 @@ export const router = createBrowserRouter([
 	{
 		path: '/customization',
 		element: <GiftCustomization />,
+	},
+	{
+		path: '/setting',
+		element: <Setting />,
 	},
 ]);
 
