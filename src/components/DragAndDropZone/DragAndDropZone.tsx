@@ -3,7 +3,7 @@ import { useDrop } from 'react-dnd';
 import { DragAndDropZoneProps } from './DragAndDropZone.types';
 
 export const DragAndDropZone = memo<DragAndDropZoneProps>(
-	({ onDrop, iconInfos, children }) => {
+	({ iconInfos, children }) => {
     const [collectedProps, drop] = useDrop(() => ({
 			accept: 'icon',
 			drop: (item, monitor) => {
