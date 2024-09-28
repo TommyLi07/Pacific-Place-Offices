@@ -11,6 +11,7 @@ export default {
 			colors: {
 				DEFAULT: '#000000',
 				alabaster: '#f5f1ea',
+				barley_corn: '#d9c7ab',
 				yellow_metal: '#715e39',
 				alice_blue: '#f6f7f9',
 			},

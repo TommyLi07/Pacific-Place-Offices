@@ -1,16 +1,9 @@
-import { FunctionComponent, SVGProps } from 'react';
+import { IconInfo } from '@/types';
 
 export interface GiftCustomizationGridProps {
 	title: string;
-	iconInfos: {
-		svg: FunctionComponent<
-			SVGProps<SVGSVGElement> & {
-				title?: string;
-			}
-		>;
-		id: string;
-		itemType: string;
-		index: number;
-	}[];
+	iconInfos: IconInfo[];
 	index: number;
+	selectedIcons: IconInfo[];
+	handleClick: (iconInfo: IconInfo) => void;
 }

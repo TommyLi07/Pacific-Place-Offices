@@ -1,15 +1,12 @@
-import Close from '@/assets/icons/Close.svg?react';
 import GiftCollection from '@/assets/icons/GiftCollection.svg?react';
 import logo from '@/assets/images/Logo.png';
 import packAndGo from '@/assets/images/PackAndGo.png';
 import packAndGoVertical from '@/assets/images/PackAndGoVertical.png';
-import { BagSelectionItem } from '@/components';
-import { RootState } from '@/store';
-import { toggleIsShowAlert } from '@/store/alertSlice';
+import { BagSelectionItem, NotificationHeader } from '@/components';
+
 import clsx from 'clsx';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { BagInfo, Booths, Languages } from './config';
 
@@ -19,10 +16,6 @@ export const Landing = () => {
 		i18n: { language, changeLanguage },
 	} = useTranslation('landing');
 	const navigate = useNavigate();
-	const { isShowAlert, alertContent } = useSelector(
-		(state: RootState) => state.alert
-	);
-	const dispatch = useDispatch();
 
 	const handleChangeLanguage = useCallback(
 		(lang: string) => {
@@ -37,20 +30,9 @@ export const Landing = () => {
 		navigate('/customization');
 	}, [navigate]);
 
-	const handleCloseAlert = useCallback(() => {
-		dispatch(toggleIsShowAlert(false));
-	}, [dispatch]);
-
 	return (
 		<div className='min-h-screen flex flex-col'>
-			{isShowAlert && (
-				<div className='px-6 py-4 md:py-3 bg-yellow_metal flex flex-row items-center'>
-					<p className='text-xs md:text-sm text-slate-100 flex-1 md:text-center'>
-						{alertContent}
-					</p>
-					<Close className='items-end w-5 h-5' onClick={handleCloseAlert} />
-				</div>
-			)}
+			<NotificationHeader />
 
 			<header className='px-6 md:px-12 py-4 flex items-center'>
 				<img className='h-7' src={logo} alt='logo' />
