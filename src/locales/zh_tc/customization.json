@@ -1,6 +1,8 @@
 {
   "gift_customization": "禮物訂製",
-  "alphabet_big": "Alphabets (Big)",
+  "notification": "*最多選擇 3 個字母，以及最多 2 個表情符號或名言",
+  "alphabet_big": "字母 (大寫)",
+  "alphabet_small": "字母 (小寫)",
   "emojis": "表情符號",
   "quotes": "名言"
 }

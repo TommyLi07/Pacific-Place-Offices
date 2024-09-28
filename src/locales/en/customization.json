@@ -1,6 +1,8 @@
 {
   "gift_customization": "Gift Customization",
+  "notification": "*Choose up to 3 alphabets, and up to 2 characters or quotes",
   "alphabet_big": "Alphabets (Big)",
+  "alphabet_small": "Alphabets (Small)",
   "emojis": "Emojis",
   "quotes": "Quotes"
 }

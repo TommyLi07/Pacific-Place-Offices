@@ -18,6 +18,7 @@ export const BagSelectionItem = memo<IBagSelectionItemProps>(
 
 		return (
 			<div
+				id={index === 0 ? 'first-bag' : undefined}
 				className={clsx(
 					'lg:max-h-660 p-6 xl:p-10 bg-alabaster',
 					{
@@ -40,7 +41,7 @@ export const BagSelectionItem = memo<IBagSelectionItemProps>(
 						className='mt-5 px-7 xl:px-7 py-2 xl:py-3.5 border-2 border-black rounded-lg active:border-gray-500 active:text-gray-500 active:opacity-75 active:scale-95 transition-all duration-150'
 						onClick={() => handleClick(title)}
 					>
-						{t('button_text')}
+						{t('select_bag')}
 					</button>
 				</div>
 			</div>

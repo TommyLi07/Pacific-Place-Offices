@@ -30,15 +30,13 @@ export const GiftCustomizationGrid = memo<GiftCustomizationGridProps>(
 								onClick={() =>
 									handleClick({
 										...iconInfo,
-										x: 0,
-										y: 0,
 									})
 								}
 							>
 								<img
 									src={iconInfo.imageSrc}
 									alt='icon image'
-									className={clsx('w-full h-full object-contain scale-75', {
+									className={clsx('w-full h-full object-contain', {
 										'scale-75': iconInfo.type === ItemTypes.LETTER,
 										'scale-90': iconInfo.type === ItemTypes.EMOJI,
 										'scale-95': iconInfo.type === ItemTypes.QUOTE,

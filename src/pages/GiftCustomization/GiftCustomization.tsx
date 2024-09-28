@@ -1,49 +1,49 @@
 import CloseBlack from '@/assets/icons/CloseBlack.svg?react';
-import Download from '@/assets/icons/Download.svg?react';
+import DownloadBlack from '@/assets/icons/DownloadBlack.svg?react';
+import DownloadWhite from '@/assets/icons/DownloadWhite.svg?react';
+import Reset from '@/assets/icons/Reset.svg?react';
 import ElectronicBag from '@/assets/images/ElectronicBag.png';
 import {
 	GiftCustomizationGrid,
 	GiftCustomizationHeader,
+	Modal,
 	NotificationHeader,
 } from '@/components';
 import { IconCollection } from '@/config';
-import { useDisableDocumentBodyScroll } from '@/hooks';
 import { IconInfo, ItemTypes } from '@/types';
 import clsx from 'clsx';
+import domtoimage from 'dom-to-image';
+import { saveAs } from 'file-saver';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Draggable from 'react-draggable';
 import { useTranslation } from 'react-i18next';
-import Modal from 'react-modal';
-import { useNavigate } from 'react-router-dom';
-
-// bind modal to my app element
-Modal.setAppElement('#root');
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const GiftCustomization = () => {
-	// const location = useLocation();
 	const navigate = useNavigate();
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const location = useLocation();
+	const { t } = useTranslation('customization');
+
+	const [isBackModalOpen, setIsBackModalOpen] = useState(false);
+	const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 	const [isShowNotification, setIsShowNotification] = useState(true);
 	const [selectedIcons, setSelectedIcons] = useState<IconInfo[]>([]);
 	const imageRef = useRef<HTMLImageElement | null>(null);
 	const [width, setWidth] = useState(0);
 	const [height, setHeight] = useState(0);
-
-	const { t } = useTranslation('customization');
+	const exportAreaRef = useRef<HTMLDivElement | null>(null);
+	const [generatedImage, setGeneratedImage] = useState<string>('');
 
 	// header
 	const handleBackButtonClick = useCallback(() => {
-		setIsModalOpen(true);
+		setIsBackModalOpen(true);
 	}, []);
 
 	// left-side icon collection
 	const handleSelectIcon = useCallback(
 		(iconInfo: IconInfo) => {
-			console.log('selectedIcons', selectedIcons);
-
 			if (selectedIcons.length === 5) return;
 
-			// Count the number of letter icons, quote icons, and emoji icons in iconInfos
 			const letterCount = selectedIcons.filter(
 				(icon) => icon.type === ItemTypes.LETTER
 			).length;
@@ -71,35 +71,59 @@ export const GiftCustomization = () => {
 		[selectedIcons]
 	);
 
+	// drag zone
+	const handleReset = useCallback(() => {
+		setSelectedIcons([]);
+	}, []);
+
 	const handleCloseNotification = useCallback(() => {
 		setIsShowNotification(false);
 	}, []);
 
-	// modal
+	// back modal
 	const handleCancelButtonClick = useCallback(() => {
-		setIsModalOpen(false);
+		setIsBackModalOpen(false);
 	}, []);
 
 	const handleDiscardButtonClick = useCallback(() => {
 		navigate(-1);
-		setIsModalOpen(false);
+		setIsBackModalOpen(false);
 	}, [navigate]);
 
-	// disable scroll bar if modal opens
-	useDisableDocumentBodyScroll(isModalOpen);
+	// save image modal
+	const handleSaveImageButtonClick = useCallback(() => {
+		domtoimage
+			.toPng(exportAreaRef.current!)
+			.then((dataUrl) => {
+				setGeneratedImage(dataUrl);
+				setIsOrderModalOpen(true);
+			})
+			.catch((error) => {
+				console.error('oops, something went wrong!', error);
+			});
+	}, []);
+
+	const handleDownloadImage = useCallback(() => {
+		domtoimage.toBlob(exportAreaRef.current!).then((blob) => {
+			saveAs(blob, 'bag.png');
+		});
+	}, []);
+
+	const handleCloseOrderSummary = useCallback(() => {
+		setIsOrderModalOpen(false);
+	}, []);
 
 	useEffect(() => {
 		if (imageRef.current && selectedIcons.length !== 0) {
-			const { left, right, bottom, top } =
-				imageRef.current.getBoundingClientRect();
-			setWidth(right - left - 96);
-			setHeight(bottom - top - 96);
+			const { width, height } = imageRef.current.getBoundingClientRect();
+			setWidth(width - 96);
+			setHeight(height - 96);
 		}
 	}, [imageRef, selectedIcons]);
 
-	// console.log('name', location.state);
+	console.log('name', location.state);
 	return (
-		<div className='relative h-screen flex flex-col'>
+		<div className='relative min-h-dvh flex flex-col'>
 			<NotificationHeader />
 
 			<div className='flex-grow flex flex-row'>
@@ -111,9 +135,7 @@ export const GiftCustomization = () => {
 					/>
 
 					<div className='p-6 h-[88%] overflow-y-auto'>
-						<div className='text-sm mb-4'>
-							*Choose up to 3 alphabets, and up to 2 characters or quotes
-						</div>
+						<div className='text-sm mb-4'>{t('notification')}</div>
 						{IconCollection.map(({ key, iconInfos }, index) => (
 							<GiftCustomizationGrid
 								key={key}
@@ -130,7 +152,7 @@ export const GiftCustomization = () => {
 				{/*  image area */}
 				<div className='w-2/3 ml-[33.33%] bg-alice_blue flex justify-center items-center relative'>
 					<div className='flex flex-row justify-center'>
-						<div id='export-area' className='w-2/3 relative'>
+						<div ref={exportAreaRef} className='w-2/3 relative'>
 							<img
 								src={ElectronicBag}
 								alt='Bag front'
@@ -143,13 +165,7 @@ export const GiftCustomization = () => {
 									key={selectIcon.id}
 									bounds={{ top: 0, left: 0, right: width, bottom: height }}
 								>
-									<div
-										className='absolute w-24 h-24'
-										style={{
-											top: selectIcon.y,
-											left: selectIcon.x,
-										}}
-									>
+									<div className={`absolute w-24 h-24 top-0 left-0`}>
 										<img
 											src={selectIcon.imageSrc}
 											alt='draggable icon'
@@ -166,8 +182,20 @@ export const GiftCustomization = () => {
 					</div>
 
 					{/* download button */}
-					<button className='absolute top-8 right-8 flex items-center bg-yellow_metal rounded-lg py-2 px-4'>
-						<Download /> <p className='text-zinc-100 text-base'>Save Image</p>
+					<button
+						className='absolute top-8 right-8 flex items-center bg-yellow_metal rounded-lg py-2 px-4'
+						onClick={handleSaveImageButtonClick}
+					>
+						<DownloadWhite />
+						<p className='text-zinc-100 text-base'>Save Image</p>
+					</button>
+
+					{/* reset button */}
+					<button
+						className='absolute bottom-10 right-8 p-2 border-gray-300 border-2 rounded-2xl shadow-slate-300 shadow-md active:opacity-75 active:scale-95 transition-all duration-150'
+						onClick={handleReset}
+					>
+						<Reset />
 					</button>
 
 					{/* bottom notification bar */}
@@ -187,11 +215,7 @@ export const GiftCustomization = () => {
 			</div>
 
 			{/* back confirmation modal */}
-			<Modal
-				isOpen={isModalOpen}
-				onRequestClose={handleCancelButtonClick}
-				className='w-5/6 max-w-[30rem] p-6 md:p-10 bg-alabaster text-slate-900 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10'
-			>
+			<Modal open={isBackModalOpen} onClose={handleCancelButtonClick}>
 				<h2 className='font-PP_Tondo_Signage text-3xl text-center'>Discord</h2>
 				<p className='mt-4 px-4 md:px-0 text-center'>
 					Do you want to discard all the change?
@@ -208,6 +232,51 @@ export const GiftCustomization = () => {
 						onClick={handleDiscardButtonClick}
 					>
 						DISCORD
+					</button>
+				</div>
+			</Modal>
+
+			{/* save image modal */}
+			<Modal open={isOrderModalOpen} onClose={handleCloseOrderSummary}>
+				<div className='flex flex-row items-center'>
+					<h2 className='font-PP_Tondo_Signage text-3xl flex-1 md:text-center'>
+						Order Summary
+					</h2>
+					<button className='p-2'>
+						<CloseBlack onClick={handleCloseOrderSummary} />
+					</button>
+				</div>
+
+				{generatedImage && (
+					<div className='px-20'>
+						<div className='flex justify-center items-center mt-4 bg-white'>
+							<img
+								src={generatedImage}
+								alt='generated image'
+								className='h-48'
+							/>
+						</div>
+					</div>
+				)}
+
+				<div className='flex flex-row items-center gap-8 mt-4'>
+					<div>
+						<h3 className='font-Tondo_W01_Signage text-xl'>
+							Download your gift image
+						</h3>
+						<p>
+							Our gifts are made- to-order. Please line up at the booth in Three
+							Pacific Place, redeem your gift in the Pacific Place Offices app,
+							and show your QR code to our staff to confirm your preferred
+							design.
+						</p>
+					</div>
+
+					<button
+						className='p-2 bg-zinc-50 border-gray-300 border-2 rounded-2xl shadow-slate-300 shadow-md active:opacity-75 active:scale-95 transition-all duration-150'
+						onClick={handleDownloadImage}
+					>
+						<DownloadBlack />
 					</button>
 				</div>
 			</Modal>

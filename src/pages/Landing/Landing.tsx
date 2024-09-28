@@ -1,13 +1,10 @@
 import GiftCollection from '@/assets/icons/GiftCollection.svg?react';
 import logo from '@/assets/images/Logo.png';
-import packAndGo from '@/assets/images/PackAndGo.png';
-import packAndGoVertical from '@/assets/images/PackAndGoVertical.png';
 import { BagSelectionItem, NotificationHeader } from '@/components';
 
 import clsx from 'clsx';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { BagInfo, Booths, Languages } from './config';
 
 export const Landing = () => {
@@ -15,7 +12,8 @@ export const Landing = () => {
 		t,
 		i18n: { language, changeLanguage },
 	} = useTranslation('landing');
-	const navigate = useNavigate();
+	const firstSectionRef = useRef<HTMLDivElement | null>(null);
+	const [height, setHeight] = useState(0);
 
 	const handleChangeLanguage = useCallback(
 		(lang: string) => {
@@ -26,9 +24,28 @@ export const Landing = () => {
 		[changeLanguage, language]
 	);
 
-	const handleNavigate = useCallback(() => {
-		navigate('/customization');
-	}, [navigate]);
+	const handleScrollToCustomize = useCallback(() => {
+		// show introduction part
+		if (window.innerWidth >= 1024) {
+			// handle screen larger than 1024
+			window.scrollBy({
+				top: 44 + 60 + height,
+				left: 0,
+				behavior: 'smooth',
+			});
+		} else {
+			document.getElementById('first-bag')?.scrollIntoView({
+				behavior: 'smooth',
+			});
+		}
+	}, [height]);
+
+	useEffect(() => {
+		if (!firstSectionRef.current) return;
+
+		const { height } = firstSectionRef.current.getBoundingClientRect();
+		setHeight(height);
+	}, []);
 
 	return (
 		<div className='min-h-screen flex flex-col'>
@@ -54,7 +71,10 @@ export const Landing = () => {
 			</header>
 
 			<main>
-				<div className='w-full bg-alabaster flex flex-col lg:flex-row'>
+				<div
+					ref={firstSectionRef}
+					className='w-full bg-alabaster flex flex-col lg:flex-row'
+				>
 					<div className='px-6 lg:w-1/3 lg:px-12 xl:px-18 flex flex-col justify-center'>
 						<div>
 							<h2 className='mt-6 font-PP_Tondo_Signage lg:mt-0 text-4xl lg:text-5xl'>
@@ -66,7 +86,7 @@ export const Landing = () => {
 							<p className='mt-4 leading-5'>{t('order_desc_two')}</p>
 							<button
 								className='mt-8 px-7 py-3.5 bg-yellow_metal text-zinc-100 rounded-lg active:opacity-75 active:scale-95 transition-all duration-150'
-								onClick={handleNavigate}
+								onClick={handleScrollToCustomize}
 							>
 								{t('button_text')}
 							</button>
@@ -106,7 +126,7 @@ export const Landing = () => {
 					</div>
 				</section>
 
-				<section className='px-6 pt-12 lg:px-12 lg:pt-16'>
+				<section className='px-6 pt-12 lg:px-12 lg:pt-16 mb-10 lg:mb-20'>
 					<h2 className='font-PP_Tondo_Signage text-3xl lg:text-4xl'>
 						{t('booth_blurb')}
 					</h2>
@@ -127,22 +147,6 @@ export const Landing = () => {
 
 					<div className='mt-4 flex'>
 						<p className='w-full lg:w-2/3'>{t('booth_blurb_desc')}</p>
-						{/* <div className='hidden lg:flex mr-12 flex-1 gap-8 justify-end'>
-							<button
-								onMouseDown={() => startScrolling('left')}
-								onMouseUp={stopScrolling}
-								onMouseLeave={stopScrolling}
-							>
-								<ArrowLeftIcon />
-							</button>
-							<button>
-								<ArrowRightIcon
-									onMouseDown={() => startScrolling('right')}
-									onMouseUp={stopScrolling}
-									onMouseLeave={stopScrolling}
-								/>
-							</button>
-						</div> */}
 					</div>
 
 					{/* scroll view on desktop */}
@@ -159,24 +163,6 @@ export const Landing = () => {
 							);
 						})}
 					</div>
-				</section>
-
-				<section className='px-6 pt-12 lg:px-12 lg:pt-16 mb-10 lg:mb-20'>
-					<h2 className='font-PP_Tondo_Signage text-3xl lg:text-4xl'>
-						{t('redemption_instructions')}
-					</h2>
-					{/* vertical pack and go image */}
-					<img
-						className='lg:hidden mt-6 w-full max-h-660'
-						src={packAndGoVertical}
-						alt='pack and go'
-					/>
-					{/* horizontal pack and go image */}
-					<img
-						className='hidden lg:block mt-6 w-full max-h-660 object-contain'
-						src={packAndGo}
-						alt='pack and go'
-					/>
 				</section>
 			</main>
 
