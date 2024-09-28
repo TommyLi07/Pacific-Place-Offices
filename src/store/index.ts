@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import alertReducer from './alertSlice';
+import notificationReducer from './notificationSlice';
 
 const persistConfig = {
 	key: 'root',
@@ -9,7 +9,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-	alert: alertReducer,
+	notification: notificationReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
