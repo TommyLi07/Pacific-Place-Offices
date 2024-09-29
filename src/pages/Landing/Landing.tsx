@@ -1,8 +1,7 @@
 import GiftCollection from '@/assets/icons/GiftCollection.svg?react';
 import logo from '@/assets/images/Logo.png';
 import { BagSelectionItem, NotificationHeader } from '@/components';
-import { BagInfo, Languages } from '@/config';
-import clsx from 'clsx';
+import { BagInfo } from '@/config';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollRestoration } from 'react-router-dom';
@@ -10,21 +9,21 @@ import { ScrollRestoration } from 'react-router-dom';
 export const Landing = () => {
 	const {
 		t,
-		i18n: { language, changeLanguage },
+		// i18n: { language, changeLanguage },
 	} = useTranslation('landing');
 
 	// customize now button scroll to introduction section
 	const firstSectionRef = useRef<HTMLDivElement | null>(null);
 	const [height, setHeight] = useState(0);
 
-	const handleChangeLanguage = useCallback(
-		(lang: string) => {
-			if (lang === language) return;
+	// const handleChangeLanguage = useCallback(
+	// 	(lang: string) => {
+	// 		if (lang === language) return;
 
-			changeLanguage(lang);
-		},
-		[changeLanguage, language]
-	);
+	// 		changeLanguage(lang);
+	// 	},
+	// 	[changeLanguage, language]
+	// );
 
 	const handleScrollToCustomize = useCallback(() => {
 		// scroll to introduction section
@@ -59,7 +58,7 @@ export const Landing = () => {
 				<img className='h-7' src={logo} alt='logo' />
 
 				{/* language switch */}
-				<div className='flex flex-1 justify-end items-center gap-8'>
+				{/* <div className='flex flex-1 justify-end items-center gap-8'>
 					{Languages.map(({ code, label }) => (
 						<button
 							key={code}
@@ -71,7 +70,7 @@ export const Landing = () => {
 							{label}
 						</button>
 					))}
-				</div>
+				</div> */}
 			</header>
 
 			<main className='mb-10 lg:mb-20'>
