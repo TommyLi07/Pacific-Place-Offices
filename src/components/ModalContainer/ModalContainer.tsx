@@ -1,8 +1,8 @@
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
 import { memo } from 'react';
-import { ModalProps } from './Modal.types';
+import { ModalProps } from './ModalContainer.types';
 
-export const Modal = memo<ModalProps>(({ children, open, onClose }) => {
+export const ModalContainer = memo<ModalProps>(({ children, open, onClose }) => {
 	return (
 		<Dialog open={open} onClose={onClose} className='relative z-10'>
 			<DialogBackdrop
@@ -24,4 +24,4 @@ export const Modal = memo<ModalProps>(({ children, open, onClose }) => {
 	);
 });
 
-export default Modal;
+export default ModalContainer;

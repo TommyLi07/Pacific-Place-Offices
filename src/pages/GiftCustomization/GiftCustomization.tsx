@@ -3,10 +3,11 @@ import DownloadBlack from '@/assets/icons/DownloadBlack.svg?react';
 import DownloadWhite from '@/assets/icons/DownloadWhite.svg?react';
 import Reset from '@/assets/icons/Reset.svg?react';
 import ElectronicBag from '@/assets/images/ElectronicBag.png';
+import ModalBackground from '@/assets/images/ModalBackground.png';
 import {
 	GiftCustomizationGrid,
 	GiftCustomizationHeader,
-	Modal,
+	ModalContainer,
 	NotificationHeader,
 } from '@/components';
 import { IconCollection } from '@/config';
@@ -90,7 +91,7 @@ export const GiftCustomization = () => {
 		setIsBackModalOpen(false);
 	}, [navigate]);
 
-	// save image modal
+	// save image button
 	const handleSaveImageButtonClick = useCallback(() => {
 		domtoimage
 			.toPng(exportAreaRef.current!)
@@ -103,6 +104,7 @@ export const GiftCustomization = () => {
 			});
 	}, []);
 
+  // order summary modal
 	const handleDownloadImage = useCallback(() => {
 		domtoimage.toBlob(exportAreaRef.current!).then((blob) => {
 			saveAs(blob, 'bag.png');
@@ -172,7 +174,7 @@ export const GiftCustomization = () => {
 											className={clsx('w-full h-full object-contain', {
 												'scale-75': selectIcon.type === ItemTypes.LETTER,
 												'scale-90': selectIcon.type === ItemTypes.EMOJI,
-												'scale-95': selectIcon.type === ItemTypes.QUOTE,
+												// 'scale-95': selectIcon.type === ItemTypes.QUOTE,
 											})}
 										/>
 									</div>
@@ -215,7 +217,7 @@ export const GiftCustomization = () => {
 			</div>
 
 			{/* back confirmation modal */}
-			<Modal open={isBackModalOpen} onClose={handleCancelButtonClick}>
+			<ModalContainer open={isBackModalOpen} onClose={handleCancelButtonClick}>
 				<h2 className='font-PP_Tondo_Signage text-3xl text-center'>Discord</h2>
 				<p className='mt-4 px-4 md:px-0 text-center'>
 					Do you want to discard all the change?
@@ -234,52 +236,60 @@ export const GiftCustomization = () => {
 						DISCORD
 					</button>
 				</div>
-			</Modal>
+			</ModalContainer>
 
 			{/* save image modal */}
-			<Modal open={isOrderModalOpen} onClose={handleCloseOrderSummary}>
-				<div className='flex flex-row items-center'>
-					<h2 className='font-PP_Tondo_Signage text-3xl flex-1 md:text-center'>
-						Order Summary
-					</h2>
-					<button className='p-2'>
-						<CloseBlack onClick={handleCloseOrderSummary} />
-					</button>
-				</div>
+			<ModalContainer open={isOrderModalOpen} onClose={handleCloseOrderSummary}>
+				<img
+					src={ModalBackground}
+					alt='modal background'
+					className='absolute top-0 left-0 w-full h-full object-cover'
+				/>
 
-				{generatedImage && (
-					<div className='px-20'>
-						<div className='flex justify-center items-center mt-4 bg-white'>
-							<img
-								src={generatedImage}
-								alt='generated image'
-								className='h-48'
-							/>
+				<div className='relative z-10'>
+					<div className='flex flex-row items-center'>
+						<h2 className='font-PP_Tondo_Signage text-3xl flex-1 md:text-center'>
+							Order Summary
+						</h2>
+						<button className='p-2'>
+							<CloseBlack onClick={handleCloseOrderSummary} />
+						</button>
+					</div>
+
+					{generatedImage && (
+						<div className='px-20'>
+							<div className='flex justify-center items-center mt-4 bg-white'>
+								<img
+									src={generatedImage}
+									alt='generated image'
+									className='h-48'
+								/>
+							</div>
 						</div>
-					</div>
-				)}
+					)}
 
-				<div className='flex flex-row items-center gap-8 mt-4'>
-					<div>
-						<h3 className='font-Tondo_W01_Signage text-xl'>
-							Download your gift image
-						</h3>
-						<p>
-							Our gifts are made- to-order. Please line up at the booth in Three
-							Pacific Place, redeem your gift in the Pacific Place Offices app,
-							and show your QR code to our staff to confirm your preferred
-							design.
-						</p>
-					</div>
+					<div className='flex flex-row items-center gap-8 mt-4'>
+						<div>
+							<h3 className='font-Tondo_W01_Signage text-xl'>
+								Download your gift image
+							</h3>
+							<p>
+								Our gifts are made- to-order. Please line up at the booth in
+								Three Pacific Place, redeem your gift in the Pacific Place
+								Offices app, and show your QR code to our staff to confirm your
+								preferred design.
+							</p>
+						</div>
 
-					<button
-						className='p-2 bg-zinc-50 border-gray-300 border-2 rounded-2xl shadow-slate-300 shadow-md active:opacity-75 active:scale-95 transition-all duration-150'
-						onClick={handleDownloadImage}
-					>
-						<DownloadBlack />
-					</button>
+						<button
+							className='p-2 bg-zinc-50 border-gray-300 border-2 rounded-2xl shadow-slate-300 shadow-md active:opacity-75 active:scale-95 transition-all duration-150'
+							onClick={handleDownloadImage}
+						>
+							<DownloadBlack />
+						</button>
+					</div>
 				</div>
-			</Modal>
+			</ModalContainer>
 		</div>
 	);
 };

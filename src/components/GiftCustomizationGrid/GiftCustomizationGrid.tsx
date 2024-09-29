@@ -1,4 +1,3 @@
-import { ItemTypes } from '@/types';
 import clsx from 'clsx';
 import { memo } from 'react';
 import { GiftCustomizationGridProps } from './GiftCustomizationGrid.types';
@@ -19,7 +18,7 @@ export const GiftCustomizationGrid = memo<GiftCustomizationGridProps>(
 							<div
 								key={iconInfo.id}
 								className={clsx(
-									'w-auto h-24 flex flex-row justify-center items-center',
+									'w-auto h-24 flex flex-row justify-center items-center object-contain',
 									{
 										'border-2 border-yellow_metal rounded-md':
 											selectedIcons.some(
@@ -33,7 +32,8 @@ export const GiftCustomizationGrid = memo<GiftCustomizationGridProps>(
 									})
 								}
 							>
-								<img
+								<iconInfo.svg />
+								{/* <img
 									src={iconInfo.imageSrc}
 									alt='icon image'
 									className={clsx('w-full h-full object-contain', {
@@ -41,7 +41,7 @@ export const GiftCustomizationGrid = memo<GiftCustomizationGridProps>(
 										'scale-90': iconInfo.type === ItemTypes.EMOJI,
 										'scale-95': iconInfo.type === ItemTypes.QUOTE,
 									})}
-								/>
+								/> */}
 							</div>
 						);
 					})}

@@ -4,18 +4,18 @@ import { createSlice } from '@reduxjs/toolkit';
 export interface NotificationState {
 	isShowNotification: boolean;
 	notificationContent: string;
-	isBagOneSoldOut: boolean;
-	isBagTwoSoldOut: boolean;
-	isBagThreeSoldOut: boolean;
+	isBagOneInStock: boolean;
+	isBagTwoInStock: boolean;
+	isBagThreeInStock: boolean;
 }
 
 const initialState: NotificationState = {
 	isShowNotification: false,
 	notificationContent:
 		'Electronic Bag have been sold out. Please stay tuned for our latest updates.',
-	isBagOneSoldOut: false,
-	isBagTwoSoldOut: false,
-	isBagThreeSoldOut: false,
+	isBagOneInStock: true,
+	isBagTwoInStock: true,
+	isBagThreeInStock: true,
 };
 
 export const notificationSlice = createSlice({

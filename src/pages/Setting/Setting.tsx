@@ -10,9 +10,9 @@ export const Setting = () => {
 	const {
 		isShowNotification,
 		notificationContent,
-		isBagOneSoldOut,
-		isBagTwoSoldOut,
-		isBagThreeSoldOut,
+		isBagOneInStock,
+		isBagTwoInStock,
+		isBagThreeInStock
 	} = useSelector((state: RootState) => state.notification);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -44,19 +44,19 @@ export const Setting = () => {
 				case 'one':
 					setNotificationInfo((prevState) => ({
 						...prevState!,
-						isBagOneSoldOut: !notificationInfo?.isBagOneSoldOut,
+						isBagOneInStock: !notificationInfo?.isBagOneInStock,
 					}));
 					break;
 				case 'two':
 					setNotificationInfo((prevState) => ({
 						...prevState!,
-						isBagTwoSoldOut: !notificationInfo?.isBagTwoSoldOut,
+						isBagTwoInStock: !notificationInfo?.isBagTwoInStock,
 					}));
 					break;
 				case 'three':
 					setNotificationInfo((prevState) => ({
 						...prevState!,
-						isBagThreeSoldOut: !notificationInfo?.isBagThreeSoldOut,
+						isBagThreeInStock: !notificationInfo?.isBagThreeInStock,
 					}));
 			}
 		},
@@ -75,16 +75,16 @@ export const Setting = () => {
 		setNotificationInfo({
 			isShowNotification,
 			notificationContent,
-			isBagOneSoldOut,
-			isBagTwoSoldOut,
-			isBagThreeSoldOut,
+			isBagOneInStock,
+			isBagTwoInStock,
+			isBagThreeInStock,
 		});
 	}, [
 		isShowNotification,
 		notificationContent,
-		isBagOneSoldOut,
-		isBagTwoSoldOut,
-		isBagThreeSoldOut,
+		isBagOneInStock,
+		isBagTwoInStock,
+		isBagThreeInStock,
 	]);
 
 	return (
@@ -127,7 +127,7 @@ export const Setting = () => {
 									type='checkbox'
 									value=''
 									className='sr-only peer'
-									checked={notificationInfo?.isBagOneSoldOut}
+									checked={notificationInfo?.isBagOneInStock}
 									onChange={() => handleToggleIsBagSoldOut('one')}
 								/>
 								<div className="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-[#C9B29B] dark:peer-focus:ring-[#C9B29B] dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-yellow_metal"></div>
@@ -141,7 +141,7 @@ export const Setting = () => {
 									type='checkbox'
 									value=''
 									className='sr-only peer'
-									checked={notificationInfo?.isBagTwoSoldOut}
+									checked={notificationInfo?.isBagTwoInStock}
 									onChange={() => handleToggleIsBagSoldOut('two')}
 								/>
 								<div className="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-[#C9B29B] dark:peer-focus:ring-[#C9B29B] dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-yellow_metal"></div>
@@ -155,7 +155,7 @@ export const Setting = () => {
 									type='checkbox'
 									value=''
 									className='sr-only peer'
-									checked={notificationInfo?.isBagThreeSoldOut}
+									checked={notificationInfo?.isBagThreeInStock}
 									onChange={() => handleToggleIsBagSoldOut('three')}
 								/>
 								<div className="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-[#C9B29B] dark:peer-focus:ring-[#C9B29B] dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-yellow_metal"></div>
