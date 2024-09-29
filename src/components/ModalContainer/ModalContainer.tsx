@@ -1,8 +1,8 @@
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
 import { memo } from 'react';
-import { ModalProps } from './Modal.types';
+import { ModalProps } from './ModalContainer.types';
 
-export const Modal = memo<ModalProps>(({ children, open, onClose }) => {
+export const ModalContainer = memo<ModalProps>(({ children, open, onClose }) => {
 	return (
 		<Dialog open={open} onClose={onClose} className='relative z-10'>
 			<DialogBackdrop
@@ -14,7 +14,7 @@ export const Modal = memo<ModalProps>(({ children, open, onClose }) => {
 				<div className='flex min-h-full items-center justify-center p-4 text-center sm:p-0'>
 					<DialogPanel
 						transition
-						className='relative transform overflow-hidden rounded-lg bg-alabaster text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-lg data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95 p-6 md:p-10'
+						className='relative w-5/6 transform overflow-hidden rounded-lg bg-alabaster text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-lg data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95 p-6 md:p-10'
 					>
 						{children}
 					</DialogPanel>
@@ -24,4 +24,4 @@ export const Modal = memo<ModalProps>(({ children, open, onClose }) => {
 	);
 });
 
-export default Modal;
+export default ModalContainer;

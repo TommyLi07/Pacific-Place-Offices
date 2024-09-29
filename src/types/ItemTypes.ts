@@ -1,3 +1,5 @@
+import { FunctionComponent, SVGProps } from 'react';
+
 export enum ItemTypes {
 	BAG = 'bag',
 	EMOJI = 'emoji',
@@ -6,9 +8,17 @@ export enum ItemTypes {
 }
 
 export interface IconInfo {
-	id: string;
+  id: string;
+  key?: string;
+	svg: FunctionComponent<
+		SVGProps<SVGSVGElement> & {
+			title?: string;
+		}
+	>;
 	imageSrc: string;
 	type: ItemTypes;
-	x?: number;
-	y?: number;
+	defaultX?: number;
+	defaultY?: number;
+	translateX?: number;
+	translateY?: number;
 }

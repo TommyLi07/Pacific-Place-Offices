@@ -1,17 +1,19 @@
 import GiftCollection from '@/assets/icons/GiftCollection.svg?react';
 import logo from '@/assets/images/Logo.png';
 import { BagSelectionItem, NotificationHeader } from '@/components';
-
+import { BagInfo, Languages } from '@/config';
 import clsx from 'clsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BagInfo, Booths, Languages } from './config';
+import { ScrollRestoration } from 'react-router-dom';
 
 export const Landing = () => {
 	const {
 		t,
 		i18n: { language, changeLanguage },
 	} = useTranslation('landing');
+
+	// customize now button scroll to introduction section
 	const firstSectionRef = useRef<HTMLDivElement | null>(null);
 	const [height, setHeight] = useState(0);
 
@@ -25,9 +27,9 @@ export const Landing = () => {
 	);
 
 	const handleScrollToCustomize = useCallback(() => {
-		// show introduction part
+		// scroll to introduction section
 		if (window.innerWidth >= 1024) {
-			// handle screen larger than 1024
+			// handle screen larger than or equal to 1024
 			window.scrollBy({
 				top: 44 + 60 + height,
 				left: 0,
@@ -40,15 +42,17 @@ export const Landing = () => {
 		}
 	}, [height]);
 
+	// get "The order up" section's height
 	useEffect(() => {
 		if (!firstSectionRef.current) return;
-
 		const { height } = firstSectionRef.current.getBoundingClientRect();
 		setHeight(height);
 	}, []);
 
 	return (
 		<div className='min-h-screen flex flex-col'>
+			<ScrollRestoration />
+
 			<NotificationHeader />
 
 			<header className='px-6 md:px-12 py-4 flex items-center'>
@@ -70,7 +74,7 @@ export const Landing = () => {
 				</div>
 			</header>
 
-			<main>
+			<main className='mb-10 lg:mb-20'>
 				<div
 					ref={firstSectionRef}
 					className='w-full bg-alabaster flex flex-col lg:flex-row'
@@ -99,6 +103,7 @@ export const Landing = () => {
 					</div>
 				</div>
 
+				{/* introduction section */}
 				<section className='px-6 pt-12 lg:px-12 lg:pt-16'>
 					<h2 className='font-PP_Tondo_Signage text-3xl lg:text-4xl'>
 						{t('introduction')}
@@ -107,59 +112,10 @@ export const Landing = () => {
 						<p className='w-full lg:w-2/3'>{t('introduction_desc')}</p>
 					</div>
 
-					{/* slider on mobile */}
-					<div className='mt-6 lg:hidden'>
+					<div className='lg:flex lg:flex-row mt-4'>
 						{BagInfo.map((bag, index) => {
 							return (
 								<BagSelectionItem key={bag.title} {...bag} index={index} />
-							);
-						})}
-					</div>
-
-					{/* bag gallery on desktop */}
-					<div className='hidden lg:flex lg:flex-row mt-4'>
-						{BagInfo.map((bag, index) => {
-							return (
-								<BagSelectionItem key={bag.title} {...bag} index={index} />
-							);
-						})}
-					</div>
-				</section>
-
-				<section className='px-6 pt-12 lg:px-12 lg:pt-16 mb-10 lg:mb-20'>
-					<h2 className='font-PP_Tondo_Signage text-3xl lg:text-4xl'>
-						{t('booth_blurb')}
-					</h2>
-
-					{/* booth gallery on mobile */}
-					<div className='flex flex-col p-6 mt-6 gap-8 bg-alabaster lg:hidden'>
-						{Booths.map((booth, index) => {
-							return (
-								<img
-									key={index}
-									className='w-full'
-									src={booth.imageSrc}
-									alt='booth'
-								/>
-							);
-						})}
-					</div>
-
-					<div className='mt-4 flex'>
-						<p className='w-full lg:w-2/3'>{t('booth_blurb_desc')}</p>
-					</div>
-
-					{/* scroll view on desktop */}
-					<div className='hidden lg:flex flex-row gap-12 mt-4 p-10 bg-alabaster overflow-x-auto'>
-						{Booths.map((booth, index) => {
-							return (
-								<div key={index} className='w-2/3'>
-									<img
-										className='object-cover max-h-420'
-										src={booth.imageSrc}
-										alt='booth'
-									/>
-								</div>
 							);
 						})}
 					</div>

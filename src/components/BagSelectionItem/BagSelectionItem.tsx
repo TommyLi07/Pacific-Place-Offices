@@ -1,6 +1,8 @@
+import { RootState } from '@/store';
 import { clsx } from 'clsx';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { IBagSelectionItemProps } from './BagSelectionItem.types';
 
@@ -8,6 +10,9 @@ export const BagSelectionItem = memo<IBagSelectionItemProps>(
 	({ imageSrc, title, desc, index }) => {
 		const { t } = useTranslation();
 		const navigate = useNavigate();
+		const { isBagOneInStock, isBagTwoInStock, isBagThreeInStock } = useSelector(
+			(state: RootState) => state.notification
+		);
 
 		const handleClick = useCallback(
 			(title: string) => {
@@ -15,6 +20,19 @@ export const BagSelectionItem = memo<IBagSelectionItemProps>(
 			},
 			[navigate]
 		);
+
+		const isDisabledButton = useMemo(() => {
+			switch (title) {
+				case 'electronic_bag':
+					return isBagOneInStock === false;
+				case 'wellness_bag':
+					return isBagTwoInStock === false;
+				case 'workfolio':
+					return isBagThreeInStock === false;
+				default:
+					break;
+			}
+		}, [title, isBagOneInStock, isBagTwoInStock, isBagThreeInStock]);
 
 		return (
 			<div
@@ -38,10 +56,23 @@ export const BagSelectionItem = memo<IBagSelectionItemProps>(
 				<p className='text-center'>{t(desc)}</p>
 				<div className='text-center'>
 					<button
-						className='mt-5 px-7 xl:px-7 py-2 xl:py-3.5 border-2 border-black rounded-lg active:border-gray-500 active:text-gray-500 active:opacity-75 active:scale-95 transition-all duration-150'
+						className={clsx(
+							'mt-5 px-7 xl:px-7 py-2 xl:py-3.5 border-2 border-black rounded-lg ',
+							{
+								'active:border-gray-500': !isDisabledButton,
+								'active:text-gray-500': !isDisabledButton,
+								'active:opacity-75': !isDisabledButton,
+								'active:scale-95': !isDisabledButton,
+								'transition-all duration-150': !isDisabledButton,
+								'active:scale-100': isDisabledButton,
+								'border-gray-300': isDisabledButton,
+								'text-gray-300': isDisabledButton,
+							}
+						)}
 						onClick={() => handleClick(title)}
+						disabled={isDisabledButton}
 					>
-						{t('select_bag')}
+						{isDisabledButton ? t('sold_out') : t('select_bag')}
 					</button>
 				</div>
 			</div>
