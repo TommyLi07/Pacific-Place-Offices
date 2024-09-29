@@ -2,7 +2,6 @@ import CloseBlack from '@/assets/icons/CloseBlack.svg?react';
 import DownloadBlack from '@/assets/icons/DownloadBlack.svg?react';
 import DownloadWhite from '@/assets/icons/DownloadWhite.svg?react';
 import Reset from '@/assets/icons/Reset.svg?react';
-import ElectronicBag from '@/assets/images/ElectronicBag.png';
 import ModalBackground from '@/assets/images/ModalBackground.png';
 import {
 	GiftCustomizationGrid,
@@ -16,7 +15,7 @@ import { useOrientation, useWindowSize } from '@uidotdev/usehooks';
 import clsx from 'clsx';
 import domtoimage from 'dom-to-image';
 import { saveAs } from 'file-saver';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { useTranslation } from 'react-i18next';
 import { ScrollRestoration, useLocation, useNavigate } from 'react-router-dom';
@@ -25,7 +24,7 @@ export const GiftCustomization = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { t } = useTranslation('customization');
-	const { width: windowWidth } = useWindowSize();
+	const { width: windowWidth, height: windowHeight } = useWindowSize();
 	const { type: OrientationType } = useOrientation();
 
 	const [isBackModalOpen, setIsBackModalOpen] = useState(false);
@@ -40,6 +39,18 @@ export const GiftCustomization = () => {
 	const [imageHeight, setImageHeight] = useState(0);
 	const exportAreaRef = useRef<HTMLDivElement | null>(null);
 	const [generatedImage, setGeneratedImage] = useState<string>('');
+
+	const scrollViewHeight = useMemo(() => {
+		if (!windowWidth || !windowHeight) return 0;
+
+		if (windowWidth < 768) {
+			return windowHeight - 240 - 144;
+		} else if (windowHeight < 1024) {
+			return windowHeight - 300 - 144;
+		} else {
+			return windowHeight - 360 - 144;
+		}
+	}, [windowHeight, windowWidth]);
 
 	// header
 	const handleBackButtonClick = useCallback(() => {
@@ -197,98 +208,104 @@ export const GiftCustomization = () => {
 
 			{windowWidth && windowWidth < 1180 ? (
 				// screen is less than 1180px
-				<div>
-					<GiftCustomizationHeader
-						title={t('gift_customization')}
-						onBack={handleBackButtonClick}
-					/>
+				<div className='w-full h-screen overflow-y-hidden'>
+					<div className='fixed top-0 left-0 w-full z-10'>
+						<GiftCustomizationHeader
+							title={t('gift_customization')}
+							onBack={handleBackButtonClick}
+						/>
 
-					<div className='relative w-full h-full py-20 bg-alice_blue flex justify-center items-center'>
-						<div className='w-2/3  flex flex-row justify-center'>
-							<div ref={exportAreaRef} className='relative'>
-								<img
-									src={ElectronicBag}
-									alt='Bag front'
-									ref={imageRef}
-									className='w-full h-full'
-								/>
-								{selectedIcons.map((selectIcon, index) => (
-									<Draggable
-										key={`${selectIcon.id}-${index}`}
-										bounds={{
-											top: 0,
-											left: 0,
-											right: imageWidth,
-											bottom: imageHeight,
-										}}
-										onStop={handleDragStop}
-									>
-										<div
-											id={`${selectIcon.id}-${index}`}
-											className={`absolute w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 top-${selectIcon.defaultY} left-${selectIcon.defaultX}`}
-										>
-											<img
-												src={selectIcon.imageSrc}
-												alt='draggable icon'
-												className={clsx('w-full h-full object-contain', {
-													'scale-75': selectIcon.type === ItemTypes.LETTER,
-													'scale-90': selectIcon.type === ItemTypes.EMOJI,
-												})}
-											/>
-										</div>
-									</Draggable>
-								))}
-							</div>
-						</div>
-
-						{/* download button */}
-						<button
-							className='absolute top-4 right-4 flex items-center bg-yellow_metal rounded-lg py-2 px-4'
-							onClick={handleSaveImageButtonClick}
-						>
-							<DownloadWhite />
-							<p className='text-zinc-100 text-sm'>{t('save_image')}</p>
-						</button>
-
-						{/* reset button */}
-						<button
-							className='absolute bottom-4 right-4 p-2 flex items-center border-gray-300 border-2 rounded-2xl shadow-slate-300 shadow-md active:opacity-75 active:scale-95 transition-all duration-150'
-							onClick={handleReset}
-						>
-							<Reset />
-							<p className='ml-1'>{t('reset')}</p>
-						</button>
-
-						{/* bottom notification bar */}
-						{isShowNotification && (
-							<div className='fixed bottom-5'>
-								<div className='m-6 p-4 text-sm bg-barley_corn flex flex-row items-center gap-6'>
-									<p>{t('notification_bar_text')}</p>
-									<CloseBlack
-										className='w-5 h-5'
-										onClick={handleCloseNotification}
+						<div className='relative w-full h-full py-10 bg-alice_blue flex justify-center items-center'>
+							<div className='flex flex-row justify-center'>
+								<div ref={exportAreaRef} className='relative'>
+									<img
+										src={selectedBag.imageSrc}
+										alt='Bag front'
+										ref={imageRef}
+										className='h-[240px] md:h-[300px] lg:h-[360px]'
 									/>
+									{selectedIcons.map((selectIcon, index) => (
+										<Draggable
+											key={`${selectIcon.id}-${index}`}
+											bounds={{
+												top: 0,
+												left: 0,
+												right: imageWidth,
+												bottom: imageHeight,
+											}}
+											onStop={handleDragStop}
+										>
+											<div
+												id={`${selectIcon.id}-${index}`}
+												className={`absolute w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 top-${selectIcon.defaultY} left-${selectIcon.defaultX}`}
+											>
+												<img
+													src={selectIcon.imageSrc}
+													alt='draggable icon'
+													className={clsx('w-full h-full object-contain', {
+														'scale-75': selectIcon.type === ItemTypes.LETTER,
+														'scale-90': selectIcon.type === ItemTypes.EMOJI,
+													})}
+												/>
+											</div>
+										</Draggable>
+									))}
 								</div>
 							</div>
-						)}
+
+							{/* download button */}
+							<button
+								className='absolute top-2 right-2 flex items-center bg-yellow_metal rounded-lg py-2 px-2.5'
+								onClick={handleSaveImageButtonClick}
+							>
+								<DownloadWhite className='w-4 h-4' />
+								<p className='ml-1 text-zinc-100 text-xs'>{t('save_image')}</p>
+							</button>
+
+							{/* reset button */}
+							<button
+								className='absolute bottom-4 right-4 p-2 flex items-center border-gray-300 border-2 rounded-2xl shadow-slate-300 shadow-md active:opacity-75 active:scale-95 transition-all duration-150'
+								onClick={handleReset}
+							>
+								<Reset className='w-4 h-4' />
+								<p className='ml-1 text-xs'>{t('reset')}</p>
+							</button>
+
+							{/* bottom notification bar */}
+							{isShowNotification && (
+								<div className='fixed bottom-5 z-10'>
+									<div className='m-6 p-4 text-sm bg-barley_corn flex flex-row items-center gap-6'>
+										<p>{t('notification_bar_text')}</p>
+										<CloseBlack
+											className='w-5 h-5'
+											onClick={handleCloseNotification}
+										/>
+									</div>
+								</div>
+							)}
+						</div>
 					</div>
 
-					<div className='py-4 px-6'>
-						<div className='text-sm mb-4 sm:text-center'>
-							{t('notification')}
-						</div>
+					<div
+						className={`absolute top-[384px] md:top-[444px] lg:top-[524px] left-0 w-full h-[${scrollViewHeight}px]`}
+					>
+						<div className={`py-4 px-6 w-full h-full overflow-y-auto`}>
+							<div className='text-sm mb-4 sm:text-center'>
+								{t('notification')}
+							</div>
 
-						{IconCollection.map(({ key, iconInfos }, index) => (
-							<GiftCustomizationGrid
-								key={key}
-								index={index}
-								title={t(key)}
-								iconInfos={iconInfos}
-								selectedBag={selectedBag}
-								selectedIcons={selectedIcons}
-								handleClick={handleSelectIcon}
-							/>
-						))}
+							{IconCollection.map(({ key, iconInfos }, index) => (
+								<GiftCustomizationGrid
+									key={key}
+									index={index}
+									title={t(key)}
+									iconInfos={iconInfos}
+									selectedBag={selectedBag}
+									selectedIcons={selectedIcons}
+									handleClick={handleSelectIcon}
+								/>
+							))}
+						</div>
 					</div>
 				</div>
 			) : (
@@ -322,7 +339,7 @@ export const GiftCustomization = () => {
 						<div className='flex flex-row justify-center'>
 							<div ref={exportAreaRef} className='w-2/3 relative'>
 								<img
-									src={ElectronicBag}
+									src={selectedBag.imageSrc}
 									alt='Bag front'
 									ref={imageRef}
 									className='w-full h-full'

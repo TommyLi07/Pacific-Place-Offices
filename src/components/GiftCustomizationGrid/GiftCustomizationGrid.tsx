@@ -11,7 +11,12 @@ export const GiftCustomizationGrid = memo<GiftCustomizationGridProps>(
 				})}
 			>
 				<h2 className='font-Tondo_W01_Signage text-base'>{title}</h2>
-				<div className='mt-2 grid grid-cols-4 gap-5 justify-items-center'>
+				<div
+					className={clsx('mt-2 grid gap-5 justify-items-center', {
+						'grid-cols-5': title !== 'Bags' && title !== 'Quotes',
+						'grid-cols-4': title == 'Bags' || title == 'Quotes',
+					})}
+				>
 					{/* add selected icon to selectedIcon array */}
 					{iconInfos.map((iconInfo) => {
 						return (
