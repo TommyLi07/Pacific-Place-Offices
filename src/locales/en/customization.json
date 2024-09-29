@@ -1,6 +1,7 @@
 {
   "gift_customization": "Gift Customization",
   "notification": "*Choose up to 3 alphabets, and up to 2 characters or quotes",
+  "bags": "Bags",
   "alphabet_big": "Alphabets (Big)",
   "alphabet_small": "Alphabets (Small)",
   "emojis": "Emojis",
@@ -10,6 +11,7 @@
   "cancel": "CANCEL",
   "discard": "DISCARD",
   "save_image": "Save Image",
+  "reset": "Reset",
   "order_summary": "Order Summary",
   "download_gift_image": "Download your gift image",
   "gift_image_desc": "Our gifts are made-to-order. Please line up at the booth in Three Pacific Place, redeem your gift in the Pacific Place Offices app, and show your gift image to our staff to confirm your preferred design."

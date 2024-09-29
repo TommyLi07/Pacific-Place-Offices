@@ -17,7 +17,7 @@ import clsx from 'clsx';
 import domtoimage from 'dom-to-image';
 import { saveAs } from 'file-saver';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import Draggable from 'react-draggable';
+import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { useTranslation } from 'react-i18next';
 import { ScrollRestoration, useLocation, useNavigate } from 'react-router-dom';
 
@@ -30,7 +30,10 @@ export const GiftCustomization = () => {
 
 	const [isBackModalOpen, setIsBackModalOpen] = useState(false);
 	const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
-	const [isShowNotification, setIsShowNotification] = useState(true);
+	const [isShowNotification, setIsShowNotification] = useState(false);
+	const [selectedBag, setSelectedBag] = useState<IconInfo>(
+		IconCollection[0].iconInfos[0]
+	);
 	const [selectedIcons, setSelectedIcons] = useState<IconInfo[]>([]);
 	const imageRef = useRef<HTMLImageElement | null>(null);
 	const [imageWidth, setImageWidth] = useState(0);
@@ -46,7 +49,20 @@ export const GiftCustomization = () => {
 	// left-side icon collection
 	const handleSelectIcon = useCallback(
 		(iconInfo: IconInfo) => {
-			if (selectedIcons.length === 5) return;
+			// handle bag selection
+			if (iconInfo.type === ItemTypes.BAG) {
+				if (iconInfo.id === selectedBag.id) return;
+
+				setSelectedBag(iconInfo);
+
+				return;
+			}
+
+			// handle icon selection
+			if (selectedIcons.length === 5) {
+				setIsShowNotification(true);
+				return;
+			}
 
 			const letterCount = selectedIcons.filter(
 				(icon) => icon.type === ItemTypes.LETTER
@@ -59,6 +75,7 @@ export const GiftCustomization = () => {
 			).length;
 
 			if (iconInfo.type === ItemTypes.LETTER && letterCount === 3) {
+				setIsShowNotification(true);
 				return;
 			}
 
@@ -67,15 +84,35 @@ export const GiftCustomization = () => {
 					iconInfo.type === ItemTypes.QUOTE) &&
 				quoteCount + emojiCount >= 2
 			) {
+				setIsShowNotification(true);
 				return;
 			}
 
 			setSelectedIcons((prevState) => [...prevState, { ...iconInfo }]);
 		},
+		[selectedIcons, selectedBag.id]
+	);
+
+  // drag zone
+  // store translate info (but not useful)
+	const handleDragStop = useCallback(
+		(_: DraggableEvent, data: DraggableData): void | false => {
+			const { x, y, node } = data;
+			const updatedSelectedIcons = [...selectedIcons];
+			const draggableIconIndex = selectedIcons.findIndex(
+				(icon) => icon.key === node.id
+			);
+
+			if (draggableIconIndex !== -1) {
+				updatedSelectedIcons[draggableIconIndex].translateX = x;
+				updatedSelectedIcons[draggableIconIndex].translateY = y;
+			}
+
+			setSelectedIcons(updatedSelectedIcons);
+		},
 		[selectedIcons]
 	);
 
-	// drag zone
 	const handleReset = useCallback(() => {
 		setSelectedIcons([]);
 	}, []);
@@ -118,6 +155,19 @@ export const GiftCustomization = () => {
 		setIsOrderModalOpen(false);
 	}, []);
 
+	// set setSelectedBag
+	useEffect(() => {
+		const { bag: bagId } = location.state;
+		const bagInfo = IconCollection[0].iconInfos.find(
+			(icon) => icon.id === bagId
+		);
+
+		if (bagInfo) {
+			setSelectedBag(bagInfo);
+		}
+	}, [location.state]);
+
+	// recalculate imageRef
 	useEffect(() => {
 		if (imageRef.current && selectedIcons.length !== 0) {
 			const { width, height } = imageRef.current.getBoundingClientRect();
@@ -138,8 +188,6 @@ export const GiftCustomization = () => {
 			setImageHeight(newHeight);
 		}
 	}, [imageRef, selectedIcons, windowWidth, OrientationType]);
-
-	console.log('name', location.state);
 
 	return (
 		<div className='relative min-h-dvh flex flex-col'>
@@ -173,9 +221,11 @@ export const GiftCustomization = () => {
 											right: imageWidth,
 											bottom: imageHeight,
 										}}
+										onStop={handleDragStop}
 									>
 										<div
-											className={`absolute w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 top-0 left-0`}
+											id={`${selectIcon.id}-${index}`}
+											className={`absolute w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 top-${selectIcon.defaultY} left-${selectIcon.defaultX}`}
 										>
 											<img
 												src={selectIcon.imageSrc}
@@ -191,6 +241,7 @@ export const GiftCustomization = () => {
 							</div>
 						</div>
 
+						{/* download button */}
 						<button
 							className='absolute top-4 right-4 flex items-center bg-yellow_metal rounded-lg py-2 px-4'
 							onClick={handleSaveImageButtonClick}
@@ -199,12 +250,27 @@ export const GiftCustomization = () => {
 							<p className='text-zinc-100 text-sm'>{t('save_image')}</p>
 						</button>
 
+						{/* reset button */}
 						<button
-							className='absolute bottom-4 right-8 p-2 border-gray-300 border-2 rounded-2xl shadow-slate-300 shadow-md active:opacity-75 active:scale-95 transition-all duration-150'
+							className='absolute bottom-4 right-4 p-2 flex items-center border-gray-300 border-2 rounded-2xl shadow-slate-300 shadow-md active:opacity-75 active:scale-95 transition-all duration-150'
 							onClick={handleReset}
 						>
 							<Reset />
+							<p className='ml-1'>{t('reset')}</p>
 						</button>
+
+						{/* bottom notification bar */}
+						{isShowNotification && (
+							<div className='fixed bottom-5'>
+								<div className='m-6 p-4 text-sm bg-barley_corn flex flex-row items-center gap-6'>
+									<p>{t('notification_bar_text')}</p>
+									<CloseBlack
+										className='w-5 h-5'
+										onClick={handleCloseNotification}
+									/>
+								</div>
+							</div>
+						)}
 					</div>
 
 					<div className='py-4 px-6'>
@@ -218,6 +284,7 @@ export const GiftCustomization = () => {
 								index={index}
 								title={t(key)}
 								iconInfos={iconInfos}
+								selectedBag={selectedBag}
 								selectedIcons={selectedIcons}
 								handleClick={handleSelectIcon}
 							/>
@@ -242,6 +309,7 @@ export const GiftCustomization = () => {
 									index={index}
 									title={t(key)}
 									iconInfos={iconInfos}
+									selectedBag={selectedBag}
 									selectedIcons={selectedIcons}
 									handleClick={handleSelectIcon}
 								/>
@@ -269,8 +337,15 @@ export const GiftCustomization = () => {
 											right: imageWidth,
 											bottom: imageHeight,
 										}}
+										onStop={handleDragStop}
 									>
-										<div className={`absolute w-24 h-24 top-0 left-0`}>
+										<div
+											id={`${selectIcon.id}-${index}`}
+											className={`absolute w-24 h-24 top-${selectIcon.defaultY} left-${selectIcon.defaultX}`}
+											style={{
+												transform: `translate(${selectIcon.translateX}px, ${selectIcon.translateY}px)`,
+											}}
+										>
 											<img
 												src={selectIcon.imageSrc}
 												alt='draggable icon'
@@ -291,15 +366,16 @@ export const GiftCustomization = () => {
 							onClick={handleSaveImageButtonClick}
 						>
 							<DownloadWhite />
-							<p className='text-zinc-100 text-base'>{t('save_image')}</p>
+							<p className='ml-1 text-zinc-100 text-base'>{t('save_image')}</p>
 						</button>
 
 						{/* reset button */}
 						<button
-							className='absolute bottom-10 right-8 p-2 border-gray-300 border-2 rounded-2xl shadow-slate-300 shadow-md active:opacity-75 active:scale-95 transition-all duration-150'
+							className='absolute bottom-10 right-8 p-2 flex items-center  border-gray-300 border-2 rounded-2xl shadow-slate-300 shadow-md active:opacity-75 active:scale-95 transition-all duration-150'
 							onClick={handleReset}
 						>
 							<Reset />
+							<p className='ml-1'>{t('reset')}</p>
 						</button>
 
 						{/* bottom notification bar */}
@@ -347,17 +423,15 @@ export const GiftCustomization = () => {
 				/>
 
 				<div className='relative z-10'>
-					<div className='flex flex-row items-center'>
-						<h2 className='font-PP_Tondo_Signage text-3xl flex-1 md:text-center'>
-							{t('order_summary')}
-						</h2>
-						<button className='p-2'>
-							<CloseBlack onClick={handleCloseOrderSummary} />
-						</button>
-					</div>
+					<h2 className='font-PP_Tondo_Signage text-3xl md:text-center'>
+						{t('order_summary')}
+					</h2>
+					<button className='absolute top-0 right-0 p-2'>
+						<CloseBlack onClick={handleCloseOrderSummary} />
+					</button>
 
 					{generatedImage && (
-						<div className='px-20'>
+						<div className='px-10 md:px-20'>
 							<div className='flex justify-center items-center mt-4 bg-white'>
 								<img
 									src={generatedImage}

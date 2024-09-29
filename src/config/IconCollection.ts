@@ -24,6 +24,9 @@ import WIcon from '@/assets/icons/AlphabetsBig/W.svg?react';
 import XIcon from '@/assets/icons/AlphabetsBig/X.svg?react';
 import YIcon from '@/assets/icons/AlphabetsBig/Y.svg?react';
 import ZIcon from '@/assets/icons/AlphabetsBig/Z.svg?react';
+import ElectronicBagIcon from '@/assets/icons/Bags/ElectronicBag.svg?react';
+import WellnessBagIcon from '@/assets/icons/Bags/WellnessBag.svg?react';
+import WorkfolioBagIcon from '@/assets/icons/Bags/WorkfolioBag.svg?react';
 import BadmintonIcon from '@/assets/icons/Emojis/Badminton.svg?react';
 import BaseballIcon from '@/assets/icons/Emojis/Baseball.svg?react';
 import CatIcon from '@/assets/icons/Emojis/Cat.svg?react';
@@ -71,6 +74,9 @@ import WImg from '@/assets/images/AlphabetsBig/W.png';
 import XImg from '@/assets/images/AlphabetsBig/X.png';
 import YImg from '@/assets/images/AlphabetsBig/Y.png';
 import ZImg from '@/assets/images/AlphabetsBig/Z.png';
+import ElectronicBagImg from '@/assets/images/Bags/ElectronicBag.png';
+import WellnessBagImg from '@/assets/images/Bags/WellnessBag.png';
+import WorkfolioBagImg from '@/assets/images/Bags/WorkfolioBag.png';
 import BadmintonImg from '@/assets/images/Emojis/Badminton.png';
 import BaseballImg from '@/assets/images/Emojis/Baseball.png';
 import CatImg from '@/assets/images/Emojis/Cat.png';
@@ -95,6 +101,29 @@ import OutOfOfficeImg from '@/assets/images/Quotes/OutOfOffice.png';
 import { ItemTypes } from '@/types';
 
 export const IconCollection = [
+	{
+		key: 'bags',
+		iconInfos: [
+			{
+				svg: ElectronicBagIcon,
+				imageSrc: ElectronicBagImg,
+				id: 'electronic_bag',
+				type: ItemTypes.BAG,
+			},
+			{
+				svg: WellnessBagIcon,
+				imageSrc: WellnessBagImg,
+				id: 'wellness_bag',
+				type: ItemTypes.BAG,
+			},
+			{
+				svg: WorkfolioBagIcon,
+				imageSrc: WorkfolioBagImg,
+				id: 'workfolio',
+				type: ItemTypes.BAG,
+			},
+		],
+	},
 	{
 		key: 'alphabet_big',
 		iconInfos: [

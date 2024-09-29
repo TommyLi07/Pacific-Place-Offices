@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { GiftCustomizationGridProps } from './GiftCustomizationGrid.types';
 
 export const GiftCustomizationGrid = memo<GiftCustomizationGridProps>(
-	({ title, iconInfos, index, selectedIcons, handleClick }) => {
+	({ title, iconInfos, index, selectedBag, selectedIcons, handleClick }) => {
 		return (
 			<div
 				className={clsx({
@@ -21,6 +21,7 @@ export const GiftCustomizationGrid = memo<GiftCustomizationGridProps>(
 									'w-auto h-24 flex flex-row justify-center items-center object-contain',
 									{
 										'border-2 border-yellow_metal rounded-md':
+											selectedBag.id === iconInfo.id ||
 											selectedIcons.some(
 												(selectedIcon) => selectedIcon.id === iconInfo.id
 											),
@@ -29,6 +30,11 @@ export const GiftCustomizationGrid = memo<GiftCustomizationGridProps>(
 								onClick={() =>
 									handleClick({
 										...iconInfo,
+										key: `${iconInfo.id}-${selectedIcons.length}`,
+										defaultX: 0,
+										defaultY: 0,
+										translateX: 0,
+										translateY: 0,
 									})
 								}
 							>

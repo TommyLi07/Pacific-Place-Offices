@@ -8,7 +8,8 @@ export enum ItemTypes {
 }
 
 export interface IconInfo {
-	id: string;
+  id: string;
+  key?: string;
 	svg: FunctionComponent<
 		SVGProps<SVGSVGElement> & {
 			title?: string;
@@ -16,6 +17,8 @@ export interface IconInfo {
 	>;
 	imageSrc: string;
 	type: ItemTypes;
-	x?: number;
-	y?: number;
+	defaultX?: number;
+	defaultY?: number;
+	translateX?: number;
+	translateY?: number;
 }
