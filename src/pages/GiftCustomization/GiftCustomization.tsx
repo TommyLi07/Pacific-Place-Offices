@@ -93,8 +93,8 @@ export const GiftCustomization = () => {
 		[selectedIcons, selectedBag.id]
 	);
 
-  // drag zone
-  // store translate info (but not useful)
+	// drag zone
+	// store translate info (but not useful)
 	const handleDragStop = useCallback(
 		(_: DraggableEvent, data: DraggableData): void | false => {
 			const { x, y, node } = data;
@@ -415,7 +415,10 @@ export const GiftCustomization = () => {
 			</ModalContainer>
 
 			{/* save image modal */}
-			<ModalContainer open={isOrderModalOpen} onClose={handleCloseOrderSummary}>
+			<ModalContainer
+				open={isOrderModalOpen && generatedImage !== ''}
+				onClose={handleCloseOrderSummary}
+			>
 				<img
 					src={ModalBackground}
 					alt='modal background'
