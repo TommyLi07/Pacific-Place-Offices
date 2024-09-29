@@ -5,6 +5,7 @@ import { BagInfo, Languages } from '@/config';
 import clsx from 'clsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ScrollRestoration } from 'react-router-dom';
 
 export const Landing = () => {
 	const {
@@ -50,6 +51,8 @@ export const Landing = () => {
 
 	return (
 		<div className='min-h-screen flex flex-col'>
+			<ScrollRestoration />
+
 			<NotificationHeader />
 
 			<header className='px-6 md:px-12 py-4 flex items-center'>
