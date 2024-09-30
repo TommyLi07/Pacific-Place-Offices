@@ -204,12 +204,12 @@ export const GiftCustomization = () => {
 		<div className='relative min-h-dvh flex flex-col'>
 			<ScrollRestoration />
 
-			<NotificationHeader />
-
 			{windowWidth && windowWidth < 1180 ? (
 				// screen is less than 1180px
 				<div className='w-full h-screen overflow-y-hidden'>
 					<div className='fixed top-0 left-0 w-full z-10'>
+						<NotificationHeader />
+
 						<GiftCustomizationHeader
 							title={t('gift_customization')}
 							onBack={handleBackButtonClick}
@@ -309,101 +309,108 @@ export const GiftCustomization = () => {
 					</div>
 				</div>
 			) : (
-				// screen is larger than or equal to 1180px
-				<div className='flex-1 flex flex-row'>
-					{/* left-side icon collection */}
-					<div className='w-1/3 fixed h-full flex flex-col'>
-						<GiftCustomizationHeader
-							title={t('gift_customization')}
-							onBack={handleBackButtonClick}
-						/>
+				<>
+					<NotificationHeader />
+					{/* screen is larger than or equal to 1180px */}
+					<div className='flex-1 flex flex-row'>
+						{/* left-side icon collection */}
+						<div className='w-1/3 fixed h-full flex flex-col'>
+							<GiftCustomizationHeader
+								title={t('gift_customization')}
+								onBack={handleBackButtonClick}
+							/>
 
-						<div className={`p-6 h-[${windowHeight! - 64}px] overflow-y-auto`}>
-							<div className='text-sm mb-4'>{t('notification')}</div>
-							{IconCollection.map(({ key, iconInfos }, index) => (
-								<GiftCustomizationGrid
-									key={key}
-									index={index}
-									title={t(key)}
-									iconInfos={iconInfos}
-									selectedBag={selectedBag}
-									selectedIcons={selectedIcons}
-									handleClick={handleSelectIcon}
-								/>
-							))}
-						</div>
-					</div>
-
-					{/*  image area */}
-					<div className='w-2/3 ml-[33.33%] bg-alice_blue flex justify-center items-center relative'>
-						<div className='flex flex-row justify-center w-full'>
-							<div ref={exportAreaRef} className='w-2/3 relative'>
-								<img
-									src={selectedBag.imageSrc}
-									alt='Bag front'
-									ref={imageRef}
-									className='w-full h-full'
-								/>
-								{/* draggable icons */}
-								{selectedIcons.map((selectIcon, index) => (
-									<Draggable
-										key={`${selectIcon.id}-${index}`}
-										bounds={{
-											top: 0,
-											left: 0,
-											right: imageWidth,
-											bottom: imageHeight,
-										}}
-										onStop={handleDragStop}
-									>
-										<div
-											id={`${selectIcon.id}-${index}`}
-											className={`absolute w-24 h-24 top-${selectIcon.defaultY} left-${selectIcon.defaultX}`}
-											style={{
-												transform: `translate(${selectIcon.translateX}px, ${selectIcon.translateY}px)`,
-											}}
-										>
-											<img
-												src={selectIcon.imageSrc}
-												alt='draggable icon'
-												className={'w-full h-full'}
-											/>
-										</div>
-									</Draggable>
+							<div
+								className={`p-6 h-[${windowHeight! - 64}px] overflow-y-auto`}
+							>
+								<div className='text-sm mb-4'>{t('notification')}</div>
+								{IconCollection.map(({ key, iconInfos }, index) => (
+									<GiftCustomizationGrid
+										key={key}
+										index={index}
+										title={t(key)}
+										iconInfos={iconInfos}
+										selectedBag={selectedBag}
+										selectedIcons={selectedIcons}
+										handleClick={handleSelectIcon}
+									/>
 								))}
 							</div>
 						</div>
 
-						{/* download button */}
-						<button
-							className='absolute top-8 right-8 flex items-center bg-yellow_metal rounded-lg py-2 px-4'
-							onClick={handleSaveImageButtonClick}
-						>
-							<DownloadWhite />
-							<p className='ml-1 text-zinc-100 text-base'>{t('save_image')}</p>
-						</button>
-
-						{/* reset button */}
-						<button
-							className='absolute bottom-10 right-8 p-2 flex items-center  border-gray-300 border-2 rounded-2xl shadow-slate-300 shadow-md active:opacity-75 active:scale-95 transition-all duration-150'
-							onClick={handleReset}
-						>
-							<Reset />
-							<p className='ml-1'>{t('reset')}</p>
-						</button>
-
-						{/* bottom notification bar */}
-						{isShowNotification && (
-							<div className='absolute bottom-5 w-max-33 text-sm p-4 bg-barley_corn flex flex-row items-center '>
-								<p className='flex-1'>{t('notification_bar_text')}</p>
-								<CloseBlack
-									className='items-end w-5 h-5 ml-4'
-									onClick={handleCloseNotification}
-								/>
+						{/*  image area */}
+						<div className='w-2/3 ml-[33.33%] bg-alice_blue flex justify-center items-center relative'>
+							<div className='flex flex-row justify-center w-full'>
+								<div ref={exportAreaRef} className='w-2/3 relative'>
+									<img
+										src={selectedBag.imageSrc}
+										alt='Bag front'
+										ref={imageRef}
+										className='w-full h-full'
+									/>
+									{/* draggable icons */}
+									{selectedIcons.map((selectIcon, index) => (
+										<Draggable
+											key={`${selectIcon.id}-${index}`}
+											bounds={{
+												top: 0,
+												left: 0,
+												right: imageWidth,
+												bottom: imageHeight,
+											}}
+											onStop={handleDragStop}
+										>
+											<div
+												id={`${selectIcon.id}-${index}`}
+												className={`absolute w-24 h-24 top-${selectIcon.defaultY} left-${selectIcon.defaultX}`}
+												style={{
+													transform: `translate(${selectIcon.translateX}px, ${selectIcon.translateY}px)`,
+												}}
+											>
+												<img
+													src={selectIcon.imageSrc}
+													alt='draggable icon'
+													className={'w-full h-full'}
+												/>
+											</div>
+										</Draggable>
+									))}
+								</div>
 							</div>
-						)}
+
+							{/* download button */}
+							<button
+								className='absolute top-8 right-8 flex items-center bg-yellow_metal rounded-lg py-2 px-4'
+								onClick={handleSaveImageButtonClick}
+							>
+								<DownloadWhite />
+								<p className='ml-1 text-zinc-100 text-base'>
+									{t('save_image')}
+								</p>
+							</button>
+
+							{/* reset button */}
+							<button
+								className='absolute bottom-10 right-8 p-2 flex items-center  border-gray-300 border-2 rounded-2xl shadow-slate-300 shadow-md active:opacity-75 active:scale-95 transition-all duration-150'
+								onClick={handleReset}
+							>
+								<Reset />
+								<p className='ml-1'>{t('reset')}</p>
+							</button>
+
+							{/* bottom notification bar */}
+							{isShowNotification && (
+								<div className='absolute bottom-5 w-max-33 text-sm p-4 bg-barley_corn flex flex-row items-center '>
+									<p className='flex-1'>{t('notification_bar_text')}</p>
+									<CloseBlack
+										className='items-end w-5 h-5 ml-4'
+										onClick={handleCloseNotification}
+									/>
+								</div>
+							)}
+						</div>
 					</div>
-				</div>
+				</>
 			)}
 
 			{/* back confirmation modal */}

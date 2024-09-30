@@ -1,14 +1,14 @@
 import Close from '@/assets/icons/CloseWhite.svg?react';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import { RootState } from '@/store';
 import { toggleIsShowNotification } from '@/store/notificationSlice';
 import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 export const NotificationHeader = () => {
-	const { isShowNotification, notificationContent } = useSelector(
+	const { isShowNotification, notificationContent } = useAppSelector(
 		(state: RootState) => state.notification
 	);
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const handleCloseAlert = useCallback(() => {
 		dispatch(toggleIsShowNotification(false));
