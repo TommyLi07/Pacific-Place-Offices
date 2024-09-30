@@ -138,7 +138,7 @@ export const GiftCustomization = () => {
 	}, []);
 
 	const handleDiscardButtonClick = useCallback(() => {
-		navigate(-1);
+		navigate('/');
 		setIsBackModalOpen(false);
 	}, [navigate]);
 
