@@ -125,8 +125,24 @@ export const Landing = () => {
 				<img className='h-7' src={logo} alt='logo' />
 				<div className='flex-1 flex justify-end items-center px-6 mt-4 lg:mt-0'>
 					<p className='text-xs text-center'>
-						Disclaimer | Privacy Policy | Copyright | &copy; 2024 Swire
-						Properties Limited All rights served
+						<a
+							href='https://www.swireproperties.com/en/disclaimer.aspx'
+							target='_blank'
+							rel='noopener noreferrer'
+							className='text-Zinc-800 hover:text-Zinc-950 hover:underline'
+						>
+							Disclaimer
+						</a>{' '}
+						|{' '}
+						<a
+							href='https://www.swireproperties.com/en/data-privacy-and-security-policy.aspx'
+							target='_blank'
+							rel='noopener noreferrer'
+							className='text-Zinc-800 hover:text-Zinc-950 hover:underline'
+						>
+							Privacy Policy
+						</a>{' '}
+						| Copyright | &copy; 2024 Swire Properties Limited All rights served
 					</p>
 				</div>
 			</footer>

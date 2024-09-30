@@ -318,7 +318,7 @@ export const GiftCustomization = () => {
 							onBack={handleBackButtonClick}
 						/>
 
-						<div className='p-6 h-[88%] overflow-y-auto'>
+						<div className={`p-6 h-[${windowHeight! - 64}px] overflow-y-auto`}>
 							<div className='text-sm mb-4'>{t('notification')}</div>
 							{IconCollection.map(({ key, iconInfos }, index) => (
 								<GiftCustomizationGrid
@@ -336,7 +336,7 @@ export const GiftCustomization = () => {
 
 					{/*  image area */}
 					<div className='w-2/3 ml-[33.33%] bg-alice_blue flex justify-center items-center relative'>
-						<div className='flex flex-row justify-center'>
+						<div className='flex flex-row justify-center w-full'>
 							<div ref={exportAreaRef} className='w-2/3 relative'>
 								<img
 									src={selectedBag.imageSrc}
@@ -366,10 +366,7 @@ export const GiftCustomization = () => {
 											<img
 												src={selectIcon.imageSrc}
 												alt='draggable icon'
-												className={clsx('w-full h-full object-contain', {
-													'scale-75': selectIcon.type === ItemTypes.LETTER,
-													'scale-90': selectIcon.type === ItemTypes.EMOJI,
-												})}
+												className={'w-full h-full'}
 											/>
 										</div>
 									</Draggable>
