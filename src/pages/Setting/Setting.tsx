@@ -1,8 +1,8 @@
 import { GiftCustomizationHeader } from '@/components';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import { RootState } from '@/store';
 import { updateState } from '@/store/notificationSlice';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { ChangeEvent, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SettingState } from './Setting.types';
 
@@ -12,16 +12,20 @@ export const Setting = () => {
 		notificationContent,
 		isBagOneInStock,
 		isBagTwoInStock,
-		isBagThreeInStock
-	} = useSelector((state: RootState) => state.notification);
-	const dispatch = useDispatch();
+		isBagThreeInStock,
+	} = useAppSelector((state: RootState) => state.notification);
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const [notificationInfo, setNotificationInfo] = useState<SettingState | null>(
-		null
-	);
+	const [notificationInfo, setNotificationInfo] = useState<SettingState>({
+		isShowNotification,
+		notificationContent,
+		isBagOneInStock,
+		isBagTwoInStock,
+		isBagThreeInStock,
+	});
 
 	const handleBack = useCallback(() => {
-		navigate(-1);
+		navigate('/');
 	}, [navigate]);
 
 	const handleToggleIsShow = useCallback(() => {
@@ -70,22 +74,6 @@ export const Setting = () => {
 			})
 		);
 	}, [dispatch, notificationInfo]);
-
-	useEffect(() => {
-		setNotificationInfo({
-			isShowNotification,
-			notificationContent,
-			isBagOneInStock,
-			isBagTwoInStock,
-			isBagThreeInStock,
-		});
-	}, [
-		isShowNotification,
-		notificationContent,
-		isBagOneInStock,
-		isBagTwoInStock,
-		isBagThreeInStock,
-	]);
 
 	return (
 		<div className='w-dvw h-dvh flex flex-col'>

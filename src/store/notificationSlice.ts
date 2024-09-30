@@ -10,7 +10,7 @@ export interface NotificationState {
 }
 
 const initialState: NotificationState = {
-	isShowNotification: false,
+	isShowNotification: true,
 	notificationContent:
 		'Electronic Bag have been sold out. Please stay tuned for our latest updates.',
 	isBagOneInStock: true,
