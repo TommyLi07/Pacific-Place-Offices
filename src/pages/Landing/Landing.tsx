@@ -5,7 +5,7 @@ import { BagSelectionItem, NotificationHeader } from '@/components';
 import { BagInfo } from '@/config';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollRestoration } from 'react-router-dom';
+import { ScrollRestoration, useNavigate } from 'react-router-dom';
 
 export const Landing = () => {
 	const {
@@ -16,6 +16,7 @@ export const Landing = () => {
 	// customize now button scroll to introduction section
 	const firstSectionRef = useRef<HTMLDivElement | null>(null);
 	const [height, setHeight] = useState(0);
+	const navigate = useNavigate();
 
 	// const handleChangeLanguage = useCallback(
 	// 	(lang: string) => {
@@ -41,6 +42,10 @@ export const Landing = () => {
 			});
 		}
 	}, [height]);
+
+	const handleClickInvisibleButton = useCallback(() => {
+		navigate('/setting');
+	}, [navigate]);
 
 	// get "The order up" section's height
 	useEffect(() => {
@@ -74,7 +79,7 @@ export const Landing = () => {
 				</div> */}
 			</header>
 
-			<main className='mb-10 lg:mb-20'>
+			<main className='lg:mb-10'>
 				<div
 					ref={firstSectionRef}
 					className='w-full bg-alabaster flex flex-col lg:flex-row'
@@ -124,6 +129,13 @@ export const Landing = () => {
 						})}
 					</div>
 				</section>
+
+				<div className='px-6 lg:px-12'>
+					<button
+						className='w-10 h-10'
+						onClick={handleClickInvisibleButton}
+					></button>
+				</div>
 			</main>
 
 			<footer className='lg:px-12 py-4 flex flex-col lg:flex-row items-center border-t-2 border-gray-200'>
