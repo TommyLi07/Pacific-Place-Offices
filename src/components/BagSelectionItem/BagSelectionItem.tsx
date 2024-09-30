@@ -57,7 +57,7 @@ export const BagSelectionItem = memo<IBagSelectionItemProps>(
 				<div className='text-center'>
 					<button
 						className={clsx(
-							'mt-5 px-7 xl:px-7 py-2 xl:py-3.5 border-2 border-black rounded-lg ',
+							'mt-5 px-7 xl:px-7 py-2 xl:py-3.5 border border-black rounded-lg',
 							{
 								'active:border-gray-500': !isDisabledButton,
 								'active:text-gray-500': !isDisabledButton,

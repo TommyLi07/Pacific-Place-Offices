@@ -1,5 +1,6 @@
 import GiftCollection from '@/assets/icons/GiftCollection.svg?react';
-import logo from '@/assets/images/Logo.png';
+import BottomLogo from '@/assets/images/BottomLogo.png';
+import TopLogo from '@/assets/images/TopLogo.png';
 import { BagSelectionItem, NotificationHeader } from '@/components';
 import { BagInfo } from '@/config';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -55,7 +56,7 @@ export const Landing = () => {
 			<NotificationHeader />
 
 			<header className='px-6 md:px-12 py-4 flex items-center'>
-				<img className='h-7' src={logo} alt='logo' />
+				<img className='h-4' src={TopLogo} alt='logo' />
 
 				{/* language switch */}
 				{/* <div className='flex flex-1 justify-end items-center gap-8'>
@@ -80,19 +81,23 @@ export const Landing = () => {
 				>
 					<div className='px-6 lg:w-1/3 lg:px-12 xl:px-18 flex flex-col justify-center'>
 						<div>
-							<h2 className='mt-6 font-PP_Tondo_Signage lg:mt-0 text-4xl lg:text-5xl'>
+							<h2 className='mt-6 font-PP_Tondo_Signage lg:mt-0 text-4xl lg:text-5xl text-center lg:text-left'>
 								{t('the_order_up')}
 							</h2>
-							<p className='mt-4 leading-5 text-justify'>
+							<p className='mt-4 leading-5 text-center lg:text-left'>
 								{t('order_desc_one')}
 							</p>
-							<p className='mt-4 leading-5'>{t('order_desc_two')}</p>
-							<button
-								className='mt-8 px-7 py-3.5 bg-yellow_metal text-zinc-100 rounded-lg active:opacity-75 active:scale-95 transition-all duration-150'
-								onClick={handleScrollToCustomize}
-							>
-								{t('button_text')}
-							</button>
+							<p className='mt-4 leading-5 text-center lg:text-left'>
+								{t('order_desc_two')}
+							</p>
+							<div className='mt-8 flex justify-center lg:justify-start items-center'>
+								<button
+									className=' px-7 py-3.5 bg-yellow_metal text-zinc-100 rounded-lg active:opacity-75 active:scale-95 transition-all duration-150'
+									onClick={handleScrollToCustomize}
+								>
+									{t('button_text')}
+								</button>
+							</div>
 						</div>
 					</div>
 
@@ -122,7 +127,7 @@ export const Landing = () => {
 			</main>
 
 			<footer className='lg:px-12 py-4 flex flex-col lg:flex-row items-center border-t-2 border-gray-200'>
-				<img className='h-7' src={logo} alt='logo' />
+				<img className='h-7' src={BottomLogo} alt='logo' />
 				<div className='flex-1 flex justify-end items-center px-6 mt-4 lg:mt-0'>
 					<p className='text-xs text-center'>
 						<a
