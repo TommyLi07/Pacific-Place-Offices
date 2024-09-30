@@ -81,7 +81,7 @@ export const Setting = () => {
 			<div className='w-full flex-1 flex justify-center items-center p-4 bg-yellow_metal'>
 				<div className='bg-alabaster w-11/12 md:w-1/2 max-w-[40rem] p-6 md:p-10'>
 					<div className='text-center text-2xl md:text-3xl font-PP_Tondo_Signage'>
-						Notification
+						Setting
 					</div>
 
 					<div className='my-6 md:my-10'>
