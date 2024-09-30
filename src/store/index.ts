@@ -1,11 +1,31 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import notificationReducer from './notificationSlice';
 
-export const store = configureStore({
-	reducer: {
-		notification: notificationReducer,
-	},
+const persistConfig = {
+	key: 'root',
+	storage,
+};
+
+const rootReducer = combineReducers({
+	notification: notificationReducer,
 });
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+	reducer: persistedReducer,
+	devTools: process.env.NODE_ENV !== 'production',
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			serializableCheck: {
+				ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+			},
+		}),
+});
+
+export const persistor = persistStore(store);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
