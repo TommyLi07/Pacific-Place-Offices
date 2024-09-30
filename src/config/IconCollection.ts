@@ -33,7 +33,6 @@ import CatIcon from '@/assets/icons/Emojis/Cat.svg?react';
 import DogIcon from '@/assets/icons/Emojis/Dog.svg?react';
 import DonutIcon from '@/assets/icons/Emojis/Donut.svg?react';
 import FootballIcon from '@/assets/icons/Emojis/Football.svg?react';
-import MaybeTomorrowEmojiIcon from '@/assets/icons/Emojis/MaybeTomorrow.svg?react';
 import MilkTeaIcon from '@/assets/icons/Emojis/MilkTea.svg?react';
 import PizzaIcon from '@/assets/icons/Emojis/Pizza.svg?react';
 import RabbitIcon from '@/assets/icons/Emojis/Rabbit.svg?react';
@@ -83,7 +82,6 @@ import CatImg from '@/assets/images/Emojis/Cat.png';
 import DogImg from '@/assets/images/Emojis/Dog.png';
 import DonutImg from '@/assets/images/Emojis/Donut.png';
 import FootballImg from '@/assets/images/Emojis/Football.png';
-import MaybeTomorrowIconImg from '@/assets/images/Emojis/MaybeTomorrow.png';
 import MilkTeaImg from '@/assets/images/Emojis/MilkTea.png';
 import PizzaImg from '@/assets/images/Emojis/Pizza.png';
 import RabbitImg from '@/assets/images/Emojis/Rabbit.png';
@@ -210,12 +208,6 @@ export const IconCollection = [
 				svg: VolleyballIcon,
 				imageSrc: VolleyballImg,
 				id: 'Volleyball',
-				type: ItemTypes.EMOJI,
-			},
-			{
-				svg: MaybeTomorrowEmojiIcon,
-				imageSrc: MaybeTomorrowIconImg,
-				id: 'MaybeTomorrowIcon',
 				type: ItemTypes.EMOJI,
 			},
 		],
