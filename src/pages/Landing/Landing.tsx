@@ -154,7 +154,14 @@ export const Landing = () => {
 						<p className='w-full lg:w-2/3'>{t('introduction_desc')}</p>
 					</div>
 
-					<div className='lg:flex lg:flex-row mt-4'>
+					<h2 className='font-PP_Tondo_Signage text-3xl lg:text-4xl mt-6'>
+						{t('redemption_logistic')}
+					</h2>
+					<div className='mt-4 flex'>
+						<p className='w-full lg:w-2/3'>{t('redemption_desc')}</p>
+					</div>
+
+					<div className='lg:flex lg:flex-row mt-6'>
 						{BagInfo.map((bag, index) => {
 							return (
 								<BagSelectionItem
