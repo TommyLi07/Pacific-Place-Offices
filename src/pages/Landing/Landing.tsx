@@ -1,8 +1,15 @@
+import { useFetchSettings } from '@/api/hooks';
 import GiftCollection from '@/assets/icons/GiftCollection.svg?react';
 import BottomLogo from '@/assets/images/BottomLogo.png';
 import TopLogo from '@/assets/images/TopLogo.png';
-import { BagSelectionItem, NotificationHeader } from '@/components';
-import { BagInfo } from '@/config';
+import {
+	BagSelectionItem,
+	LoadingSpinner,
+	NotificationHeader,
+} from '@/components';
+import { BagInfo } from '@/constants';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { toggleIsShowNotification } from '@/store/notificationSlice';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollRestoration, useNavigate } from 'react-router-dom';
@@ -17,6 +24,13 @@ export const Landing = () => {
 	const firstSectionRef = useRef<HTMLDivElement | null>(null);
 	const [height, setHeight] = useState(0);
 	const navigate = useNavigate();
+	const { isShowNotification } = useAppSelector((state) => state.notification);
+	const dispatch = useAppDispatch();
+
+	const {
+		settings,
+		query: { isLoading },
+	} = useFetchSettings();
 
 	// const handleChangeLanguage = useCallback(
 	// 	(lang: string) => {
@@ -26,6 +40,10 @@ export const Landing = () => {
 	// 	},
 	// 	[changeLanguage, language]
 	// );
+
+	const handleCloseNotificationHeader = useCallback(() => {
+		dispatch(toggleIsShowNotification(false));
+	}, [dispatch]);
 
 	const handleScrollToCustomize = useCallback(() => {
 		// scroll to introduction section
@@ -44,8 +62,8 @@ export const Landing = () => {
 	}, [height]);
 
 	const handleClickInvisibleButton = useCallback(() => {
-		navigate('/setting');
-	}, [navigate]);
+		navigate('/setting', { state: { settings } });
+	}, [navigate, settings]);
 
 	// get "The order up" section's height
 	useEffect(() => {
@@ -54,11 +72,26 @@ export const Landing = () => {
 		setHeight(height);
 	}, []);
 
+	useEffect(() => {
+		if (!settings) return;
+
+		dispatch(toggleIsShowNotification(settings.isShowNotification));
+	}, [dispatch, settings]);
+
+	if (isLoading) {
+		return <LoadingSpinner />;
+	}
+
 	return (
 		<div className='min-h-screen flex flex-col'>
 			<ScrollRestoration />
 
-			<NotificationHeader />
+			{isShowNotification && (
+				<NotificationHeader
+					settings={settings!}
+					onClick={handleCloseNotificationHeader}
+				/>
+			)}
 
 			<header className='px-6 md:px-12 py-4 flex items-center'>
 				<img className='h-4' src={TopLogo} alt='logo' />
@@ -124,7 +157,12 @@ export const Landing = () => {
 					<div className='lg:flex lg:flex-row mt-4'>
 						{BagInfo.map((bag, index) => {
 							return (
-								<BagSelectionItem key={bag.title} {...bag} index={index} />
+								<BagSelectionItem
+									key={bag.title}
+									{...bag}
+									index={index}
+									settings={settings!}
+								/>
 							);
 						})}
 					</div>

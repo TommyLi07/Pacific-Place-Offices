@@ -1,4 +1,4 @@
-export interface SettingState {
+export interface ISettings {
 	isShowNotification: boolean;
 	notificationMessage: string;
 	isBagOneInStock: boolean;

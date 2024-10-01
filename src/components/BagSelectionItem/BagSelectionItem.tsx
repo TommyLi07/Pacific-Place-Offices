@@ -1,18 +1,13 @@
-import { RootState } from '@/store';
 import { clsx } from 'clsx';
 import { memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { IBagSelectionItemProps } from './BagSelectionItem.types';
 
 export const BagSelectionItem = memo<IBagSelectionItemProps>(
-	({ imageSrc, title, desc, index }) => {
+	({ imageSrc, title, desc, index, settings }) => {
 		const { t } = useTranslation();
 		const navigate = useNavigate();
-		const { isBagOneInStock, isBagTwoInStock, isBagThreeInStock } = useSelector(
-			(state: RootState) => state.notification
-		);
 
 		const handleClick = useCallback(
 			(title: string) => {
@@ -24,15 +19,15 @@ export const BagSelectionItem = memo<IBagSelectionItemProps>(
 		const isDisabledButton = useMemo(() => {
 			switch (title) {
 				case 'electronic_bag':
-					return isBagOneInStock === false;
+					return settings.isBagOneInStock === false;
 				case 'wellness_bag':
-					return isBagTwoInStock === false;
+					return settings.isBagTwoInStock === false;
 				case 'workfolio':
-					return isBagThreeInStock === false;
+					return settings.isBagThreeInStock === false;
 				default:
 					break;
 			}
-		}, [title, isBagOneInStock, isBagTwoInStock, isBagThreeInStock]);
+		}, [title, settings]);
 
 		return (
 			<div

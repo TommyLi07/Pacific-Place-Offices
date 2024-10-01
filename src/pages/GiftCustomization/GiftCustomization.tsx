@@ -1,3 +1,4 @@
+import { useFetchSettings } from '@/api/hooks';
 import CloseBlack from '@/assets/icons/CloseBlack.svg?react';
 import DownloadBlack from '@/assets/icons/DownloadBlack.svg?react';
 import DownloadWhite from '@/assets/icons/DownloadWhite.svg?react';
@@ -6,10 +7,13 @@ import ModalBackground from '@/assets/images/ModalBackground.png';
 import {
 	GiftCustomizationGrid,
 	GiftCustomizationHeader,
+	LoadingSpinner,
 	ModalContainer,
 	NotificationHeader,
 } from '@/components';
-import { IconCollection } from '@/config';
+import { IconCollection } from '@/constants';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { toggleIsShowNotification } from '@/store/notificationSlice';
 import { IconInfo, ItemTypes } from '@/types';
 import { useOrientation, useWindowSize } from '@uidotdev/usehooks';
 import clsx from 'clsx';
@@ -26,10 +30,12 @@ export const GiftCustomization = () => {
 	const { t } = useTranslation('customization');
 	const { width: windowWidth, height: windowHeight } = useWindowSize();
 	const { type: OrientationType } = useOrientation();
+	const { isShowNotification } = useAppSelector((state) => state.notification);
+	const dispatch = useAppDispatch();
 
 	const [isBackModalOpen, setIsBackModalOpen] = useState(false);
 	const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
-	const [isShowNotification, setIsShowNotification] = useState(false);
+	const [isShowNotificationBar, setIsShowNotificationBar] = useState(false);
 	const [selectedBag, setSelectedBag] = useState<IconInfo>(
 		IconCollection[0].iconInfos[0]
 	);
@@ -39,6 +45,11 @@ export const GiftCustomization = () => {
 	const [imageHeight, setImageHeight] = useState(0);
 	const exportAreaRef = useRef<HTMLDivElement | null>(null);
 	const [generatedImage, setGeneratedImage] = useState<string>('');
+
+	const {
+		settings,
+		query: { isLoading },
+	} = useFetchSettings();
 
 	const scrollViewHeight = useMemo(() => {
 		if (!windowWidth || !windowHeight) return 0;
@@ -51,6 +62,10 @@ export const GiftCustomization = () => {
 			return windowHeight - 360 - 144;
 		}
 	}, [windowHeight, windowWidth]);
+
+	const handleCloseNotificationHeader = useCallback(() => {
+		dispatch(toggleIsShowNotification(false));
+	}, [dispatch]);
 
 	// header
 	const handleBackButtonClick = useCallback(() => {
@@ -71,7 +86,7 @@ export const GiftCustomization = () => {
 
 			// handle icon selection
 			if (selectedIcons.length === 5) {
-				setIsShowNotification(true);
+				setIsShowNotificationBar(true);
 				return;
 			}
 
@@ -86,7 +101,7 @@ export const GiftCustomization = () => {
 			).length;
 
 			if (iconInfo.type === ItemTypes.LETTER && letterCount === 3) {
-				setIsShowNotification(true);
+				setIsShowNotificationBar(true);
 				return;
 			}
 
@@ -95,7 +110,7 @@ export const GiftCustomization = () => {
 					iconInfo.type === ItemTypes.QUOTE) &&
 				quoteCount + emojiCount >= 2
 			) {
-				setIsShowNotification(true);
+				setIsShowNotificationBar(true);
 				return;
 			}
 
@@ -128,8 +143,8 @@ export const GiftCustomization = () => {
 		setSelectedIcons([]);
 	}, []);
 
-	const handleCloseNotification = useCallback(() => {
-		setIsShowNotification(false);
+	const handleCloseNotificationBar = useCallback(() => {
+		setIsShowNotificationBar(false);
 	}, []);
 
 	// back modal
@@ -200,6 +215,10 @@ export const GiftCustomization = () => {
 		}
 	}, [imageRef, selectedIcons, windowWidth, OrientationType]);
 
+	if (isLoading) {
+		return <LoadingSpinner />;
+	}
+
 	return (
 		<div className='relative min-h-dvh flex flex-col'>
 			<ScrollRestoration />
@@ -208,7 +227,12 @@ export const GiftCustomization = () => {
 				// screen is less than 1180px
 				<div className='w-full h-screen overflow-y-hidden'>
 					<div className='fixed top-0 left-0 w-full z-10'>
-						<NotificationHeader />
+						{isShowNotification && (
+							<NotificationHeader
+								settings={settings!}
+								onClick={handleCloseNotificationHeader}
+							/>
+						)}
 
 						<GiftCustomizationHeader
 							title={t('gift_customization')}
@@ -272,13 +296,13 @@ export const GiftCustomization = () => {
 							</button>
 
 							{/* bottom notification bar */}
-							{isShowNotification && (
+							{isShowNotificationBar && (
 								<div className='fixed bottom-5 z-10'>
 									<div className='m-6 p-4 text-sm bg-barley_corn flex flex-row items-center gap-6'>
 										<p>{t('notification_bar_text')}</p>
 										<CloseBlack
 											className='w-5 h-5'
-											onClick={handleCloseNotification}
+											onClick={handleCloseNotificationBar}
 										/>
 									</div>
 								</div>
@@ -310,7 +334,12 @@ export const GiftCustomization = () => {
 				</div>
 			) : (
 				<>
-					<NotificationHeader />
+					{isShowNotification && (
+						<NotificationHeader
+							settings={settings!}
+							onClick={handleCloseNotificationHeader}
+						/>
+					)}
 					{/* screen is larger than or equal to 1180px */}
 					<div className='flex-1 flex flex-row'>
 						{/* left-side icon collection */}
@@ -399,12 +428,12 @@ export const GiftCustomization = () => {
 							</button>
 
 							{/* bottom notification bar */}
-							{isShowNotification && (
+							{isShowNotificationBar && (
 								<div className='absolute bottom-5 w-max-33 text-sm p-4 bg-barley_corn flex flex-row items-center '>
 									<p className='flex-1'>{t('notification_bar_text')}</p>
 									<CloseBlack
 										className='items-end w-5 h-5 ml-4'
-										onClick={handleCloseNotification}
+										onClick={handleCloseNotificationBar}
 									/>
 								</div>
 							)}
