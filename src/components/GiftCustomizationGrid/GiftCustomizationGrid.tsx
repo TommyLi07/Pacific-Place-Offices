@@ -1,25 +1,31 @@
 import { ItemTypes } from '@/types';
 import { useWindowSize } from '@uidotdev/usehooks';
 import clsx from 'clsx';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { GiftCustomizationGridProps } from './GiftCustomizationGrid.types';
 
 export const GiftCustomizationGrid = memo<GiftCustomizationGridProps>(
-	({ title, iconInfos, index, selectedBag, selectedIcons, handleClick }) => {
+	({ title, iconInfos, selectedBag, selectedIcons, handleClick }) => {
 		const { width: windowWidth } = useWindowSize();
+
+		const isGiftCategory = useMemo(() => {
+			return title === 'Gifts';
+		}, [title]);
 
 		return (
 			<div
 				className={clsx({
-					'mt-4': index > 0,
+					'mt-4': !isGiftCategory,
 				})}
 			>
-				<h2 className='font-Tondo_W01_Signage text-base'>{title}</h2>
+				{!isGiftCategory && (
+					<h2 className='font-Tondo_W01_Signage text-base'>{title}</h2>
+				)}
 				<div
 					className={clsx('mt-2 grid justify-items-center', {
-						'grid-cols-5': title !== 'Bags',
-						'grid-cols-4': windowWidth! >= 1180 && title == 'Bags',
-						'grid-cols-3': windowWidth! < 1180 && title == 'Bags',
+						'grid-cols-5': !isGiftCategory,
+						'grid-cols-4': windowWidth! >= 1180 && isGiftCategory,
+						'grid-cols-3': windowWidth! < 1180 && isGiftCategory,
 						'gap-3': windowWidth! >= 1180,
 						'gap-5': windowWidth! < 1180,
 					})}
@@ -54,15 +60,15 @@ export const GiftCustomizationGrid = memo<GiftCustomizationGridProps>(
 									className={clsx({
 										'w-[54px] h-[54px]':
 											windowWidth! < 1180 &&
-											(iconInfo.type === ItemTypes.EMOJI ||
+											(iconInfo.type === ItemTypes.Character ||
 												iconInfo.type === ItemTypes.LETTER ||
 												iconInfo.type === ItemTypes.QUOTE),
 										'w-[70x] h-[70px]':
 											windowWidth! >= 1180 &&
-											(iconInfo.type === ItemTypes.EMOJI ||
+											(iconInfo.type === ItemTypes.Character ||
 												iconInfo.type === ItemTypes.LETTER ||
 												iconInfo.type === ItemTypes.QUOTE),
-										'w-24 h-24': iconInfo.type === ItemTypes.BAG,
+										'w-24 h-24': iconInfo.type === ItemTypes.GIFT,
 									})}
 								/>
 							</div>

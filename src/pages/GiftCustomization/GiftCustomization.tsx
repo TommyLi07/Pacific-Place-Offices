@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useFetchSettings } from '@/api/hooks';
 import CloseBlack from '@/assets/icons/CloseBlack.svg?react';
 import DownloadBlack from '@/assets/icons/DownloadBlack.svg?react';
@@ -7,11 +8,13 @@ import ModalBackground from '@/assets/images/ModalBackground.png';
 import {
 	GiftCustomizationGrid,
 	GiftCustomizationHeader,
+	GiftCustomizationSectionDivider,
 	LoadingSpinner,
 	ModalContainer,
 	NotificationHeader,
 } from '@/components';
-import { IconCollection } from '@/constants';
+import { giftCollection, IconCollection, IconSection } from '@/constants';
+import { GiftCustomizationSection } from '@/containers';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { toggleIsShowNotification } from '@/store/notificationSlice';
 import { IconInfo, ItemTypes } from '@/types';
@@ -51,17 +54,54 @@ export const GiftCustomization = () => {
 		query: { isLoading },
 	} = useFetchSettings();
 
+	const offsetHeight = useMemo(() => {
+		if (!windowWidth || !windowHeight) return 0;
+
+		if (windowWidth < 768) {
+			return (
+				240 +
+				144 +
+				(isShowNotification ? location.state.notificationHeaderHeight : 0)
+			);
+		} else if (windowWidth < 1024) {
+			return (
+				300 +
+				144 +
+				(isShowNotification ? location.state.notificationHeaderHeight : 0)
+			);
+		} else {
+			return (
+				360 +
+				144 +
+				(isShowNotification ? location.state.notificationHeaderHeight : 0)
+			);
+		}
+	}, [
+		windowHeight,
+		windowWidth,
+		location.state.notificationHeaderHeight,
+		OrientationType,
+	]);
+
 	const scrollViewHeight = useMemo(() => {
 		if (!windowWidth || !windowHeight) return 0;
 
 		if (windowWidth < 768) {
-			return windowHeight - 240 - 144;
-		} else if (windowHeight < 1024) {
-			return windowHeight - 300 - 144;
+			return windowHeight - offsetHeight;
+		} else if (windowWidth < 1024) {
+			return windowHeight - offsetHeight;
 		} else {
-			return windowHeight - 360 - 144;
+			return windowHeight - offsetHeight;
 		}
-	}, [windowHeight, windowWidth]);
+	}, [windowHeight, windowWidth, offsetHeight]);
+
+	const leftSideScrollViewHeight = useMemo(() => {
+		return (
+			windowHeight! -
+			64 -
+			(isShowNotification ? location.state.notificationHeaderHeight : 0)
+		);
+	}, [windowHeight, isShowNotification]);
 
 	const handleCloseNotificationHeader = useCallback(() => {
 		dispatch(toggleIsShowNotification(false));
@@ -76,7 +116,7 @@ export const GiftCustomization = () => {
 	const handleSelectIcon = useCallback(
 		(iconInfo: IconInfo) => {
 			// handle bag selection
-			if (iconInfo.type === ItemTypes.BAG) {
+			if (iconInfo.type === ItemTypes.GIFT) {
 				if (iconInfo.id === selectedBag.id) return;
 
 				setSelectedBag(iconInfo);
@@ -97,7 +137,7 @@ export const GiftCustomization = () => {
 				(icon) => icon.type === ItemTypes.QUOTE
 			).length;
 			const emojiCount = selectedIcons.filter(
-				(icon) => icon.type === ItemTypes.EMOJI
+				(icon) => icon.type === ItemTypes.Character
 			).length;
 
 			if (iconInfo.type === ItemTypes.LETTER && letterCount === 3) {
@@ -106,7 +146,7 @@ export const GiftCustomization = () => {
 			}
 
 			if (
-				(iconInfo.type === ItemTypes.EMOJI ||
+				(iconInfo.type === ItemTypes.Character ||
 					iconInfo.type === ItemTypes.QUOTE) &&
 				quoteCount + emojiCount >= 2
 			) {
@@ -184,7 +224,7 @@ export const GiftCustomization = () => {
 	// set setSelectedBag
 	useEffect(() => {
 		const { bag: bagId } = location.state;
-		const bagInfo = IconCollection[0].iconInfos.find(
+		const bagInfo = giftCollection[0].iconInfos.find(
 			(icon) => icon.id === bagId
 		);
 
@@ -268,7 +308,7 @@ export const GiftCustomization = () => {
 													alt='draggable icon'
 													className={clsx('w-full h-full object-contain', {
 														'scale-75': selectIcon.type === ItemTypes.LETTER,
-														'scale-90': selectIcon.type === ItemTypes.EMOJI,
+														'scale-90': selectIcon.type === ItemTypes.Character,
 													})}
 												/>
 											</div>
@@ -311,36 +351,62 @@ export const GiftCustomization = () => {
 					</div>
 
 					<div
-						className={`absolute top-[384px] md:top-[444px] lg:top-[524px] left-0 w-full h-[${scrollViewHeight}px]`}
+						className='absolute w-full'
+						style={{
+							top: `${offsetHeight}px`,
+							height: `${scrollViewHeight}px`,
+						}}
 					>
 						<div className={`py-4 px-6 w-full h-full overflow-y-auto`}>
-							<div className='text-sm mb-4 sm:text-center'>
-								{t('notification')}
-							</div>
-
-							{IconCollection.map(({ key, iconInfos }, index) => (
-								<GiftCustomizationGrid
-									key={key}
-									index={index}
-									title={t(key)}
-									iconInfos={iconInfos}
-									selectedBag={selectedBag}
-									selectedIcons={selectedIcons}
-									handleClick={handleSelectIcon}
-								/>
-							))}
+							{IconSection.map((section, index) => {
+								return (
+									<div key={section.title}>
+										{index > 0 && <GiftCustomizationSectionDivider />}
+										<GiftCustomizationSection
+											title={t(section.title)}
+											subtitle={t(section.subtitle)}
+											index={index}
+										>
+											{section.title === 'gifts'
+												? giftCollection.map(({ key, iconInfos }, index) => (
+														<GiftCustomizationGrid
+															key={key}
+															index={index}
+															title={t(key)}
+															iconInfos={iconInfos}
+															selectedBag={selectedBag}
+															selectedIcons={selectedIcons}
+															handleClick={handleSelectIcon}
+														/>
+												  ))
+												: IconCollection.map(({ key, iconInfos }, index) => (
+														<GiftCustomizationGrid
+															key={key}
+															index={index}
+															title={t(key)}
+															iconInfos={iconInfos}
+															selectedBag={selectedBag}
+															selectedIcons={selectedIcons}
+															handleClick={handleSelectIcon}
+														/>
+												  ))}
+										</GiftCustomizationSection>
+									</div>
+								);
+							})}
 						</div>
 					</div>
 				</div>
 			) : (
 				<>
+					{/* screen is larger than or equal to 1180px */}
 					{isShowNotification && (
 						<NotificationHeader
 							settings={settings!}
 							onClick={handleCloseNotificationHeader}
 						/>
 					)}
-					{/* screen is larger than or equal to 1180px */}
+
 					<div className='flex-1 flex flex-row'>
 						{/* left-side icon collection */}
 						<div className='w-1/3 fixed h-full flex flex-col'>
@@ -350,20 +416,47 @@ export const GiftCustomization = () => {
 							/>
 
 							<div
-								className={`p-6 h-[${windowHeight! - 64}px] overflow-y-auto`}
+								className={`p-6 overflow-y-auto`}
+								style={{
+									height: leftSideScrollViewHeight,
+								}}
 							>
-								<div className='text-sm mb-4'>{t('notification')}</div>
-								{IconCollection.map(({ key, iconInfos }, index) => (
-									<GiftCustomizationGrid
-										key={key}
-										index={index}
-										title={t(key)}
-										iconInfos={iconInfos}
-										selectedBag={selectedBag}
-										selectedIcons={selectedIcons}
-										handleClick={handleSelectIcon}
-									/>
-								))}
+								{IconSection.map((section, index) => {
+									return (
+										<div key={section.title}>
+											{index > 0 && <GiftCustomizationSectionDivider />}
+											<GiftCustomizationSection
+												title={t(section.title)}
+												subtitle={t(section.subtitle)}
+												index={index}
+											>
+												{section.title === 'gifts'
+													? giftCollection.map(({ key, iconInfos }, index) => (
+															<GiftCustomizationGrid
+																key={key}
+																index={index}
+																title={t(key)}
+																iconInfos={iconInfos}
+																selectedBag={selectedBag}
+																selectedIcons={selectedIcons}
+																handleClick={handleSelectIcon}
+															/>
+													  ))
+													: IconCollection.map(({ key, iconInfos }, index) => (
+															<GiftCustomizationGrid
+																key={key}
+																index={index}
+																title={t(key)}
+																iconInfos={iconInfos}
+																selectedBag={selectedBag}
+																selectedIcons={selectedIcons}
+																handleClick={handleSelectIcon}
+															/>
+													  ))}
+											</GiftCustomizationSection>
+										</div>
+									);
+								})}
 							</div>
 						</div>
 
@@ -476,8 +569,8 @@ export const GiftCustomization = () => {
 				/>
 
 				<div className='relative z-10'>
-					<h2 className='font-PP_Tondo_Signage text-3xl md:text-center'>
-						{t('order_summary')}
+					<h2 className='font-PP_Tondo_Signage text-2xl md:text-center'>
+						{t('download_image')}
 					</h2>
 					<button className='absolute top-0 right-0 p-2'>
 						<CloseBlack onClick={handleCloseOrderSummary} />
@@ -495,12 +588,32 @@ export const GiftCustomization = () => {
 						</div>
 					)}
 
-					<div className='flex flex-row items-center gap-8 mt-4'>
+					<div className='flex flex-row items-center gap-4 mt-4'>
 						<div>
 							<h3 className='font-Tondo_W01_Signage text-xl'>
-								{t('download_gift_image')}
+								{t('friendly_reminders')}
 							</h3>
-							<p>{t('gift_image_desc')}</p>
+							<ol className='list-decimal ml-4'>
+								<li>
+									Our gifts are made-to-order. Please visit our pop-up store and
+									present this image along with the Pacific Place Offices app to
+									our staff for redemption.
+								</li>
+								<li>
+									<span className='font-bold underline'>Daily quota</span>{' '}
+									applies on a first- come, first-served basis while stock
+									lasts.
+								</li>
+								<li>
+									Each person is entitled to a{' '}
+									<span className='font-bold underline'>
+										maximum of ONE redemption
+									</span>{' '}
+									while stocks last.
+								</li>
+								<li>Other terms and conditions apply.</li>
+							</ol>
+							{/* <p>{t('gift_image_desc')}</p> */}
 						</div>
 
 						<button

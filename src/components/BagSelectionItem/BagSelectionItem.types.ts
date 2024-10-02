@@ -6,4 +6,5 @@ export interface IBagSelectionItemProps {
 	desc: string;
 	index?: number;
 	settings: ISettings;
+	onClick: (title: string) => void;
 }

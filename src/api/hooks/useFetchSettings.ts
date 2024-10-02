@@ -11,7 +11,7 @@ export const useFetchSettings = () => {
 
 	const settings = useMemo(() => query.data, [query.data]);
 
-  return { settings, query };
+	return { settings, query };
 };
 
 export default useFetchSettings;
