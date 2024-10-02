@@ -1,6 +1,6 @@
 export interface SettingState {
 	isShowNotification: boolean;
-	notificationContent: string;
+	notificationMessage: string;
 	isBagOneInStock: boolean;
 	isBagTwoInStock: boolean;
 	isBagThreeInStock: boolean;

@@ -1,8 +1,8 @@
 import { FunctionComponent, SVGProps } from 'react';
 
 export enum ItemTypes {
-	BAG = 'bag',
-	EMOJI = 'emoji',
+	GIFT = 'gift',
+	Character = 'character',
 	LETTER = 'letter',
 	QUOTE = 'quote',
 }

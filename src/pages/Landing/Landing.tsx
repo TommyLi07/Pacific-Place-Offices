@@ -1,8 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useFetchSettings } from '@/api/hooks';
 import GiftCollection from '@/assets/icons/GiftCollection.svg?react';
-import BottomLogo from '@/assets/images/BottomLogo.png';
-import TopLogo from '@/assets/images/TopLogo.png';
-import { BagSelectionItem, NotificationHeader } from '@/components';
-import { BagInfo } from '@/config';
+import Logo from '@/assets/images/Logo.png';
+import {
+	BagSelectionItem,
+	LoadingSpinner,
+	NotificationHeader,
+} from '@/components';
+import { BagInfo } from '@/constants';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { toggleIsShowNotification } from '@/store/notificationSlice';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollRestoration, useNavigate } from 'react-router-dom';
@@ -12,11 +19,17 @@ export const Landing = () => {
 		t,
 		// i18n: { language, changeLanguage },
 	} = useTranslation('landing');
-
-	// customize now button scroll to introduction section
-	const firstSectionRef = useRef<HTMLDivElement | null>(null);
-	const [height, setHeight] = useState(0);
 	const navigate = useNavigate();
+	const { isShowNotification } = useAppSelector((state) => state.notification);
+	const dispatch = useAppDispatch();
+
+	const notificationHeaderRef = useRef<HTMLDivElement>(null);
+	const [notificationHeaderHeight, setNotificationHeaderHeight] = useState(0);
+
+	const {
+		settings,
+		query: { isLoading },
+	} = useFetchSettings();
 
 	// const handleChangeLanguage = useCallback(
 	// 	(lang: string) => {
@@ -27,41 +40,63 @@ export const Landing = () => {
 	// 	[changeLanguage, language]
 	// );
 
+	const handleCloseNotificationHeader = useCallback(() => {
+		dispatch(toggleIsShowNotification(false));
+	}, [dispatch]);
+
 	const handleScrollToCustomize = useCallback(() => {
-		// scroll to introduction section
-		if (window.innerWidth >= 1024) {
-			// handle screen larger than or equal to 1024
-			window.scrollBy({
-				top: 44 + 60 + height,
-				left: 0,
-				behavior: 'smooth',
+		document.getElementById('first-bag')?.scrollIntoView({
+			behavior: 'smooth',
+		});
+	}, []);
+
+	const handleClickBagSelectionButton = useCallback(
+		(title: string) => {
+			navigate('/customization', {
+				state: {
+					bag: title,
+					notificationHeaderHeight: notificationHeaderHeight,
+				},
 			});
-		} else {
-			document.getElementById('first-bag')?.scrollIntoView({
-				behavior: 'smooth',
-			});
-		}
-	}, [height]);
+		},
+		[navigate, notificationHeaderHeight]
+	);
 
 	const handleClickInvisibleButton = useCallback(() => {
-		navigate('/setting');
-	}, [navigate]);
+		navigate('/setting', { state: { settings } });
+	}, [navigate, settings]);
 
-	// get "The order up" section's height
 	useEffect(() => {
-		if (!firstSectionRef.current) return;
-		const { height } = firstSectionRef.current.getBoundingClientRect();
-		setHeight(height);
-	}, []);
+		if (!settings) return;
+
+		dispatch(toggleIsShowNotification(settings.isShowNotification));
+	}, [dispatch, settings]);
+
+	useEffect(() => {
+		if (!notificationHeaderRef.current || !settings) return;
+
+		const { height } = notificationHeaderRef.current.getBoundingClientRect();
+		setNotificationHeaderHeight(height);
+	}, [notificationHeaderRef.current, settings]);
+
+	if (isLoading) {
+		return <LoadingSpinner />;
+	}
 
 	return (
 		<div className='min-h-screen flex flex-col'>
 			<ScrollRestoration />
 
-			<NotificationHeader />
+			{isShowNotification && (
+				<NotificationHeader
+					ref={notificationHeaderRef}
+					settings={settings!}
+					onClick={handleCloseNotificationHeader}
+				/>
+			)}
 
 			<header className='px-6 md:px-12 py-4 flex items-center'>
-				<img className='h-4' src={TopLogo} alt='logo' />
+				<img className='h-4' src={Logo} alt='logo' />
 
 				{/* language switch */}
 				{/* <div className='flex flex-1 justify-end items-center gap-8'>
@@ -80,10 +115,7 @@ export const Landing = () => {
 			</header>
 
 			<main className='lg:mb-10'>
-				<div
-					ref={firstSectionRef}
-					className='w-full bg-alabaster flex flex-col lg:flex-row'
-				>
+				<div className='w-full bg-alabaster flex flex-col lg:flex-row'>
 					<div className='px-6 lg:w-1/3 lg:px-12 xl:px-18 flex flex-col justify-center'>
 						<div>
 							<h2 className='mt-6 font-PP_Tondo_Signage lg:mt-0 text-4xl lg:text-5xl text-center lg:text-left'>
@@ -121,10 +153,31 @@ export const Landing = () => {
 						<p className='w-full lg:w-2/3'>{t('introduction_desc')}</p>
 					</div>
 
-					<div className='lg:flex lg:flex-row mt-4'>
+					<h2 className='font-PP_Tondo_Signage text-3xl lg:text-4xl mt-6'>
+						{t('redemption_steps')}
+					</h2>
+					<ol className='mt-4 pl-4 list-decimal'>
+						<li>
+							Select a gift from the following options and create your unique
+							design.
+						</li>
+						<li>
+							Show your design at our pop-up store. Our staff will make your
+							gift to order.
+						</li>
+						<li>Get your customised gift on the spot and enjoy!</li>
+					</ol>
+
+					<div className='lg:flex lg:flex-row mt-6'>
 						{BagInfo.map((bag, index) => {
 							return (
-								<BagSelectionItem key={bag.title} {...bag} index={index} />
+								<BagSelectionItem
+									key={bag.title}
+									{...bag}
+									index={index}
+									settings={settings!}
+									onClick={handleClickBagSelectionButton}
+								/>
 							);
 						})}
 					</div>
@@ -139,27 +192,10 @@ export const Landing = () => {
 			</main>
 
 			<footer className='lg:px-12 py-4 flex flex-col lg:flex-row items-center border-t-2 border-gray-200'>
-				<img className='h-7' src={BottomLogo} alt='logo' />
-				<div className='flex-1 flex justify-end items-center px-6 mt-4 lg:mt-0'>
+				<img className='h-4' src={Logo} alt='logo' />
+				<div className='flex-1 flex justify-end items-center mt-4 lg:mt-0'>
 					<p className='text-xs text-center'>
-						<a
-							href='https://www.swireproperties.com/en/disclaimer.aspx'
-							target='_blank'
-							rel='noopener noreferrer'
-							className='text-Zinc-800 hover:text-Zinc-950 hover:underline'
-						>
-							Disclaimer
-						</a>{' '}
-						|{' '}
-						<a
-							href='https://www.swireproperties.com/en/data-privacy-and-security-policy.aspx'
-							target='_blank'
-							rel='noopener noreferrer'
-							className='text-Zinc-800 hover:text-Zinc-950 hover:underline'
-						>
-							Privacy Policy
-						</a>{' '}
-						| Copyright | &copy; 2024 Swire Properties Limited All rights served
+						&copy; 2024 Swire Properties Limited All rights served
 					</p>
 				</div>
 			</footer>

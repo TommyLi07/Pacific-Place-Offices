@@ -1,28 +1,18 @@
+import { usePostUpdateSettings } from '@/api/hooks';
 import { GiftCustomizationHeader } from '@/components';
-import { useAppDispatch, useAppSelector } from '@/hooks';
-import { RootState } from '@/store';
-import { updateState } from '@/store/notificationSlice';
 import { ChangeEvent, useCallback, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { SettingState } from './Setting.types';
 
 export const Setting = () => {
-	const {
-		isShowNotification,
-		notificationContent,
-		isBagOneInStock,
-		isBagTwoInStock,
-		isBagThreeInStock,
-	} = useAppSelector((state: RootState) => state.notification);
-	const dispatch = useAppDispatch();
+	const location = useLocation();
 	const navigate = useNavigate();
-	const [notificationInfo, setNotificationInfo] = useState<SettingState>({
-		isShowNotification,
-		notificationContent,
-		isBagOneInStock,
-		isBagTwoInStock,
-		isBagThreeInStock,
-	});
+
+	const [notificationInfo, setNotificationInfo] = useState<SettingState>(
+		location.state.settings
+	);
+
+	const { mutate: postUpdateSettings } = usePostUpdateSettings();
 
 	const handleBack = useCallback(() => {
 		navigate('/');
@@ -38,7 +28,7 @@ export const Setting = () => {
 	const handleInputText = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
 		setNotificationInfo((prevState) => ({
 			...prevState!,
-			notificationContent: e.target.value,
+			notificationMessage: e.target.value,
 		}));
 	}, []);
 
@@ -68,12 +58,8 @@ export const Setting = () => {
 	);
 
 	const handleUpdate = useCallback(() => {
-		dispatch(
-			updateState({
-				...notificationInfo,
-			})
-		);
-	}, [dispatch, notificationInfo]);
+		postUpdateSettings(notificationInfo);
+	}, [postUpdateSettings, notificationInfo]);
 
 	return (
 		<div className='w-dvw h-dvh flex flex-col'>
@@ -104,7 +90,7 @@ export const Setting = () => {
 						<textarea
 							rows={6}
 							placeholder='Default Notification Content'
-							value={notificationInfo?.notificationContent}
+							value={notificationInfo?.notificationMessage}
 							onChange={handleInputText}
 							className='w-full mt-4 bg-zinc-50 rounded-md border-2 border-yellow_metal p-4 text-dark-6 outline-none transition focus:border-yellow_metal active:border-yellow_metal disabled:cursor-default disabled:bg-gray-2'
 						/>

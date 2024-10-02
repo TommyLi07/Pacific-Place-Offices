@@ -1,44 +1,37 @@
-import { RootState } from '@/store';
 import { clsx } from 'clsx';
 import { memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { IBagSelectionItemProps } from './BagSelectionItem.types';
 
 export const BagSelectionItem = memo<IBagSelectionItemProps>(
-	({ imageSrc, title, desc, index }) => {
+	({ imageSrc, title, desc, index, settings, onClick }) => {
 		const { t } = useTranslation();
-		const navigate = useNavigate();
-		const { isBagOneInStock, isBagTwoInStock, isBagThreeInStock } = useSelector(
-			(state: RootState) => state.notification
-		);
 
 		const handleClick = useCallback(
 			(title: string) => {
-				navigate('/customization', { state: { bag: title } });
+				onClick(title);
 			},
-			[navigate]
+			[onClick]
 		);
 
 		const isDisabledButton = useMemo(() => {
 			switch (title) {
 				case 'electronic_bag':
-					return isBagOneInStock === false;
+					return settings.isBagOneInStock === false;
 				case 'wellness_bag':
-					return isBagTwoInStock === false;
+					return settings.isBagTwoInStock === false;
 				case 'workfolio':
-					return isBagThreeInStock === false;
+					return settings.isBagThreeInStock === false;
 				default:
 					break;
 			}
-		}, [title, isBagOneInStock, isBagTwoInStock, isBagThreeInStock]);
+		}, [title, settings]);
 
 		return (
 			<div
 				id={index === 0 ? 'first-bag' : undefined}
 				className={clsx(
-					'lg:max-h-660 p-6 xl:p-10 bg-alabaster',
+					'h-max-[800px] lg:h-[760px] xl:h-[780px] 2xl:h-[700px] p-6 lg:p-2 2xl:px-4 bg-alabaster',
 					{
 						'mt-4': index ? index > 0 : false,
 					},
@@ -48,16 +41,16 @@ export const BagSelectionItem = memo<IBagSelectionItemProps>(
 				<img
 					src={imageSrc}
 					alt='bag'
-					className='w-full h-1/2 xl:h-2/3 object-contain'
+					className='w-full h-1/2 lg:h-3/5 xl:h-2/3 object-contain'
 				/>
 				<h2 className='mt-2 font-PP_Tondo_Signage text-center text-2xl xl:text-4xl'>
 					{t(title)}
 				</h2>
-				<p className='text-center'>{t(desc)}</p>
-				<div className='text-center'>
+				<p className='text-center mt-3'>{t(desc)}</p>
+				<div className='text-center mt-5'>
 					<button
 						className={clsx(
-							'mt-5 px-7 xl:px-7 py-2 xl:py-3.5 border border-black rounded-lg',
+							'px-7 xl:px-7 py-2 xl:py-3 border border-black rounded-lg',
 							{
 								'active:border-gray-500': !isDisabledButton,
 								'active:text-gray-500': !isDisabledButton,
