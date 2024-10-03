@@ -7,7 +7,11 @@ export const GiftImage = () => {
 
 	return (
 		<div className='w-screen h-screen flex justify-center items-center'>
-			<img src={giftImageSrc} alt='gift image' className='object-contain' />
+			<img
+				src={giftImageSrc}
+				alt='gift image'
+				className='h-2/3 object-contain'
+			/>
 		</div>
 	);
 };

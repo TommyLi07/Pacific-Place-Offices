@@ -296,7 +296,7 @@ export const GiftCustomization = () => {
 					console.log(err);
 				});
 		}
-	}, [htmlToImage, navigate]);
+	}, [htmlToImage, navigate, windowWidth]);
 
 	const handleCloseOrderSummary = useCallback(() => {
 		setIsOrderModalOpen(false);
