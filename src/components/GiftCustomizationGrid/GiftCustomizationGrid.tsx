@@ -60,13 +60,15 @@ export const GiftCustomizationGrid = memo<GiftCustomizationGridProps>(
 									className={clsx({
 										'w-[54px] h-[54px]':
 											windowWidth! < 1180 &&
-											(iconInfo.type === ItemTypes.Character ||
-												iconInfo.type === ItemTypes.LETTER ||
+											(iconInfo.type === ItemTypes.ChARACTER ||
+												iconInfo.type === ItemTypes.COLORFUL_LETTER ||
+												iconInfo.type === ItemTypes.MONOCHROME_LETTER ||
 												iconInfo.type === ItemTypes.QUOTE),
 										'w-[70x] h-[70px]':
 											windowWidth! >= 1180 &&
-											(iconInfo.type === ItemTypes.Character ||
-												iconInfo.type === ItemTypes.LETTER ||
+											(iconInfo.type === ItemTypes.ChARACTER ||
+												iconInfo.type === ItemTypes.COLORFUL_LETTER ||
+												iconInfo.type === ItemTypes.MONOCHROME_LETTER ||
 												iconInfo.type === ItemTypes.QUOTE),
 										'w-24 h-24': iconInfo.type === ItemTypes.GIFT,
 									})}

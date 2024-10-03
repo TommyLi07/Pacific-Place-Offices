@@ -1,3 +1,16 @@
+import ElectronicBagIcon from '@/assets/icons/Bags/ElectronicBag.svg?react';
+import WellnessBagIcon from '@/assets/icons/Bags/WellnessBag.svg?react';
+import WorkfolioBagIcon from '@/assets/icons/Bags/WorkfolioBag.svg?react';
+import BadmintonIcon from '@/assets/icons/Characters/Badminton.svg?react';
+import BaseballIcon from '@/assets/icons/Characters/Baseball.svg?react';
+import CatIcon from '@/assets/icons/Characters/Cat.svg?react';
+import DogIcon from '@/assets/icons/Characters/Dog.svg?react';
+import DonutIcon from '@/assets/icons/Characters/Donut.svg?react';
+import FootballIcon from '@/assets/icons/Characters/Football.svg?react';
+import MilkTeaIcon from '@/assets/icons/Characters/MilkTea.svg?react';
+import PizzaIcon from '@/assets/icons/Characters/Pizza.svg?react';
+import RabbitIcon from '@/assets/icons/Characters/Rabbit.svg?react';
+import VolleyballIcon from '@/assets/icons/Characters/Volleyball.svg?react';
 import AIcon from '@/assets/icons/ColorfulAlphabets/A.svg?react';
 import BIcon from '@/assets/icons/ColorfulAlphabets/B.svg?react';
 import CIcon from '@/assets/icons/ColorfulAlphabets/C.svg?react';
@@ -24,7 +37,6 @@ import WIcon from '@/assets/icons/ColorfulAlphabets/W.svg?react';
 import XIcon from '@/assets/icons/ColorfulAlphabets/X.svg?react';
 import YIcon from '@/assets/icons/ColorfulAlphabets/Y.svg?react';
 import ZIcon from '@/assets/icons/ColorfulAlphabets/Z.svg?react';
-
 import AMonoIcon from '@/assets/icons/MonochromeAlphabets/A.svg?react';
 import BMonoIcon from '@/assets/icons/MonochromeAlphabets/B.svg?react';
 import CMonoIcon from '@/assets/icons/MonochromeAlphabets/C.svg?react';
@@ -51,19 +63,6 @@ import WMonoIcon from '@/assets/icons/MonochromeAlphabets/W.svg?react';
 import XMonoIcon from '@/assets/icons/MonochromeAlphabets/X.svg?react';
 import YMonoIcon from '@/assets/icons/MonochromeAlphabets/Y.svg?react';
 import ZMonoIcon from '@/assets/icons/MonochromeAlphabets/Z.svg?react';
-import ElectronicBagIcon from '@/assets/icons/Bags/ElectronicBag.svg?react';
-import WellnessBagIcon from '@/assets/icons/Bags/WellnessBag.svg?react';
-import WorkfolioBagIcon from '@/assets/icons/Bags/WorkfolioBag.svg?react';
-import BadmintonIcon from '@/assets/icons/Characters/Badminton.svg?react';
-import BaseballIcon from '@/assets/icons/Characters/Baseball.svg?react';
-import CatIcon from '@/assets/icons/Characters/Cat.svg?react';
-import DogIcon from '@/assets/icons/Characters/Dog.svg?react';
-import DonutIcon from '@/assets/icons/Characters/Donut.svg?react';
-import FootballIcon from '@/assets/icons/Characters/Football.svg?react';
-import MilkTeaIcon from '@/assets/icons/Characters/MilkTea.svg?react';
-import PizzaIcon from '@/assets/icons/Characters/Pizza.svg?react';
-import RabbitIcon from '@/assets/icons/Characters/Rabbit.svg?react';
-import VolleyballIcon from '@/assets/icons/Characters/Volleyball.svg?react';
 import AsPerMyLastEmailIcon from '@/assets/icons/Quotes/AsPerMyLastEmail.svg?react';
 import AsSlowAsPossibleIcon from '@/assets/icons/Quotes/AsSlowAsPossible.svg?react';
 import BeNiceToMeIcon from '@/assets/icons/Quotes/BeNiceToMe.svg?react';
@@ -74,6 +73,19 @@ import IntrovertIcon from '@/assets/icons/Quotes/Introvert.svg?react';
 import MaybeTomorrowIcon from '@/assets/icons/Quotes/MaybeTomorrow.svg?react';
 import MoreCoffeePlzIcon from '@/assets/icons/Quotes/MoreCoffeePlz.svg?react';
 import OutOfOfficeIcon from '@/assets/icons/Quotes/OutOfOffice.svg?react';
+import ElectronicBagImg from '@/assets/images/Bags/ElectronicBag.png';
+import WellnessBagImg from '@/assets/images/Bags/WellnessBag.png';
+import WorkfolioBagImg from '@/assets/images/Bags/WorkfolioBag.png';
+import BadmintonImg from '@/assets/images/Characters/Badminton.png';
+import BaseballImg from '@/assets/images/Characters/Baseball.png';
+import CatImg from '@/assets/images/Characters/Cat.png';
+import DogImg from '@/assets/images/Characters/Dog.png';
+import DonutImg from '@/assets/images/Characters/Donut.png';
+import FootballImg from '@/assets/images/Characters/Football.png';
+import MilkTeaImg from '@/assets/images/Characters/MilkTea.png';
+import PizzaImg from '@/assets/images/Characters/Pizza.png';
+import RabbitImg from '@/assets/images/Characters/Rabbit.png';
+import VolleyballImg from '@/assets/images/Characters/Volleyball.png';
 import AImg from '@/assets/images/ColorfulAlphabets/A.png';
 import BImg from '@/assets/images/ColorfulAlphabets/B.png';
 import CImg from '@/assets/images/ColorfulAlphabets/C.png';
@@ -126,19 +138,6 @@ import WMonoImg from '@/assets/images/MonochromeAlphabets/W.png';
 import XMonoImg from '@/assets/images/MonochromeAlphabets/X.png';
 import YMonoImg from '@/assets/images/MonochromeAlphabets/Y.png';
 import ZMonoImg from '@/assets/images/MonochromeAlphabets/Z.png';
-import ElectronicBagImg from '@/assets/images/Bags/ElectronicBag.png';
-import WellnessBagImg from '@/assets/images/Bags/WellnessBag.png';
-import WorkfolioBagImg from '@/assets/images/Bags/WorkfolioBag.png';
-import BadmintonImg from '@/assets/images/Characters/Badminton.png';
-import BaseballImg from '@/assets/images/Characters/Baseball.png';
-import CatImg from '@/assets/images/Characters/Cat.png';
-import DogImg from '@/assets/images/Characters/Dog.png';
-import DonutImg from '@/assets/images/Characters/Donut.png';
-import FootballImg from '@/assets/images/Characters/Football.png';
-import MilkTeaImg from '@/assets/images/Characters/MilkTea.png';
-import PizzaImg from '@/assets/images/Characters/Pizza.png';
-import RabbitImg from '@/assets/images/Characters/Rabbit.png';
-import VolleyballImg from '@/assets/images/Characters/Volleyball.png';
 import AsPerMyLastEmailImg from '@/assets/images/Quotes/AsPerMyLastEmail.png';
 import AsSlowAsPossibleImg from '@/assets/images/Quotes/AsSlowAsPossible.png';
 import BeNiceToMeImg from '@/assets/images/Quotes/BeNiceToMe.png';
@@ -181,32 +180,162 @@ export const IconCollection = [
 	{
 		key: 'colorful_alphabets',
 		iconInfos: [
-			{ svg: AIcon, imageSrc: AImg, id: 'A_Colorful', type: ItemTypes.LETTER },
-			{ svg: BIcon, imageSrc: BImg, id: 'B_Colorful', type: ItemTypes.LETTER },
-			{ svg: CIcon, imageSrc: CImg, id: 'C_Colorful', type: ItemTypes.LETTER },
-			{ svg: DIcon, imageSrc: DImg, id: 'D_Colorful', type: ItemTypes.LETTER },
-			{ svg: EIcon, imageSrc: EImg, id: 'E_Colorful', type: ItemTypes.LETTER },
-			{ svg: FIcon, imageSrc: FImg, id: 'F_Colorful', type: ItemTypes.LETTER },
-			{ svg: GIcon, imageSrc: GImg, id: 'G_Colorful', type: ItemTypes.LETTER },
-			{ svg: HIcon, imageSrc: HImg, id: 'H_Colorful', type: ItemTypes.LETTER },
-			{ svg: IIcon, imageSrc: IImg, id: 'I_Colorful', type: ItemTypes.LETTER },
-			{ svg: JIcon, imageSrc: JImg, id: 'J_Colorful', type: ItemTypes.LETTER },
-			{ svg: KIcon, imageSrc: KImg, id: 'K_Colorful', type: ItemTypes.LETTER },
-			{ svg: LIcon, imageSrc: LImg, id: 'L_Colorful', type: ItemTypes.LETTER },
-			{ svg: MIcon, imageSrc: MImg, id: 'M_Colorful', type: ItemTypes.LETTER },
-			{ svg: NIcon, imageSrc: NImg, id: 'N_Colorful', type: ItemTypes.LETTER },
-			{ svg: OIcon, imageSrc: OImg, id: 'O_Colorful', type: ItemTypes.LETTER },
-			{ svg: PIcon, imageSrc: PImg, id: 'P_Colorful', type: ItemTypes.LETTER },
-			{ svg: QIcon, imageSrc: QImg, id: 'Q_Colorful', type: ItemTypes.LETTER },
-			{ svg: RIcon, imageSrc: RImg, id: 'R_Colorful', type: ItemTypes.LETTER },
-			{ svg: SIcon, imageSrc: SImg, id: 'S_Colorful', type: ItemTypes.LETTER },
-			{ svg: TIcon, imageSrc: TImg, id: 'T_Colorful', type: ItemTypes.LETTER },
-			{ svg: UIcon, imageSrc: UImg, id: 'U_Colorful', type: ItemTypes.LETTER },
-			{ svg: VIcon, imageSrc: VImg, id: 'V_Colorful', type: ItemTypes.LETTER },
-			{ svg: WIcon, imageSrc: WImg, id: 'W_Colorful', type: ItemTypes.LETTER },
-			{ svg: XIcon, imageSrc: XImg, id: 'X_Colorful', type: ItemTypes.LETTER },
-			{ svg: YIcon, imageSrc: YImg, id: 'Y_Colorful', type: ItemTypes.LETTER },
-			{ svg: ZIcon, imageSrc: ZImg, id: 'Z_Colorful', type: ItemTypes.LETTER },
+			{
+				svg: AIcon,
+				imageSrc: AImg,
+				id: 'A_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: BIcon,
+				imageSrc: BImg,
+				id: 'B_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: CIcon,
+				imageSrc: CImg,
+				id: 'C_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: DIcon,
+				imageSrc: DImg,
+				id: 'D_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: EIcon,
+				imageSrc: EImg,
+				id: 'E_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: FIcon,
+				imageSrc: FImg,
+				id: 'F_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: GIcon,
+				imageSrc: GImg,
+				id: 'G_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: HIcon,
+				imageSrc: HImg,
+				id: 'H_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: IIcon,
+				imageSrc: IImg,
+				id: 'I_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: JIcon,
+				imageSrc: JImg,
+				id: 'J_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: KIcon,
+				imageSrc: KImg,
+				id: 'K_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: LIcon,
+				imageSrc: LImg,
+				id: 'L_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: MIcon,
+				imageSrc: MImg,
+				id: 'M_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: NIcon,
+				imageSrc: NImg,
+				id: 'N_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: OIcon,
+				imageSrc: OImg,
+				id: 'O_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: PIcon,
+				imageSrc: PImg,
+				id: 'P_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: QIcon,
+				imageSrc: QImg,
+				id: 'Q_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: RIcon,
+				imageSrc: RImg,
+				id: 'R_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: SIcon,
+				imageSrc: SImg,
+				id: 'S_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: TIcon,
+				imageSrc: TImg,
+				id: 'T_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: UIcon,
+				imageSrc: UImg,
+				id: 'U_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: VIcon,
+				imageSrc: VImg,
+				id: 'V_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: WIcon,
+				imageSrc: WImg,
+				id: 'W_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: XIcon,
+				imageSrc: XImg,
+				id: 'X_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: YIcon,
+				imageSrc: YImg,
+				id: 'Y_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
+			{
+				svg: ZIcon,
+				imageSrc: ZImg,
+				id: 'Z_Colorful',
+				type: ItemTypes.COLORFUL_LETTER,
+			},
 		],
 	},
 	{
@@ -216,157 +345,157 @@ export const IconCollection = [
 				svg: AMonoIcon,
 				imageSrc: AMonoImg,
 				id: 'A_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: BMonoIcon,
 				imageSrc: BMonoImg,
 				id: 'B_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: CMonoIcon,
 				imageSrc: CMonoImg,
 				id: 'C_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: DMonoIcon,
 				imageSrc: DMonoImg,
 				id: 'D_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: EMonoIcon,
 				imageSrc: EMonoImg,
 				id: 'E_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: FMonoIcon,
 				imageSrc: FMonoImg,
 				id: 'F_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: GMonoIcon,
 				imageSrc: GMonoImg,
 				id: 'G_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: HMonoIcon,
 				imageSrc: HMonoImg,
 				id: 'H_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: IMonoIcon,
 				imageSrc: IMonoImg,
 				id: 'I_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: JMonoIcon,
 				imageSrc: JMonoImg,
 				id: 'J_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: KMonoIcon,
 				imageSrc: KMonoImg,
 				id: 'K_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: LMonoIcon,
 				imageSrc: LMonoImg,
 				id: 'L_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: MMonoIcon,
 				imageSrc: MMonoImg,
 				id: 'M_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: NMonoIcon,
 				imageSrc: NMonoImg,
 				id: 'N_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: OMonoIcon,
 				imageSrc: OMonoImg,
 				id: 'O_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: PMonoIcon,
 				imageSrc: PMonoImg,
 				id: 'P_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: QMonoIcon,
 				imageSrc: QMonoImg,
 				id: 'Q_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: RMonoIcon,
 				imageSrc: RMonoImg,
 				id: 'R_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: SMonoIcon,
 				imageSrc: SMonoImg,
 				id: 'S_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: TMonoIcon,
 				imageSrc: TMonoImg,
 				id: 'T_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: UMonoIcon,
 				imageSrc: UMonoImg,
 				id: 'U_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: VMonoIcon,
 				imageSrc: VMonoImg,
 				id: 'V_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: WMonoIcon,
 				imageSrc: WMonoImg,
 				id: 'W_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: XMonoIcon,
 				imageSrc: XMonoImg,
 				id: 'X_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: YMonoIcon,
 				imageSrc: YMonoImg,
 				id: 'Y_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 			{
 				svg: ZMonoIcon,
 				imageSrc: ZMonoImg,
 				id: 'Z_Monochrome',
-				type: ItemTypes.LETTER,
+				type: ItemTypes.MONOCHROME_LETTER,
 			},
 		],
 	},
@@ -377,56 +506,56 @@ export const IconCollection = [
 				svg: DogIcon,
 				imageSrc: DogImg,
 				id: 'Dog',
-				type: ItemTypes.Character,
+				type: ItemTypes.ChARACTER,
 			},
 			{
 				svg: RabbitIcon,
 				imageSrc: RabbitImg,
 				id: 'Rabbit',
-				type: ItemTypes.Character,
+				type: ItemTypes.ChARACTER,
 			},
-			{ svg: CatIcon, imageSrc: CatImg, id: 'Cat', type: ItemTypes.Character },
+			{ svg: CatIcon, imageSrc: CatImg, id: 'Cat', type: ItemTypes.ChARACTER },
 			{
 				svg: BaseballIcon,
 				imageSrc: BaseballImg,
 				id: 'Baseball',
-				type: ItemTypes.Character,
+				type: ItemTypes.ChARACTER,
 			},
 			{
 				svg: FootballIcon,
 				imageSrc: FootballImg,
 				id: 'Football',
-				type: ItemTypes.Character,
+				type: ItemTypes.ChARACTER,
 			},
 			{
 				svg: BadmintonIcon,
 				imageSrc: BadmintonImg,
 				id: 'Badminton',
-				type: ItemTypes.Character,
+				type: ItemTypes.ChARACTER,
 			},
 			{
 				svg: MilkTeaIcon,
 				imageSrc: MilkTeaImg,
 				id: 'MilkTea',
-				type: ItemTypes.Character,
+				type: ItemTypes.ChARACTER,
 			},
 			{
 				svg: DonutIcon,
 				imageSrc: DonutImg,
 				id: 'Donut',
-				type: ItemTypes.Character,
+				type: ItemTypes.ChARACTER,
 			},
 			{
 				svg: PizzaIcon,
 				imageSrc: PizzaImg,
 				id: 'Pizza',
-				type: ItemTypes.Character,
+				type: ItemTypes.ChARACTER,
 			},
 			{
 				svg: VolleyballIcon,
 				imageSrc: VolleyballImg,
 				id: 'Volleyball',
-				type: ItemTypes.Character,
+				type: ItemTypes.ChARACTER,
 			},
 		],
 	},
