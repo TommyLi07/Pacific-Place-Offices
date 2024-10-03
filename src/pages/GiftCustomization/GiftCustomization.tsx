@@ -276,6 +276,28 @@ export const GiftCustomization = () => {
 		}
 	}, [windowWidth, htmlToImage]);
 
+	const handleShowImage = useCallback(() => {
+		if (windowWidth! < 1180) {
+			htmlToImage
+				.toPng(document.getElementById('exportAreaMobile')!)
+				.then((dataUrl) => {
+					navigate('/giftImage', { state: { giftImageSrc: dataUrl } });
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		} else {
+			htmlToImage
+				.toPng(document.getElementById('exportAreaWeb')!)
+				.then((dataUrl) => {
+					navigate('/giftImage', { state: { giftImageSrc: dataUrl } });
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
+	}, [htmlToImage, navigate]);
+
 	const handleCloseOrderSummary = useCallback(() => {
 		setIsOrderModalOpen(false);
 	}, []);
@@ -644,6 +666,8 @@ export const GiftCustomization = () => {
 							<div
 								id='generatedImageContainer'
 								className='flex justify-center items-center mt-2 bg-white'
+								role='button'
+								onClick={handleShowImage}
 							>
 								<img
 									src={generatedImage}
