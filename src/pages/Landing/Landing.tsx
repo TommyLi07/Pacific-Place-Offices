@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useFetchSettings } from '@/api/hooks';
 import GiftCollection from '@/assets/icons/GiftCollection.svg?react';
-import Logo from '@/assets/images/Logo.png';
 import {
 	BagSelectionItem,
 	LoadingSpinner,
@@ -95,11 +94,11 @@ export const Landing = () => {
 				/>
 			)}
 
-			<header className='px-6 md:px-12 py-4 flex items-center'>
+			{/* <header className='px-6 md:px-12 py-4 flex items-center'>
 				<img className='h-4' src={Logo} alt='logo' />
 
-				{/* language switch */}
-				{/* <div className='flex flex-1 justify-end items-center gap-8'>
+				language switch
+				<div className='flex flex-1 justify-end items-center gap-8'>
 					{Languages.map(({ code, label }) => (
 						<button
 							key={code}
@@ -111,10 +110,10 @@ export const Landing = () => {
 							{label}
 						</button>
 					))}
-				</div> */}
-			</header>
+				</div>
+			</header> */}
 
-			<main className='mb-10 lg:mb-20'>
+			<main className='mb-10'>
 				<div className='w-full bg-alabaster flex flex-col lg:flex-row max-h-[740px]'>
 					<div className='px-6 lg:w-1/3 lg:px-12 xl:px-18 flex flex-col justify-center'>
 						<div>
@@ -149,8 +148,9 @@ export const Landing = () => {
 					<h2 className='font-PP_Tondo_Signage text-3xl lg:text-4xl'>
 						{t('introduction')}
 					</h2>
-					<div className='mt-4 flex'>
-						<p className='w-full lg:w-2/3'>{t('introduction_desc')}</p>
+					<div className='mt-4'>
+						<p className='w-full lg:w-2/3'>{t('introduction_desc_one')}</p>
+						<p className='mt-4 w-full lg:w-2/3'>{t('introduction_desc_two')}</p>
 					</div>
 
 					<h2 className='font-PP_Tondo_Signage text-3xl lg:text-4xl mt-6'>
@@ -184,14 +184,14 @@ export const Landing = () => {
 				</section>
 			</main>
 
-			<footer className='lg:px-12 py-4 flex flex-col lg:flex-row items-center border-t-2 border-gray-200'>
+			{/* <footer className='lg:px-12 py-4 flex flex-col lg:flex-row items-center border-t-2 border-gray-200'>
 				<img className='h-4' src={Logo} alt='logo' />
 				<div className='flex-1 flex justify-end items-center mt-4 lg:mt-0'>
 					<p className='text-xs text-center'>
 						&copy; 2024 Swire Properties Limited All rights served
 					</p>
 				</div>
-			</footer>
+			</footer> */}
 		</div>
 	);
 };

@@ -2,14 +2,15 @@ import { FunctionComponent, SVGProps } from 'react';
 
 export enum ItemTypes {
 	GIFT = 'gift',
-	Character = 'character',
-	LETTER = 'letter',
+	ChARACTER = 'character',
+	COLORFUL_LETTER = 'colorful_letter',
+	MONOCHROME_LETTER = 'monochrome_letter',
 	QUOTE = 'quote',
 }
 
 export interface IconInfo {
-  id: string;
-  key?: string;
+	id: string;
+	key?: string;
 	svg: FunctionComponent<
 		SVGProps<SVGSVGElement> & {
 			title?: string;

@@ -6,12 +6,11 @@ import DownloadWhite from '@/assets/icons/DownloadWhite.svg?react';
 import Reset from '@/assets/icons/Reset.svg?react';
 import ModalBackground from '@/assets/images/ModalBackground.png';
 import {
-	GiftCustomizationGrid,
-	GiftCustomizationHeader,
-	GiftCustomizationSectionDivider,
-	LoadingSpinner,
-	ModalContainer,
-	NotificationHeader,
+  GiftCustomizationGrid,
+  GiftCustomizationHeader,
+  LoadingSpinner,
+  ModalContainer,
+  NotificationHeader,
 } from '@/components';
 import { giftCollection, IconCollection, IconSection } from '@/constants';
 import { GiftCustomizationSection } from '@/containers';
@@ -57,7 +56,7 @@ export const GiftCustomization = () => {
 		if (!windowWidth || !windowHeight) return 0;
 
 		const baseHeight =
-			144 + (isShowNotification ? location.state.notificationHeaderHeight : 0);
+			104 + (isShowNotification ? location.state.notificationHeaderHeight : 0);
 
 		let additionalHeight = 0;
 
@@ -155,22 +154,28 @@ export const GiftCustomization = () => {
 			}
 
 			const letterCount = selectedIcons.filter(
-				(icon) => icon.type === ItemTypes.LETTER
+				(icon) =>
+					icon.type === ItemTypes.COLORFUL_LETTER ||
+					icon.type === ItemTypes.MONOCHROME_LETTER
 			).length;
 			const quoteCount = selectedIcons.filter(
 				(icon) => icon.type === ItemTypes.QUOTE
 			).length;
 			const emojiCount = selectedIcons.filter(
-				(icon) => icon.type === ItemTypes.Character
+				(icon) => icon.type === ItemTypes.ChARACTER
 			).length;
 
-			if (iconInfo.type === ItemTypes.LETTER && letterCount === 3) {
+			if (
+				(iconInfo.type === ItemTypes.COLORFUL_LETTER ||
+					iconInfo.type === ItemTypes.MONOCHROME_LETTER) &&
+				letterCount === 3
+			) {
 				setIsShowNotificationBar(true);
 				return;
 			}
 
 			if (
-				(iconInfo.type === ItemTypes.Character ||
+				(iconInfo.type === ItemTypes.ChARACTER ||
 					iconInfo.type === ItemTypes.QUOTE) &&
 				quoteCount + emojiCount >= 2
 			) {
@@ -364,7 +369,7 @@ export const GiftCustomization = () => {
 							onBack={handleBackButtonClick}
 						/>
 
-						<div className='relative w-full h-full py-10 bg-alice_blue flex justify-center items-center'>
+						<div className='relative w-full h-full py-5 bg-alice_blue flex justify-center items-center'>
 							<div className='flex flex-row justify-center'>
 								<div id='exportAreaMobile' className='relative'>
 									<img
@@ -386,14 +391,21 @@ export const GiftCustomization = () => {
 										>
 											<div
 												id={`${selectIcon.id}-${index}`}
-												className={`absolute w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 top-${selectIcon.defaultY} left-${selectIcon.defaultX}`}
+												className={clsx(
+													`absolute w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 top-${selectIcon.defaultY} left-${selectIcon.defaultX}`,
+													{
+														'w-15 h-15 sm:w-17 sm:h-17 md:w-21 md:h-21':
+															selectIcon.type === ItemTypes.MONOCHROME_LETTER,
+													}
+												)}
 											>
 												<img
 													src={selectIcon.imageSrc}
 													alt='draggable icon'
 													className={clsx('w-full h-full object-contain', {
-														'scale-75': selectIcon.type === ItemTypes.LETTER,
-														'scale-90': selectIcon.type === ItemTypes.Character,
+														'scale-75':
+															selectIcon.type === ItemTypes.COLORFUL_LETTER,
+														'scale-90': selectIcon.type === ItemTypes.ChARACTER,
 													})}
 												/>
 											</div>
@@ -446,7 +458,6 @@ export const GiftCustomization = () => {
 							{IconSection.map((section, index) => {
 								return (
 									<div key={section.title}>
-										{index > 0 && <GiftCustomizationSectionDivider />}
 										<GiftCustomizationSection
 											title={t(section.title)}
 											subtitle={t(section.subtitle)}
@@ -509,7 +520,6 @@ export const GiftCustomization = () => {
 								{IconSection.map((section, index) => {
 									return (
 										<div key={section.title}>
-											{index > 0 && <GiftCustomizationSectionDivider />}
 											<GiftCustomizationSection
 												title={t(section.title)}
 												subtitle={t(section.subtitle)}
@@ -569,7 +579,13 @@ export const GiftCustomization = () => {
 										>
 											<div
 												id={`${selectIcon.id}-${index}`}
-												className={`absolute w-24 h-24 top-${selectIcon.defaultY} left-${selectIcon.defaultX}`}
+												className={clsx(
+													`absolute w-24 h-24 top-${selectIcon.defaultY} left-${selectIcon.defaultX}`,
+													{
+														'w-25 h-25':
+															selectIcon.type === ItemTypes.MONOCHROME_LETTER,
+													}
+												)}
 												style={{
 													transform: `translate(${selectIcon.translateX}px, ${selectIcon.translateY}px)`,
 												}}
@@ -577,7 +593,10 @@ export const GiftCustomization = () => {
 												<img
 													src={selectIcon.imageSrc}
 													alt='draggable icon'
-													className={'w-full h-full'}
+													className={clsx('w-full h-full', {
+														'scale-75':
+															selectIcon.type === ItemTypes.COLORFUL_LETTER,
+													})}
 												/>
 											</div>
 										</Draggable>
@@ -686,8 +705,8 @@ export const GiftCustomization = () => {
 							<ol className='list-decimal ml-4'>
 								<li>
 									Our gifts are made-to-order. Please visit our pop-up store and
-									present this image along with the Pacific Place Offices app to
-									our staff for redemption.
+									present this image along with Pacific Place Offices app to our
+									staff for redemption.
 								</li>
 								<li>
 									<span className='font-bold underline'>Daily quota</span>{' '}
