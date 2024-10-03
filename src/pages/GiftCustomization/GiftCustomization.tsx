@@ -315,7 +315,11 @@ export const GiftCustomization = () => {
 	}, [imageRef, selectedIcons, windowWidth, OrientationType]);
 
 	if (isLoading) {
-		return <LoadingSpinner />;
+		return (
+			<div className='w-screen h-screen'>
+				<LoadingSpinner />;
+			</div>
+		);
 	}
 
 	return (
@@ -324,7 +328,7 @@ export const GiftCustomization = () => {
 
 			{windowWidth && windowWidth < 1180 ? (
 				// screen is less than 1180px
-				<div className='w-full h-screen overflow-y-hidden'>
+				<div className='w-full h-full overflow-hidden'>
 					<div className='fixed top-0 left-0 w-full z-10'>
 						{isShowNotification && (
 							<NotificationHeader

@@ -76,7 +76,11 @@ export const Landing = () => {
 	}, [notificationHeaderRef.current, isShowNotification]);
 
 	if (isLoading) {
-		return <LoadingSpinner />;
+		return (
+			<div className='w-screen h-screen'>
+				<LoadingSpinner />;
+			</div>
+		);
 	}
 
 	return (
