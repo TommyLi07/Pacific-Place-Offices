@@ -21,7 +21,7 @@ import { IconInfo, ItemTypes } from '@/types';
 import { useOrientation, useWindowSize } from '@uidotdev/usehooks';
 import clsx from 'clsx';
 import domtoimage from 'dom-to-image';
-import { saveAs } from 'file-saver';
+import saveAs from 'file-saver';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { useTranslation } from 'react-i18next';
