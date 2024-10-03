@@ -225,24 +225,21 @@ export const GiftCustomization = () => {
 	const handleSaveImageButtonClick = useCallback(() => {
 		if (windowWidth! < 1180) {
 			htmlToImage
-				.toPng(document.getElementById('exportAreaMobile')!)
+				.toSvg(document.getElementById('exportAreaMobile')!)
 				.then((dataUrl) => {
+					console.log('dataUrl', dataUrl);
 					setGeneratedImage(dataUrl);
-					setTimeout(() => {
-						setIsOrderModalOpen(true);
-					}, 500);
+					setIsOrderModalOpen(true);
 				})
 				.catch((error) => {
 					console.error('oops, something went wrong!', error);
 				});
 		} else {
 			htmlToImage
-				.toPng(document.getElementById('exportAreaWeb')!)
+				.toSvg(document.getElementById('exportAreaWeb')!)
 				.then((dataUrl) => {
 					setGeneratedImage(dataUrl);
-					setTimeout(() => {
-						setIsOrderModalOpen(true);
-					}, 500);
+					setIsOrderModalOpen(true);
 				})
 				.catch((error) => {
 					console.error('oops, something went wrong!', error);
@@ -642,18 +639,18 @@ export const GiftCustomization = () => {
 						<div className='px-10 md:px-20'>
 							<div
 								id='generatedImageContainer'
-								className='flex justify-center items-center mt-4 bg-white'
+								className='flex justify-center items-center mt-2 bg-white'
 							>
 								<img
 									src={generatedImage}
 									alt='generated image'
-									className='h-48 z-10'
+									className='h-50 object-contain'
 								/>
 							</div>
 						</div>
 					)}
 
-					<div className='flex flex-row items-center gap-4 mt-4'>
+					<div className='flex flex-row items-center gap-4 mt-2'>
 						<div>
 							<h3 className='font-Tondo_W01_Signage text-xl'>
 								{t('friendly_reminders')}
