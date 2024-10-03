@@ -54,28 +54,24 @@ export const GiftCustomization = () => {
 		query: { isLoading },
 	} = useFetchSettings();
 
+	// absolute position top value on mobile
 	const offsetHeight = useMemo(() => {
 		if (!windowWidth || !windowHeight) return 0;
 
+		const baseHeight =
+			144 + (isShowNotification ? location.state.notificationHeaderHeight : 0);
+
+		let additionalHeight = 0;
+
 		if (windowWidth < 768) {
-			return (
-				240 +
-				144 +
-				(isShowNotification ? location.state.notificationHeaderHeight : 0)
-			);
+			additionalHeight = 240;
 		} else if (windowWidth < 1024) {
-			return (
-				300 +
-				144 +
-				(isShowNotification ? location.state.notificationHeaderHeight : 0)
-			);
+			additionalHeight = 300;
 		} else {
-			return (
-				360 +
-				144 +
-				(isShowNotification ? location.state.notificationHeaderHeight : 0)
-			);
+			additionalHeight = 360;
 		}
+
+		return baseHeight + additionalHeight;
 	}, [
 		windowHeight,
 		windowWidth,
@@ -84,6 +80,7 @@ export const GiftCustomization = () => {
 		isShowNotification,
 	]);
 
+	// absolute position bottom icon menu's height on mobile
 	const scrollViewHeight = useMemo(() => {
 		if (!windowWidth || !windowHeight) return 0;
 
@@ -96,6 +93,7 @@ export const GiftCustomization = () => {
 		}
 	}, [windowHeight, windowWidth, offsetHeight]);
 
+	// left side icon menu's height on web
 	const leftSideScrollViewHeight = useMemo(() => {
 		return (
 			windowHeight! -
@@ -103,6 +101,33 @@ export const GiftCustomization = () => {
 			(isShowNotification ? location.state.notificationHeaderHeight : 0)
 		);
 	}, [windowHeight, isShowNotification]);
+
+	// filter out sold out bags in gift category
+	const UpdatedGiftIconInfos = useMemo(() => {
+		if (!settings) return giftCollection[0].iconInfos;
+
+		let giftIconInfosCopy = [...giftCollection[0].iconInfos];
+
+		if (settings.isBagOneInStock === false) {
+			giftIconInfosCopy = giftIconInfosCopy.filter(
+				(item) => item.id !== 'electronic_bag'
+			);
+		}
+
+		if (settings.isBagTwoInStock === false) {
+			giftIconInfosCopy = giftIconInfosCopy.filter(
+				(item) => item.id !== 'wellness_bag'
+			);
+		}
+
+		if (settings.isBagThreeInStock === false) {
+			giftIconInfosCopy = giftIconInfosCopy.filter(
+				(item) => item.id !== 'workfolio'
+			);
+		}
+
+		return giftIconInfosCopy;
+	}, [settings]);
 
 	const handleCloseNotificationHeader = useCallback(() => {
 		dispatch(toggleIsShowNotification(false));
@@ -375,12 +400,12 @@ export const GiftCustomization = () => {
 											index={index}
 										>
 											{section.title === 'gifts'
-												? giftCollection.map(({ key, iconInfos }, index) => (
+												? giftCollection.map(({ key }, index) => (
 														<GiftCustomizationGrid
 															key={key}
 															index={index}
 															title={t(key)}
-															iconInfos={iconInfos}
+															iconInfos={UpdatedGiftIconInfos}
 															selectedBag={selectedBag}
 															selectedIcons={selectedIcons}
 															handleClick={handleSelectIcon}
@@ -438,12 +463,12 @@ export const GiftCustomization = () => {
 												index={index}
 											>
 												{section.title === 'gifts'
-													? giftCollection.map(({ key, iconInfos }, index) => (
+													? giftCollection.map(({ key }, index) => (
 															<GiftCustomizationGrid
 																key={key}
 																index={index}
 																title={t(key)}
-																iconInfos={iconInfos}
+																iconInfos={UpdatedGiftIconInfos}
 																selectedBag={selectedBag}
 																selectedIcons={selectedIcons}
 																handleClick={handleSelectIcon}
