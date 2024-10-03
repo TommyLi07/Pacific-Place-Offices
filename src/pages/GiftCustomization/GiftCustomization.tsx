@@ -21,7 +21,6 @@ import { IconInfo, ItemTypes } from '@/types';
 import { useOrientation, useWindowSize } from '@uidotdev/usehooks';
 import clsx from 'clsx';
 import * as htmlToImage from 'html-to-image';
-import saveAs from 'file-saver';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { useTranslation } from 'react-i18next';
@@ -46,7 +45,6 @@ export const GiftCustomization = () => {
 	const imageRef = useRef<HTMLImageElement | null>(null);
 	const [imageWidth, setImageWidth] = useState(0);
 	const [imageHeight, setImageHeight] = useState(0);
-	const exportAreaRef = useRef<HTMLDivElement | null>(null);
 	const [generatedImage, setGeneratedImage] = useState<string>('');
 
 	const {
@@ -225,26 +223,61 @@ export const GiftCustomization = () => {
 
 	// save image button
 	const handleSaveImageButtonClick = useCallback(() => {
-		htmlToImage
-			.toPng(exportAreaRef.current!)
-			.then((dataUrl) => {
-				setGeneratedImage(dataUrl);
-			})
-			.catch((error) => {
-				console.error('oops, something went wrong!', error);
-			});
-	}, []);
+		if (windowWidth! < 1180) {
+			htmlToImage
+				.toPng(document.getElementById('exportAreaMobile')!)
+				.then((dataUrl) => {
+					setGeneratedImage(dataUrl);
+					setTimeout(() => {
+						setIsOrderModalOpen(true);
+					}, 500);
+				})
+				.catch((error) => {
+					console.error('oops, something went wrong!', error);
+				});
+		} else {
+			htmlToImage
+				.toPng(document.getElementById('exportAreaWeb')!)
+				.then((dataUrl) => {
+					setGeneratedImage(dataUrl);
+					setTimeout(() => {
+						setIsOrderModalOpen(true);
+					}, 500);
+				})
+				.catch((error) => {
+					console.error('oops, something went wrong!', error);
+				});
+		}
+	}, [windowWidth, htmlToImage, setGeneratedImage]);
 
 	// order summary modal
 	const handleDownloadImage = useCallback(() => {
-		htmlToImage.toBlob(exportAreaRef.current!).then((blob) => {
-			if (window.saveAs) {
-				window.saveAs(blob as Blob, 'gift.png');
-			} else {
-				saveAs(blob as Blob, 'gift.png');
-			}
-		});
-	}, []);
+		if (windowWidth! < 1180) {
+			htmlToImage
+				.toPng(document.getElementById('exportAreaMobile')!)
+				.then((dataUrl) => {
+					const link = document.createElement('a');
+					link.download = 'gift.png';
+					link.href = dataUrl;
+					link.click();
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		} else {
+			htmlToImage
+				.toPng(document.getElementById('exportAreaWeb')!)
+				.then((dataUrl) => {
+					const link = document.createElement('a');
+					link.download = 'gift.png';
+					link.href = dataUrl;
+					link.click();
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
+	}, [windowWidth, htmlToImage]);
 
 	const handleCloseOrderSummary = useCallback(() => {
 		setIsOrderModalOpen(false);
@@ -284,15 +317,6 @@ export const GiftCustomization = () => {
 		}
 	}, [imageRef, selectedIcons, windowWidth, OrientationType]);
 
-	// open modal after generated Image being set
-	useEffect(() => {
-		if (generatedImage === '') return;
-
-		console.log('generatedImage', generatedImage);
-
-		setIsOrderModalOpen(true);
-	}, [generatedImage]);
-
 	if (isLoading) {
 		return <LoadingSpinner />;
 	}
@@ -319,7 +343,7 @@ export const GiftCustomization = () => {
 
 						<div className='relative w-full h-full py-10 bg-alice_blue flex justify-center items-center'>
 							<div className='flex flex-row justify-center'>
-								<div ref={exportAreaRef} className='relative'>
+								<div id='exportAreaMobile' className='relative'>
 									<img
 										src={selectedBag.imageSrc}
 										alt='Bag front'
@@ -501,7 +525,7 @@ export const GiftCustomization = () => {
 						{/*  image area */}
 						<div className='w-2/3 ml-[33.33%] bg-alice_blue flex justify-center items-center relative'>
 							<div className='flex flex-row justify-center w-full'>
-								<div ref={exportAreaRef} className='w-2/3 relative'>
+								<div id='exportAreaWeb' className='w-2/3 relative'>
 									<img
 										src={selectedBag.imageSrc}
 										alt='Bag front'
@@ -616,7 +640,10 @@ export const GiftCustomization = () => {
 
 					{generatedImage && (
 						<div className='px-10 md:px-20'>
-							<div className='flex justify-center items-center mt-4 bg-white'>
+							<div
+								id='generatedImageContainer'
+								className='flex justify-center items-center mt-4 bg-white'
+							>
 								<img
 									src={generatedImage}
 									alt='generated image'
