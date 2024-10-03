@@ -62,10 +62,6 @@ export const Landing = () => {
 		[navigate, notificationHeaderHeight]
 	);
 
-	const handleClickInvisibleButton = useCallback(() => {
-		navigate('/setting', { state: { settings } });
-	}, [navigate, settings]);
-
 	useEffect(() => {
 		if (!settings) return;
 
@@ -73,11 +69,11 @@ export const Landing = () => {
 	}, [dispatch, settings]);
 
 	useEffect(() => {
-		if (!notificationHeaderRef.current || !settings) return;
+		if (!notificationHeaderRef.current) return;
 
 		const { height } = notificationHeaderRef.current.getBoundingClientRect();
 		setNotificationHeaderHeight(height);
-	}, [notificationHeaderRef.current, settings]);
+	}, [notificationHeaderRef.current, isShowNotification]);
 
 	if (isLoading) {
 		return <LoadingSpinner />;
@@ -114,7 +110,7 @@ export const Landing = () => {
 				</div> */}
 			</header>
 
-			<main className='lg:mb-10'>
+			<main className='mb-10 lg:mb-20'>
 				<div className='w-full bg-alabaster flex flex-col lg:flex-row'>
 					<div className='px-6 lg:w-1/3 lg:px-12 xl:px-18 flex flex-col justify-center'>
 						<div>
@@ -182,13 +178,6 @@ export const Landing = () => {
 						})}
 					</div>
 				</section>
-
-				<div className='px-6 lg:px-12'>
-					<button
-						className='w-10 h-10'
-						onClick={handleClickInvisibleButton}
-					></button>
-				</div>
 			</main>
 
 			<footer className='lg:px-12 py-4 flex flex-col lg:flex-row items-center border-t-2 border-gray-200'>

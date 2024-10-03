@@ -1,18 +1,53 @@
-import { usePostUpdateSettings } from '@/api/hooks';
-import { GiftCustomizationHeader } from '@/components';
-import { ChangeEvent, useCallback, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { SettingState } from './Setting.types';
+import { useFetchSettings, usePostUpdateSettings } from '@/api/hooks';
+import { GiftCustomizationHeader, LoadingSpinner } from '@/components';
+import { ISettings } from '@/types';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Bounce, toast, ToastContainer } from 'react-toastify';
 
 export const Setting = () => {
-	const location = useLocation();
 	const navigate = useNavigate();
 
-	const [notificationInfo, setNotificationInfo] = useState<SettingState>(
-		location.state.settings
-	);
+	const {
+		settings,
+		query: { isLoading },
+	} = useFetchSettings();
 
-	const { mutate: postUpdateSettings } = usePostUpdateSettings();
+	const [notificationInfo, setNotificationInfo] = useState<ISettings>({
+		isShowNotification: true,
+		notificationMessage:
+			'Electronic Bag have been sold out. Please stay tuned for our latest updates.',
+		isBagOneInStock: true,
+		isBagTwoInStock: true,
+		isBagThreeInStock: true,
+	});
+
+	const { mutate: postUpdateSettings } = usePostUpdateSettings({
+		onSuccess: () =>
+			toast.success('Update successfully!', {
+				position: 'bottom-center',
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: 'light',
+				transition: Bounce,
+			}),
+		onError: () =>
+			toast.error('Update fail', {
+				position: 'bottom-center',
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: 'light',
+				transition: Bounce,
+			}),
+	});
 
 	const handleBack = useCallback(() => {
 		navigate('/');
@@ -58,12 +93,23 @@ export const Setting = () => {
 	);
 
 	const handleUpdate = useCallback(() => {
-		postUpdateSettings(notificationInfo);
+		postUpdateSettings(notificationInfo as ISettings);
 	}, [postUpdateSettings, notificationInfo]);
+
+	useEffect(() => {
+		if (!settings) return;
+
+		setNotificationInfo(settings);
+	}, [settings]);
+
+	if (isLoading) {
+		return <LoadingSpinner />;
+	}
 
 	return (
 		<div className='w-dvw h-dvh flex flex-col'>
 			<GiftCustomizationHeader onBack={handleBack} />
+
 			<div className='w-full flex-1 flex justify-center items-center p-4 bg-yellow_metal'>
 				<div className='bg-alabaster w-11/12 md:w-1/2 max-w-[40rem] p-6 md:p-10'>
 					<div className='text-center text-2xl md:text-3xl font-PP_Tondo_Signage'>
@@ -150,6 +196,8 @@ export const Setting = () => {
 					</div>
 				</div>
 			</div>
+
+			<ToastContainer />
 		</div>
 	);
 };

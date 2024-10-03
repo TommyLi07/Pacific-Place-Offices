@@ -81,6 +81,7 @@ export const GiftCustomization = () => {
 		windowWidth,
 		location.state.notificationHeaderHeight,
 		OrientationType,
+		isShowNotification,
 	]);
 
 	const scrollViewHeight = useMemo(() => {
@@ -203,7 +204,6 @@ export const GiftCustomization = () => {
 			.toPng(exportAreaRef.current!)
 			.then((dataUrl) => {
 				setGeneratedImage(dataUrl);
-				setIsOrderModalOpen(true);
 			})
 			.catch((error) => {
 				console.error('oops, something went wrong!', error);
@@ -254,6 +254,13 @@ export const GiftCustomization = () => {
 			setImageHeight(newHeight);
 		}
 	}, [imageRef, selectedIcons, windowWidth, OrientationType]);
+
+	// open modal after generated Image being set
+	useEffect(() => {
+		if (generatedImage === '') return;
+
+		setIsOrderModalOpen(true);
+	}, [generatedImage]);
 
 	if (isLoading) {
 		return <LoadingSpinner />;
@@ -558,10 +565,7 @@ export const GiftCustomization = () => {
 			</ModalContainer>
 
 			{/* save image modal */}
-			<ModalContainer
-				open={isOrderModalOpen && generatedImage !== ''}
-				onClose={handleCloseOrderSummary}
-			>
+			<ModalContainer open={isOrderModalOpen} onClose={handleCloseOrderSummary}>
 				<img
 					src={ModalBackground}
 					alt='modal background'
@@ -576,17 +580,15 @@ export const GiftCustomization = () => {
 						<CloseBlack onClick={handleCloseOrderSummary} />
 					</button>
 
-					{generatedImage && (
-						<div className='px-10 md:px-20'>
-							<div className='flex justify-center items-center mt-4 bg-white'>
-								<img
-									src={generatedImage}
-									alt='generated image'
-									className='h-48'
-								/>
-							</div>
+					<div className='px-10 md:px-20'>
+						<div className='flex justify-center items-center mt-4 bg-white'>
+							<img
+								src={generatedImage}
+								alt='generated image'
+								className='h-48 z-10'
+							/>
 						</div>
-					)}
+					</div>
 
 					<div className='flex flex-row items-center gap-4 mt-4'>
 						<div>
