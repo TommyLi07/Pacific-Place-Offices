@@ -115,7 +115,7 @@ export const Landing = () => {
 			</header>
 
 			<main className='mb-10 lg:mb-20'>
-				<div className='w-full bg-alabaster flex flex-col lg:flex-row'>
+				<div className='w-full bg-alabaster flex flex-col lg:flex-row max-h-[800px]'>
 					<div className='px-6 lg:w-1/3 lg:px-12 xl:px-18 flex flex-col justify-center'>
 						<div>
 							<h2 className='mt-6 font-PP_Tondo_Signage lg:mt-0 text-4xl lg:text-5xl text-center lg:text-left'>
@@ -140,7 +140,7 @@ export const Landing = () => {
 
 					{/* animation */}
 					<div className='w-full lg:w-2/3 mt-4 lg:mt-0'>
-						<GiftCollection className='max-w-full h-auto' />
+						<GiftCollection className='max-w-full h-full' />
 					</div>
 				</div>
 
