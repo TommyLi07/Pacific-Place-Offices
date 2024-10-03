@@ -26,12 +26,12 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
-      dom-to-image:
-        specifier: ^2.6.0
-        version: 2.6.0
       file-saver:
         specifier: ^2.0.5
         version: 2.0.5
+      html-to-image:
+        specifier: ^1.11.11
+        version: 1.11.11
       i18next:
         specifier: ^23.15.1
         version: 23.15.1
@@ -1205,9 +1205,6 @@ packages:
   dom-serializer@2.0.0:
     resolution: {integrity: sha512-wIkAryiqt/nV5EQKqQpo3SToSOV9J0DnbJqwK7Wv/Trc92zIAYZ4FlMu+JPFW1DfGFt81ZTCGgDEabffXeLyJg==}
 
-  dom-to-image@2.6.0:
-    resolution: {integrity: sha512-Dt0QdaHmLpjURjU7Tnu3AgYSF2LuOmksSGsUcE6ItvJoCWTBEmiMXcqBdNSAm9+QbbwD7JMoVsuuKX6ZVQv1qA==}
-
   domelementtype@2.3.0:
     resolution: {integrity: sha512-OLETBj6w0OsagBwdXnPdN0cnMfF9opN69co+7ZrbfPGrdpPVNBUj02spi6B1N7wChLQiPn4CSH/zJvXw56gmHw==}
 
@@ -1424,6 +1421,9 @@ packages:
 
   html-parse-stringify@3.0.1:
     resolution: {integrity: sha512-KknJ50kTInJ7qIScF3jeaFRpMpE8/lfiTdzf/twXyPBLAGrLRTmkz3AdTnKeh40X8k9L2fdYwEp/42WGXIRGcg==}
+
+  html-to-image@1.11.11:
+    resolution: {integrity: sha512-9gux8QhvjRO/erSnDPv28noDZcPZmYE7e1vFsBLKLlRlKDSqNJYebj6Qz1TGd5lsRV+X+xYyjCKjuZdABinWjA==}
 
   i18next-browser-languagedetector@8.0.0:
     resolution: {integrity: sha512-zhXdJXTTCoG39QsrOCiOabnWj2jecouOqbchu3EfhtSHxIB5Uugnm9JaizenOy39h7ne3+fLikIjeW88+rgszw==}
@@ -3138,8 +3138,6 @@ snapshots:
       domhandler: 5.0.3
       entities: 4.5.0
 
-  dom-to-image@2.6.0: {}
-
   domelementtype@2.3.0: {}
 
   domhandler@5.0.3:
@@ -3381,6 +3379,8 @@ snapshots:
   html-parse-stringify@3.0.1:
     dependencies:
       void-elements: 3.1.0
+
+  html-to-image@1.11.11: {}
 
   i18next-browser-languagedetector@8.0.0:
     dependencies:

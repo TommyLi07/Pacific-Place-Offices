@@ -20,7 +20,7 @@ import { toggleIsShowNotification } from '@/store/notificationSlice';
 import { IconInfo, ItemTypes } from '@/types';
 import { useOrientation, useWindowSize } from '@uidotdev/usehooks';
 import clsx from 'clsx';
-import domtoimage from 'dom-to-image';
+import * as htmlToImage from 'html-to-image';
 import saveAs from 'file-saver';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
@@ -225,7 +225,7 @@ export const GiftCustomization = () => {
 
 	// save image button
 	const handleSaveImageButtonClick = useCallback(() => {
-		domtoimage
+		htmlToImage
 			.toPng(exportAreaRef.current!)
 			.then((dataUrl) => {
 				setGeneratedImage(dataUrl);
@@ -237,8 +237,12 @@ export const GiftCustomization = () => {
 
 	// order summary modal
 	const handleDownloadImage = useCallback(() => {
-		domtoimage.toBlob(exportAreaRef.current!).then((blob) => {
-			saveAs(blob, 'bag.png');
+		htmlToImage.toBlob(exportAreaRef.current!).then((blob) => {
+			if (window.saveAs) {
+				window.saveAs(blob as Blob, 'gift.png');
+			} else {
+				saveAs(blob as Blob, 'gift.png');
+			}
 		});
 	}, []);
 
@@ -283,6 +287,8 @@ export const GiftCustomization = () => {
 	// open modal after generated Image being set
 	useEffect(() => {
 		if (generatedImage === '') return;
+
+		console.log('generatedImage', generatedImage);
 
 		setIsOrderModalOpen(true);
 	}, [generatedImage]);
@@ -590,7 +596,10 @@ export const GiftCustomization = () => {
 			</ModalContainer>
 
 			{/* save image modal */}
-			<ModalContainer open={isOrderModalOpen} onClose={handleCloseOrderSummary}>
+			<ModalContainer
+				open={isOrderModalOpen && generatedImage !== ''}
+				onClose={handleCloseOrderSummary}
+			>
 				<img
 					src={ModalBackground}
 					alt='modal background'
@@ -605,15 +614,17 @@ export const GiftCustomization = () => {
 						<CloseBlack onClick={handleCloseOrderSummary} />
 					</button>
 
-					<div className='px-10 md:px-20'>
-						<div className='flex justify-center items-center mt-4 bg-white'>
-							<img
-								src={generatedImage}
-								alt='generated image'
-								className='h-48 z-10'
-							/>
+					{generatedImage && (
+						<div className='px-10 md:px-20'>
+							<div className='flex justify-center items-center mt-4 bg-white'>
+								<img
+									src={generatedImage}
+									alt='generated image'
+									className='h-48 z-10'
+								/>
+							</div>
 						</div>
-					</div>
+					)}
 
 					<div className='flex flex-row items-center gap-4 mt-4'>
 						<div>
@@ -640,7 +651,6 @@ export const GiftCustomization = () => {
 								</li>
 								<li>Other terms and conditions apply.</li>
 							</ol>
-							{/* <p>{t('gift_image_desc')}</p> */}
 						</div>
 
 						<button
