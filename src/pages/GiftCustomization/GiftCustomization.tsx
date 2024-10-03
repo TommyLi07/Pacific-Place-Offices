@@ -21,7 +21,7 @@ import { IconInfo, ItemTypes } from '@/types';
 import { useOrientation, useWindowSize } from '@uidotdev/usehooks';
 import clsx from 'clsx';
 import domtoimage from 'dom-to-image';
-import { saveAs } from 'file-saver';
+import saveAs from 'file-saver';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { useTranslation } from 'react-i18next';
@@ -54,35 +54,33 @@ export const GiftCustomization = () => {
 		query: { isLoading },
 	} = useFetchSettings();
 
+	// absolute position top value on mobile
 	const offsetHeight = useMemo(() => {
 		if (!windowWidth || !windowHeight) return 0;
 
+		const baseHeight =
+			144 + (isShowNotification ? location.state.notificationHeaderHeight : 0);
+
+		let additionalHeight = 0;
+
 		if (windowWidth < 768) {
-			return (
-				240 +
-				144 +
-				(isShowNotification ? location.state.notificationHeaderHeight : 0)
-			);
+			additionalHeight = 240;
 		} else if (windowWidth < 1024) {
-			return (
-				300 +
-				144 +
-				(isShowNotification ? location.state.notificationHeaderHeight : 0)
-			);
+			additionalHeight = 300;
 		} else {
-			return (
-				360 +
-				144 +
-				(isShowNotification ? location.state.notificationHeaderHeight : 0)
-			);
+			additionalHeight = 360;
 		}
+
+		return baseHeight + additionalHeight;
 	}, [
 		windowHeight,
 		windowWidth,
 		location.state.notificationHeaderHeight,
 		OrientationType,
+		isShowNotification,
 	]);
 
+	// absolute position bottom icon menu's height on mobile
 	const scrollViewHeight = useMemo(() => {
 		if (!windowWidth || !windowHeight) return 0;
 
@@ -95,6 +93,7 @@ export const GiftCustomization = () => {
 		}
 	}, [windowHeight, windowWidth, offsetHeight]);
 
+	// left side icon menu's height on web
 	const leftSideScrollViewHeight = useMemo(() => {
 		return (
 			windowHeight! -
@@ -102,6 +101,33 @@ export const GiftCustomization = () => {
 			(isShowNotification ? location.state.notificationHeaderHeight : 0)
 		);
 	}, [windowHeight, isShowNotification]);
+
+	// filter out sold out bags in gift category
+	const UpdatedGiftIconInfos = useMemo(() => {
+		if (!settings) return giftCollection[0].iconInfos;
+
+		let giftIconInfosCopy = [...giftCollection[0].iconInfos];
+
+		if (settings.isBagOneInStock === false) {
+			giftIconInfosCopy = giftIconInfosCopy.filter(
+				(item) => item.id !== 'electronic_bag'
+			);
+		}
+
+		if (settings.isBagTwoInStock === false) {
+			giftIconInfosCopy = giftIconInfosCopy.filter(
+				(item) => item.id !== 'wellness_bag'
+			);
+		}
+
+		if (settings.isBagThreeInStock === false) {
+			giftIconInfosCopy = giftIconInfosCopy.filter(
+				(item) => item.id !== 'workfolio'
+			);
+		}
+
+		return giftIconInfosCopy;
+	}, [settings]);
 
 	const handleCloseNotificationHeader = useCallback(() => {
 		dispatch(toggleIsShowNotification(false));
@@ -203,7 +229,6 @@ export const GiftCustomization = () => {
 			.toPng(exportAreaRef.current!)
 			.then((dataUrl) => {
 				setGeneratedImage(dataUrl);
-				setIsOrderModalOpen(true);
 			})
 			.catch((error) => {
 				console.error('oops, something went wrong!', error);
@@ -254,6 +279,13 @@ export const GiftCustomization = () => {
 			setImageHeight(newHeight);
 		}
 	}, [imageRef, selectedIcons, windowWidth, OrientationType]);
+
+	// open modal after generated Image being set
+	useEffect(() => {
+		if (generatedImage === '') return;
+
+		setIsOrderModalOpen(true);
+	}, [generatedImage]);
 
 	if (isLoading) {
 		return <LoadingSpinner />;
@@ -368,12 +400,12 @@ export const GiftCustomization = () => {
 											index={index}
 										>
 											{section.title === 'gifts'
-												? giftCollection.map(({ key, iconInfos }, index) => (
+												? giftCollection.map(({ key }, index) => (
 														<GiftCustomizationGrid
 															key={key}
 															index={index}
 															title={t(key)}
-															iconInfos={iconInfos}
+															iconInfos={UpdatedGiftIconInfos}
 															selectedBag={selectedBag}
 															selectedIcons={selectedIcons}
 															handleClick={handleSelectIcon}
@@ -431,12 +463,12 @@ export const GiftCustomization = () => {
 												index={index}
 											>
 												{section.title === 'gifts'
-													? giftCollection.map(({ key, iconInfos }, index) => (
+													? giftCollection.map(({ key }, index) => (
 															<GiftCustomizationGrid
 																key={key}
 																index={index}
 																title={t(key)}
-																iconInfos={iconInfos}
+																iconInfos={UpdatedGiftIconInfos}
 																selectedBag={selectedBag}
 																selectedIcons={selectedIcons}
 																handleClick={handleSelectIcon}
@@ -558,10 +590,7 @@ export const GiftCustomization = () => {
 			</ModalContainer>
 
 			{/* save image modal */}
-			<ModalContainer
-				open={isOrderModalOpen && generatedImage !== ''}
-				onClose={handleCloseOrderSummary}
-			>
+			<ModalContainer open={isOrderModalOpen} onClose={handleCloseOrderSummary}>
 				<img
 					src={ModalBackground}
 					alt='modal background'
@@ -576,17 +605,15 @@ export const GiftCustomization = () => {
 						<CloseBlack onClick={handleCloseOrderSummary} />
 					</button>
 
-					{generatedImage && (
-						<div className='px-10 md:px-20'>
-							<div className='flex justify-center items-center mt-4 bg-white'>
-								<img
-									src={generatedImage}
-									alt='generated image'
-									className='h-48'
-								/>
-							</div>
+					<div className='px-10 md:px-20'>
+						<div className='flex justify-center items-center mt-4 bg-white'>
+							<img
+								src={generatedImage}
+								alt='generated image'
+								className='h-48 z-10'
+							/>
 						</div>
-					)}
+					</div>
 
 					<div className='flex flex-row items-center gap-4 mt-4'>
 						<div>
