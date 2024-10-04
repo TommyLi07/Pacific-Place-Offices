@@ -53,7 +53,6 @@ export const GiftCustomizationGrid = memo<GiftCustomizationGridProps>(
 									})
 								}
 							>
-								{/* <iconInfo.svg /> */}
 								<img
 									src={iconInfo.imageSrc}
 									alt='icon image'
