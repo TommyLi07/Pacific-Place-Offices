@@ -628,7 +628,7 @@ export const GiftCustomization = () => {
 
 			{/* back confirmation modal */}
 			<ModalContainer open={isBackModalOpen} onClose={handleCancelButtonClick}>
-				<div className='lg:min-w-[480px]'>
+				<div className='md:min-w-[480px]'>
 					<h2 className='font-PP_Tondo_Signage text-3xl text-center'>
 						{t('discard')}
 					</h2>
