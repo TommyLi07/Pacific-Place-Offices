@@ -324,6 +324,10 @@ export const GiftCustomization = () => {
 		}
 	}, [imageRef, selectedIcons, windowWidth, OrientationType]);
 
+	useEffect(() => {
+		setIsOrderModalOpen(false);
+	}, [OrientationType]);
+
 	if (isLoading) {
 		return (
 			<div className='w-screen h-screen'>
@@ -670,19 +674,16 @@ export const GiftCustomization = () => {
 					</p>
 
 					{generatedImage && (
-						<div className='mt-2 px-8 md:px-18'>
-							<div
-								id='generatedImageContainer'
-								className='flex justify-center items-center bg-white'
-								role='button'
-								onClick={handleShowImage}
-							>
-								<img
-									src={generatedImage}
-									alt='generated image'
-									className='object-contain'
-								/>
-							</div>
+						<div
+							className='mt-2 w-full md:h-[360px] bg-white flex justify-center items-center'
+							role='button'
+							onClick={handleShowImage}
+						>
+							<img
+								src={generatedImage}
+								alt='generated image'
+								className='object-contain'
+							/>
 						</div>
 					)}
 

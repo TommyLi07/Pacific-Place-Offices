@@ -1,9 +1,13 @@
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
+import { useOrientation } from '@uidotdev/usehooks';
+import clsx from 'clsx';
 import { memo } from 'react';
 import { ModalProps } from './ModalContainer.types';
 
 export const ModalContainer = memo<ModalProps>(
 	({ children, open, onClose }) => {
+		const { type: OrientationType } = useOrientation();
+
 		return (
 			<Dialog open={open} onClose={onClose} className='relative z-10'>
 				<DialogBackdrop
@@ -11,15 +15,20 @@ export const ModalContainer = memo<ModalProps>(
 					className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in'
 				/>
 
-				<div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
-					<div className='flex min-h-full items-center justify-center text-center sm:p-0'>
-						<DialogPanel
-							transition
-							className='relative w-11/12 transform overflow-hidden rounded-lg bg-alabaster text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-lg data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95 px-6 py-4 md:p-8'
-						>
-							{children}
-						</DialogPanel>
-					</div>
+				<div className='fixed inset-0 z-10 flex w-screen items-center justify-center p-4'>
+					<DialogPanel
+						transition
+						className={clsx('bg-alabaster max-h-3/4 relative p-4 md:p-6', {
+							'md:w-1/2':
+								OrientationType === 'portrait-primary' ||
+								OrientationType === 'portrait-secondary',
+							'md:w-2/3':
+								OrientationType === 'landscape-primary' ||
+								OrientationType === 'landscape-secondary’',
+						})}
+					>
+						{children}
+					</DialogPanel>
 				</div>
 			</Dialog>
 		);
