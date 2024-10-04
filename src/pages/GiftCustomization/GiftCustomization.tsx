@@ -684,6 +684,11 @@ export const GiftCustomization = () => {
 						<CloseBlack onClick={handleCloseOrderSummary} />
 					</button>
 
+					<p className='bg-barley_corn mt-1 py-2 px-3 text-sm'>
+						Tap the image below to open it in a new tab, then hold image for
+						approximately 3 seconds, and finally select "Save to Photos".
+					</p>
+
 					{generatedImage && (
 						<div className='mt-2 px-8 md:px-18'>
 							<div
