@@ -628,23 +628,25 @@ export const GiftCustomization = () => {
 
 			{/* back confirmation modal */}
 			<ModalContainer open={isBackModalOpen} onClose={handleCancelButtonClick}>
-				<h2 className='font-PP_Tondo_Signage text-3xl text-center'>
-					{t('discard')}
-				</h2>
-				<p className='mt-4 px-4 md:px-0 text-center'>{t('discard_change')}</p>
-				<div className='mt-8 flex flex-row justify-between items-center'>
-					<button
-						className='w-[48%] py-3.5 border-2 border-yellow_metal rounded-lg text-yellow_metal'
-						onClick={handleCancelButtonClick}
-					>
-						{t('cancel')}
-					</button>
-					<button
-						className='w-[48%] py-3.5 bg-yellow_metal text-zinc-100 rounded-lg'
-						onClick={handleDiscardButtonClick}
-					>
+				<div className='lg:min-w-[480px]'>
+					<h2 className='font-PP_Tondo_Signage text-3xl text-center'>
 						{t('discard')}
-					</button>
+					</h2>
+					<p className='mt-4 px-4 md:px-0 text-center'>{t('discard_change')}</p>
+					<div className='mt-8 flex flex-row justify-between items-center'>
+						<button
+							className='w-[48%] py-3.5 border-2 border-yellow_metal rounded-lg text-yellow_metal'
+							onClick={handleCancelButtonClick}
+						>
+							{t('cancel')}
+						</button>
+						<button
+							className='w-[48%] py-3.5 bg-yellow_metal text-zinc-100 rounded-lg'
+							onClick={handleDiscardButtonClick}
+						>
+							{t('discard')}
+						</button>
+					</div>
 				</div>
 			</ModalContainer>
 
