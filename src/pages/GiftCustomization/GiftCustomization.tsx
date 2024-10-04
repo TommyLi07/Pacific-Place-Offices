@@ -682,7 +682,7 @@ export const GiftCustomization = () => {
 							<img
 								src={generatedImage}
 								alt='generated image'
-								className='object-contain'
+								className='max-h-full object-contain'
 							/>
 						</div>
 					)}
