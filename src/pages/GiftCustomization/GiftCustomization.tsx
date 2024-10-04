@@ -660,7 +660,7 @@ export const GiftCustomization = () => {
 					className='absolute top-0 left-0 w-full'
 				/>
 
-				<div className='relative z-10'>
+				<div className='relative z-10 max-w-[842px]'>
 					<h2 className='font-PP_Tondo_Signage text-2xl md:text-center'>
 						{t('download_image')}
 					</h2>
@@ -682,7 +682,9 @@ export const GiftCustomization = () => {
 							<img
 								src={generatedImage}
 								alt='generated image'
-								className='max-h-full object-contain'
+								className={clsx('object-contain', {
+									'max-h-full': windowWidth! > 1400,
+								})}
 							/>
 						</div>
 					)}

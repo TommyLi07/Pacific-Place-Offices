@@ -19,10 +19,10 @@ export const ModalContainer = memo<ModalProps>(
 					<DialogPanel
 						transition
 						className={clsx('bg-alabaster max-h-3/4 relative p-4 md:p-6', {
-							'md:w-1/2':
+							'md:min-w-1/2':
 								OrientationType === 'portrait-primary' ||
 								OrientationType === 'portrait-secondary',
-							'md:w-2/3':
+							'md:min-w-2/3':
 								OrientationType === 'landscape-primary' ||
 								OrientationType === 'landscape-secondary’',
 						})}
