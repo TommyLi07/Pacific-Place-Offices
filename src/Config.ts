@@ -1,5 +1,5 @@
 const Config = {
-	baseUrl: (import.meta.env.VITE_BASE_URL ?? '') as string,
+	baseUrl: import.meta.env.VITE_BASE_URL || '',
 };
 
 export default Config;
