@@ -15,7 +15,7 @@ export const ModalContainer = memo<ModalProps>(
 					<div className='flex min-h-full items-center justify-center text-center sm:p-0'>
 						<DialogPanel
 							transition
-							className='relative w-11/12 transform overflow-hidden rounded-lg bg-alabaster text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-lg data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95 px-6 py-4 md:p-10'
+							className='relative w-11/12 transform overflow-hidden rounded-lg bg-alabaster text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-lg data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95 px-6 py-4 md:p-8'
 						>
 							{children}
 						</DialogPanel>
