@@ -6,11 +6,11 @@ import DownloadWhite from '@/assets/icons/DownloadWhite.svg?react';
 import Reset from '@/assets/icons/Reset.svg?react';
 import ModalBackground from '@/assets/images/ModalBackground.png';
 import {
-  GiftCustomizationGrid,
-  GiftCustomizationHeader,
-  LoadingSpinner,
-  ModalContainer,
-  NotificationHeader,
+	GiftCustomizationGrid,
+	GiftCustomizationHeader,
+	LoadingSpinner,
+	ModalContainer,
+	NotificationHeader,
 } from '@/components';
 import { giftCollection, IconCollection, IconSection } from '@/constants';
 import { GiftCustomizationSection } from '@/containers';
@@ -230,7 +230,9 @@ export const GiftCustomization = () => {
 	const handleSaveImageButtonClick = useCallback(() => {
 		if (windowWidth! < 1180) {
 			htmlToImage
-				.toSvg(document.getElementById('exportAreaMobile')!)
+				.toSvg(document.getElementById('exportAreaMobile')!, {
+					filter: (node) => node.tagName !== 'i',
+				})
 				.then((dataUrl) => {
 					console.log('dataUrl', dataUrl);
 					setGeneratedImage(dataUrl);
@@ -241,7 +243,9 @@ export const GiftCustomization = () => {
 				});
 		} else {
 			htmlToImage
-				.toSvg(document.getElementById('exportAreaWeb')!)
+				.toSvg(document.getElementById('exportAreaWeb')!, {
+					filter: (node) => node.tagName !== 'i',
+				})
 				.then((dataUrl) => {
 					setGeneratedImage(dataUrl);
 					setIsOrderModalOpen(true);
@@ -681,10 +685,10 @@ export const GiftCustomization = () => {
 					</button>
 
 					{generatedImage && (
-						<div className='px-10 md:px-20'>
+						<div className='mt-2 px-8 md:px-18'>
 							<div
 								id='generatedImageContainer'
-								className='flex justify-center items-center mt-2 bg-white'
+								className='flex justify-center items-center bg-white'
 								role='button'
 								onClick={handleShowImage}
 							>
@@ -699,10 +703,14 @@ export const GiftCustomization = () => {
 
 					<div className='flex flex-row items-center gap-4 mt-2'>
 						<div>
-							<h3 className='font-Tondo_W01_Signage text-xl'>
+							<h3 className='font-Tondo_W01_Signage text-lg'>
 								{t('friendly_reminders')}
 							</h3>
-							<ol className='list-decimal ml-4'>
+							<ol
+								className={clsx('list-decimal ml-4', {
+									'text-sm': windowWidth! < 1180,
+								})}
+							>
 								<li>
 									Our gifts are made-to-order. Please visit our pop-up store and
 									present this image along with Pacific Place Offices app to our
