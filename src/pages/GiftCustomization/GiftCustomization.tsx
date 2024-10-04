@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useFetchSettings } from '@/api/hooks';
+import FireworkJson from '@/assets/animations/firework.json';
 import CloseBlack from '@/assets/icons/CloseBlack.svg?react';
 import DownloadBlack from '@/assets/icons/DownloadBlack.svg?react';
 import DownloadWhite from '@/assets/icons/DownloadWhite.svg?react';
 import Reset from '@/assets/icons/Reset.svg?react';
-import ModalBackground from '@/assets/images/ModalBackground.png';
 import {
 	GiftCustomizationGrid,
 	GiftCustomizationHeader,
@@ -23,6 +23,7 @@ import * as htmlToImage from 'html-to-image';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { useTranslation } from 'react-i18next';
+import Lottie from 'react-lottie-player';
 import { ScrollRestoration, useLocation, useNavigate } from 'react-router-dom';
 
 export const GiftCustomization = () => {
@@ -228,22 +229,13 @@ export const GiftCustomization = () => {
 
 	// save image button
 	const handleSaveImageButtonClick = useCallback(() => {
-		if (windowWidth! < 1180) {
+		const elementId =
+			windowWidth! < 1180 ? 'exportAreaMobile' : 'exportAreaWeb';
+		const element = document.getElementById(elementId);
+
+		if (element) {
 			htmlToImage
-				.toSvg(document.getElementById('exportAreaMobile')!, {
-					filter: (node) => node.tagName !== 'i',
-				})
-				.then((dataUrl) => {
-					console.log('dataUrl', dataUrl);
-					setGeneratedImage(dataUrl);
-					setIsOrderModalOpen(true);
-				})
-				.catch((error) => {
-					console.error('oops, something went wrong!', error);
-				});
-		} else {
-			htmlToImage
-				.toSvg(document.getElementById('exportAreaWeb')!, {
+				.toSvg(element, {
 					filter: (node) => node.tagName !== 'i',
 				})
 				.then((dataUrl) => {
@@ -258,21 +250,13 @@ export const GiftCustomization = () => {
 
 	// order summary modal
 	const handleDownloadImage = useCallback(() => {
-		if (windowWidth! < 1180) {
+		const elementId =
+			windowWidth! < 1180 ? 'exportAreaMobile' : 'exportAreaWeb';
+		const element = document.getElementById(elementId);
+
+		if (element) {
 			htmlToImage
-				.toPng(document.getElementById('exportAreaMobile')!)
-				.then((dataUrl) => {
-					const link = document.createElement('a');
-					link.download = 'gift.png';
-					link.href = dataUrl;
-					link.click();
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		} else {
-			htmlToImage
-				.toPng(document.getElementById('exportAreaWeb')!)
+				.toPng(element)
 				.then((dataUrl) => {
 					const link = document.createElement('a');
 					link.download = 'gift.png';
@@ -286,18 +270,13 @@ export const GiftCustomization = () => {
 	}, [windowWidth, htmlToImage]);
 
 	const handleShowImage = useCallback(() => {
-		if (windowWidth! < 1180) {
+		const elementId =
+			windowWidth! < 1180 ? 'exportAreaMobile' : 'exportAreaWeb';
+		const element = document.getElementById(elementId);
+
+		if (element) {
 			htmlToImage
-				.toPng(document.getElementById('exportAreaMobile')!)
-				.then((dataUrl) => {
-					navigate('/giftImage', { state: { giftImageSrc: dataUrl } });
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		} else {
-			htmlToImage
-				.toPng(document.getElementById('exportAreaWeb')!)
+				.toPng(element)
 				.then((dataUrl) => {
 					navigate('/giftImage', { state: { giftImageSrc: dataUrl } });
 				})
@@ -670,10 +649,11 @@ export const GiftCustomization = () => {
 				open={isOrderModalOpen && generatedImage !== ''}
 				onClose={handleCloseOrderSummary}
 			>
-				<img
-					src={ModalBackground}
-					alt='modal background'
-					className='absolute top-0 left-0 w-full h-full object-contain'
+				<Lottie
+					loop
+					animationData={FireworkJson}
+					play
+					className='absolute top-0 left-0 w-full'
 				/>
 
 				<div className='relative z-10'>
@@ -700,7 +680,7 @@ export const GiftCustomization = () => {
 								<img
 									src={generatedImage}
 									alt='generated image'
-									className='h-50 object-contain'
+									className='object-contain'
 								/>
 							</div>
 						</div>
