@@ -77,7 +77,7 @@ export const Landing = () => {
 	if (isLoading) {
 		return (
 			<div className='w-screen h-screen'>
-				<LoadingSpinner />;
+				<LoadingSpinner />
 			</div>
 		);
 	}
