@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { memo, useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { IBagSelectionItemProps } from './BagSelectionItem.types';
 
 export const BagSelectionItem = memo<IBagSelectionItemProps>(
@@ -46,7 +46,12 @@ export const BagSelectionItem = memo<IBagSelectionItemProps>(
 				<h2 className='mt-2 font-PP_Tondo_Signage text-center text-2xl xl:text-4xl'>
 					{t(title)}
 				</h2>
-				<p className='text-center mt-3'>{t(desc)}</p>
+				<p className='text-center mt-3'>
+					<Trans
+						i18nKey={desc}
+						components={{ bold: <strong />, underline: <u /> }}
+					/>
+				</p>
 				<div className='text-center mt-5'>
 					<button
 						className={clsx(
