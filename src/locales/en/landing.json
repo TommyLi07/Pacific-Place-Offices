@@ -11,10 +11,10 @@
   "select_bag": "SELECT THIS GIFT",
   "sold_out": "SOLD OUT",
   "electronic_bag": "Electronics Pouch",
-  "electronic_bag_desc": "Visit the 'CLUTCH & GO' station at One Pacific Place to enhance your workday. Upgrade your everyday accessory by designing a unique electronics pouch featuring your initials along with characters or quotes that represent your personality.",
+  "electronic_bag_desc": "Visit the 'CLUTCH & GO' station at <underline>One Pacific Place</underline> to enhance your workday. Upgrade your everyday accessory by designing a unique electronics pouch featuring your initials along with characters or quotes that represent your personality.",
   "wellness_bag": "Wellness Bag",
-  "wellness_bag_desc": "Head to the 'GEAR UP & GO’ stall at Two Pacific Place for a wellness bag designed for your best trainers and workout gear, perfect for your active lifestyle. It not only complements your routine but also sparks conversations with new faces at community events.",
+  "wellness_bag_desc": "Head to the 'GEAR UP & GO’ stall at <underline>Two Pacific Place</underline> for a wellness bag designed for your best trainers and workout gear, perfect for your active lifestyle. It not only complements your routine but also sparks conversations with new faces at community events.",
   "workfolio": "Work Folio",
-  "workfolio_desc": "Stop by the ‘PACK & GO’ station at Three Pacific Place to upgrade your work-life with the versatile work folio. This multi-functional organiser stores essentials such as laptop and stationery, streamlining your workday for enhanced productivity.",
+  "workfolio_desc": "Stop by the ‘PACK & GO’ station at <underline>Three Pacific Place</underline> to upgrade your work-life with the versatile work folio. This multi-functional organiser stores essentials such as laptop and stationery, streamlining your workday for enhanced productivity.",
   "bag_desc": "Presenting 3 unique experiences, you can customize your gift and express your personality with Pacific Place Offices. "
 }

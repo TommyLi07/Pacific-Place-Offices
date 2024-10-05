@@ -139,7 +139,7 @@ export const Landing = () => {
 
 					{/* animation */}
 					<div className='w-full lg:w-2/3 mt-4 lg:mt-0 flex justify-center'>
-						<GiftCollection className='w-full md:w-[75%] h-full' />
+						<GiftCollection className='w-full sm:w-[80%] md:w-[60%] lg:w-full h-full' />
 					</div>
 				</div>
 

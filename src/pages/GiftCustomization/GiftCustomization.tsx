@@ -671,8 +671,8 @@ export const GiftCustomization = () => {
 					</button>
 
 					<p className='bg-barley_corn mt-1 py-2 px-3 text-sm'>
-						Tap the image below to open it in a new tab, then hold image for
-						approximately 3 seconds, and finally select "Save to Photos".
+						Tap the image below, then hold the image for approximately 3
+						seconds, and select "Save to Photos".
 					</p>
 
 					{generatedImage && (
