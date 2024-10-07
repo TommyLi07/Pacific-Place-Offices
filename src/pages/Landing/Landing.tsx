@@ -89,7 +89,7 @@ export const Landing = () => {
 			{isShowNotification && (
 				<NotificationHeader
 					ref={notificationHeaderRef}
-					settings={settings!}
+					settings={settings}
 					onClick={handleCloseNotificationHeader}
 				/>
 			)}
