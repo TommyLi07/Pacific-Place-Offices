@@ -1,5 +1,3 @@
-import { FunctionComponent, SVGProps } from 'react';
-
 export enum ItemTypes {
 	GIFT = 'gift',
 	ChARACTER = 'character',
@@ -11,11 +9,6 @@ export enum ItemTypes {
 export interface IconInfo {
 	id: string;
 	key?: string;
-	svg: FunctionComponent<
-		SVGProps<SVGSVGElement> & {
-			title?: string;
-		}
-	>;
 	imageSrc: string;
 	type: ItemTypes;
 	defaultX?: number;
